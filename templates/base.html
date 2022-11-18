@@ -1,0 +1,57 @@
+{% load static %}
+{% now "Y" as this_year %}
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap 5 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.2/css/bootstrap.min.css" integrity="sha512-CpIKUSyh9QX2+zSdfGP+eWLx23C8Dj9/XmHjZY2uDtfkdLGo0uY12jgcnkX9vXOgYajEKb/jiw67EYm+kBf+6g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet"> 
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'img/favicon.ico' %}">
+    <!-- Personal styles -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/mystyles.css' %}">
+    <title>{% block title %}{% endblock title %} | Workplan</title>
+</head>
+<body>
+    <header>
+        <div id="banner" class="navbar navbar-expand-lg bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{% url 'home' %}">
+                    <img src="{% static 'img/infra_logo.png' %}" alt="Infrastruktur Logo">
+                </a>
+                <h2 id="title">WORKPLAN INFRASTRUKTUR</h2>
+                <img src="{% static 'img/migros_logo.png' %}" alt="Migros Logo">
+            </div>
+        </div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main_menu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse d-flex justify-content-between" id="main_menu">
+                    <div class="navbar-nav">
+                        <a class="nav-link {% block home_active %}{% endblock home_active %}" href="{% url 'home' %}">Home</a>
+                        <a class="nav-link {% block holidays_active %}{% endblock holidays_active %}" href="#">Feiertage</a>
+                        <a class="nav-link" href="https://www.schulferien.org/schweiz/ferien/{{ this_year }}/" target="_blank">Schulferien {{ this_year }}</a>
+                    </div>
+                    <div class="navbar-nav">
+                        <a class="nav-link {% block login_active %}{% endblock login_active %}">Login</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    {% block content %}{% endblock content %}
+    
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.2/js/bootstrap.min.js" integrity="sha512-5BqtYqlWfJemW5+v+TZUs22uigI8tXeVah5S/1Z6qBLVO7gakAOtkOzUtgq6dsIo5c0NJdmGPs0H9I+2OHUHVQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</body>
+</html>
