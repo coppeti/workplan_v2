@@ -3,29 +3,38 @@
 ======================*/
 
 html {
-    box-sizing: border-box;
-    font-size: 16px;
-  }
+  box-sizing: border-box;
+  font-size: 16px;
+}
   
-  *, *:before, *:after {
-    box-sizing: inherit;
-  }
+*, *:before, *:after {
+  box-sizing: inherit;
+}
   
-  body, h1, h2, h3, h4, h5, h6, p, ol, ul {
-    margin: 0;
-    padding: 0;
-    font-weight: normal;
-    font-family: 'Kanit', sans-serif;
-  }
-  
-  ol, ul {
-    list-style: none;
-  }
-  
-  img {
-    max-width: 100%;
-    height: auto;
-  }
+body, h1, h2, h3, h4, h5, h6, p, ol, ul {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  font-family: 'Kanit', sans-serif;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+
+/*====================
+        GENERAL
+======================*/
+
+a.nav-link {
+  cursor: pointer;
+}
 
 
 /*====================
@@ -33,7 +42,140 @@ html {
 ======================*/
 
 /* Banner */
-#banner {
-    height: 60px;
+header div.navbar{
+  height: 60px;
 }
 
+header nav {
+  height: 50px;
+}
+
+
+/*====================
+        SIDEBAR
+======================*/
+
+aside {
+  height: 100%;
+  width: 160px;
+  position: fixed;
+  top: 110px;
+  left: 0;
+}
+
+.side_card {
+  border-radius: 5px;
+}
+
+.name_card {
+  font-size: 0.9rem;
+}
+
+.pikett_card {
+  border: #ecbcfd 1px solid;
+}
+
+.dispatch_card {
+  border: #ffd60a 1px solid;
+}
+
+
+/*====================
+        MAIN
+======================*/
+
+main {
+  position: absolute;
+  top: 110px;
+  left: 160px;
+}
+/*====================
+        LEGEND
+======================*/
+
+.table_legend {
+  font-size: 0.7rem;
+}
+
+#legend_table td {
+  padding: 0;
+  height: 10px;
+}
+
+.legend_label {
+  width: 35px;
+}
+
+.legend_text {
+  padding-left: 3px !important;
+  padding-right: 20px !important;
+}
+
+.dispatch_label {
+  background-color: #ffd60a;
+  color: #f48c06;
+}
+.pikett_label {
+  background-color: #ecbcfd !important;
+  color: #9846cc;
+}
+
+#bp_bg_label {
+  background-color: #9d78b4;
+  color: white;
+}
+
+#fk_bg_label {
+  background-color: #88d498;
+}
+
+#m_bg_label {
+  background-color: #b76935;
+}
+
+#k_bg_label {
+  background-color: #dc2f02;
+}
+
+#h_bg_label {
+  background-color: #527a32;
+  color: white;
+}
+
+#wb_bg_label {
+  background-color: #145ec0;
+  color: white;
+}
+
+#sp_bg_label {
+  background-color: #414447;
+  color: white;
+}
+
+#kp_bg_label {
+  background-color: #b14df0;
+  color: white;
+}
+
+#w_bg_label {
+  background-color: #fcd5ce;
+}
+
+#ft_bg_label {
+  background-color: #f4acb7;
+}
+
+#af_bg_label {
+  background-color: #f7b267;
+}
+
+
+/*====================
+        FOOTER
+======================*/
+
+#footer {
+  height: 40px;
+  font-weight: 200;
+  font-size: 0.7rem;
+}
