@@ -5,17 +5,23 @@
 html {
   box-sizing: border-box;
   font-size: 16px;
+  height: 100%;
+  overflow: auto;
+}
+
+body {
+  margin: 110px 0 0 0;
+  padding: 0;
+  font-family: 'Kanit', sans-serif;
 }
   
 *, *:before, *:after {
   box-sizing: inherit;
 }
   
-body, h1, h2, h3, h4, h5, h6, p, ol, ul {
+h1, h2, h3, h4, h5, h6, p, ol, ul {
   margin: 0;
   padding: 0;
-  font-weight: normal;
-  font-family: 'Kanit', sans-serif;
 }
 
 ol, ul {
@@ -50,19 +56,35 @@ header nav {
   height: 50px;
 }
 
-
-/*====================
-        SIDEBAR
-======================*/
-
-aside {
-  height: 100%;
-  width: 160px;
-  position: fixed;
-  top: 110px;
-  left: 0;
+/* Navigation */
+.active {
+  color: #ffac75 !important;
 }
 
+
+/*====================
+SIDEBAR
+======================*/
+
+.sidebar {
+  position: fixed;
+  top: 110px;
+  width: 170px;
+  height: 100vh;
+}
+
+.rounded_mask {
+  position: fixed;
+  top: 110px;
+  left: 165px;
+  width: 5px;
+  height: calc(100vh - 110px - 40px);
+  border-radius: 5px 0 0 5px; 
+}
+
+.side_act {
+  padding: 10px 15px 10px 10px;
+}
 .side_card {
   border-radius: 5px;
 }
@@ -81,93 +103,113 @@ aside {
 
 
 /*====================
-        MAIN
+MAIN
 ======================*/
 
-main {
+.main_content {
   position: absolute;
   top: 110px;
-  left: 160px;
+  left: 170px;
+  width: calc(100vw - 170px);
+  padding-bottom: 60px;
 }
+
+
 /*====================
         LEGEND
 ======================*/
 
-.table_legend {
+.legend_table {
   font-size: 0.7rem;
 }
 
-#legend_table td {
-  padding: 0;
-  height: 10px;
-}
-
-.legend_label {
+.legend_flag {
   width: 35px;
+  border-radius: 3px;
 }
 
-.legend_text {
-  padding-left: 3px !important;
-  padding-right: 20px !important;
-}
-
-.dispatch_label {
+.dispatch_flag {
   background-color: #ffd60a;
   color: #f48c06;
 }
-.pikett_label {
-  background-color: #ecbcfd !important;
+
+.pikett_flag {
+  background-color: #ecbcfd;
   color: #9846cc;
 }
 
-#bp_bg_label {
+.backup_flag {
   background-color: #9d78b4;
   color: white;
 }
 
-#fk_bg_label {
-  background-color: #88d498;
-}
-
-#m_bg_label {
-  background-color: #b76935;
-}
-
-#k_bg_label {
-  background-color: #dc2f02;
-}
-
-#h_bg_label {
-  background-color: #527a32;
-  color: white;
-}
-
-#wb_bg_label {
-  background-color: #145ec0;
-  color: white;
-}
-
-#sp_bg_label {
-  background-color: #414447;
-  color: white;
-}
-
-#kp_bg_label {
+.kein_flag {
   background-color: #b14df0;
   color: white;
 }
 
-#w_bg_label {
+.spezial_flag {
+  background-color: #414447;
+  color: white;
+}
+
+.home_flag {
+  background-color: #527a32;
+  color: white;
+}
+
+.ferien_flag {
+  background-color: #08c3e9;
+}
+
+.frei_flag {
+  background-color: #88d498;
+}
+
+.militar_flag {
+  background-color: #b76935;
+}
+
+.bildung_flag {
+  background-color: #145ec0;
+  color: white;
+}
+
+.krank_flag {
+  background-color: #dc2f02;
+}
+
+.we_flag {
   background-color: #fcd5ce;
 }
 
-#ft_bg_label {
+.hday_flag {
   background-color: #f4acb7;
 }
 
-#af_bg_label {
+.ohday_flag {
   background-color: #f7b267;
 }
+
+
+/*====================
+        CALENDAR
+======================*/
+
+.date_cell {
+  border: #000 1px solid;
+}
+
+.date_number {
+  width: 30px;
+}
+
+.today_bg {
+  background-color: #0ff507 !important;
+}
+
+
+
 
 
 /*====================
