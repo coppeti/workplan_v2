@@ -69,10 +69,22 @@ SIDEBAR
 .sidebar {
   position: fixed;
   top: 110px;
-  width: 160px;
+  width: 170px;
   height: 100vh;
 }
 
+.rounded_mask {
+  position: fixed;
+  top: 110px;
+  left: 165px;
+  width: 5px;
+  height: calc(100vh - 110px - 40px);
+  border-radius: 5px 0 0 5px; 
+}
+
+.side_act {
+  padding: 10px 15px 10px 10px;
+}
 .side_card {
   border-radius: 5px;
 }
@@ -97,7 +109,8 @@ MAIN
 .main_content {
   position: absolute;
   top: 110px;
-  left: 160px;
+  left: 170px;
+  width: calc(100vw - 170px);
   padding-bottom: 60px;
 }
 
