@@ -50,6 +50,11 @@ header nav {
   height: 50px;
 }
 
+/* Navigation */
+.active {
+  color: #ffac75 !important;
+}
+
 
 /*====================
         SIDEBAR
@@ -170,7 +175,21 @@ main {
 }
 
 
+/*====================
+        CALENDAR
+======================*/
 
+.date_cell {
+  border: #000 1px solid;
+}
+
+.date_number {
+  width: 30px;
+}
+
+.today_bg {
+  background-color: #0ff507 !important;
+}
 
 
 

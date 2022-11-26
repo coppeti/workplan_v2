@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% block title %}Home{% endblock title %}
+{% block home_active %}active{% endblock home_active %}
 
 {% block content %}
-<!-- Legends -->
+<!-- LEGEND TABLE -->
 <div class="legend_table d-flex justify-content-center">
     <!-- First column -->
     <div class="me-4">
@@ -133,5 +134,23 @@
             </div>
         </div>
     </div>
+</div>
+<!-- ANNUAL CALENDAR -->
+<div>
+    <table>
+        <thead>
+            <tr>
+                <td class="text-center date_cell">{{ this_year }}</td>
+                {% for i in iterator %}
+                    {% if i == today %}
+                        <td class="date_number text-center date_cell today_bg">
+                    {% else %}
+                        <td class="date_number text-center date_cell">
+                    {% endif %}
+                    {{ i }}</td>
+                {% endfor %}
+            </tr>
+        </thead>
+    </table>
 </div>
 {% endblock content %}
