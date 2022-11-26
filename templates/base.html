@@ -78,9 +78,8 @@
             </div>
         </nav>
     </header>
-    <!-- Page -->
     <!-- Sidebar -->
-    <aside class="bg-secondary pt-4">
+    <div class="sidebar float-start bg-secondary">
         <div>
             <h5 class="text-light text-center">
                 {% now "j\.n\.Y" %}
@@ -104,11 +103,13 @@
                 </p>
             </div>
         </div>
-    </aside>
+    </div>
     <!-- Content -->
-    <main class="container-fluid bg-light">
-        {% block content %}{% endblock content %}
-    </main>
+    <div class="main_content bg-light">
+        <div class="d-flex flex-column justify-content-start align-items-center">
+            {% block content %}{% endblock content %}
+        </div>
+    </div>
     <!-- Footer -->
     <footer class="expand-lg bg-secondary text-center fixed-bottom">
         <div id="footer" class=" d-flex justify-content-center align-items-center text-light py-2">Copyright {{ this_year }} - All rights reserved Migros Genossenschaft Bund -

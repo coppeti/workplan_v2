@@ -5,17 +5,23 @@
 html {
   box-sizing: border-box;
   font-size: 16px;
+  height: 100%;
+  overflow: auto;
+}
+
+body {
+  margin: 110px 0 0 0;
+  padding: 0;
+  font-family: 'Kanit', sans-serif;
 }
   
 *, *:before, *:after {
   box-sizing: inherit;
 }
   
-body, h1, h2, h3, h4, h5, h6, p, ol, ul {
+h1, h2, h3, h4, h5, h6, p, ol, ul {
   margin: 0;
   padding: 0;
-  font-weight: normal;
-  font-family: 'Kanit', sans-serif;
 }
 
 ol, ul {
@@ -57,15 +63,14 @@ header nav {
 
 
 /*====================
-        SIDEBAR
+SIDEBAR
 ======================*/
 
-aside {
-  height: 100%;
-  width: 160px;
+.sidebar {
   position: fixed;
   top: 110px;
-  left: 0;
+  width: 160px;
+  height: 100vh;
 }
 
 .side_card {
@@ -86,14 +91,14 @@ aside {
 
 
 /*====================
-        MAIN
+MAIN
 ======================*/
 
-main {
+.main_content {
   position: absolute;
   top: 110px;
   left: 160px;
-  padding: 0 !important;
+  padding-bottom: 60px;
 }
 
 
@@ -102,7 +107,6 @@ main {
 ======================*/
 
 .legend_table {
-  margin-left: -200px;
   font-size: 0.7rem;
 }
 
