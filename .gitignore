@@ -4,3 +4,4 @@
 .env
 pipfile
 /email
+**/__pycache__/
