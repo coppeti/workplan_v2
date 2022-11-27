@@ -2,11 +2,7 @@ from django.shortcuts import render
 from datetime import datetime
 from django.views.generic import TemplateView
 
-# def home(request):
-#     context = {}
-#     context['day_iterator'] = range(1,32)
-#     context['this_date'] = datetime.now().day
-#     return render(request, 'home.html', context)
+from holidays import *
 
 
 class Home(TemplateView):
@@ -19,3 +15,5 @@ class Home(TemplateView):
         return context
 
     
+class Holidays(TemplateView):
+    template_name = 'holidays.html'

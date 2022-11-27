@@ -16,9 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from cal.views import Home
+from cal.views import Home, Holidays
 
 urlpatterns = [
     path('', Home.as_view(), name="home"),
-    path('admin/', admin.site.urls),
+    path('holidays/', Holidays.as_view(), name="holidays"),
+    path('mgmt/', admin.site.urls),
 ]
