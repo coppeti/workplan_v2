@@ -55,7 +55,14 @@
                                <li><a class="dropdown-item" href="#">Liste</a></li> 
                             </ul>
                         </li>
-                        <a class="nav-link" href="https://www.schulferien.org/schweiz/ferien/{{ this_year }}/" target="_blank">Schulferien {{ this_year }}</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle {% block user_active %}{% endblock user_active %}" href="#" role="button" data-bs-toggle="dropdown">Benutzer</a>
+                            <ul class="dropdown-menu">
+                               <li><a class="dropdown-item" href="{% url 'signup' %}">Neuer</a></li>
+                               <li><a class="dropdown-item" href="#">Liste</a></li> 
+                            </ul>
+                        </li>
+               <a class="nav-link" href="https://www.schulferien.org/schweiz/ferien/{{ this_year }}/" target="_blank">Schulferien {{ this_year }}</a>
                     </ul>
                     <div class="d-flex align-items-center">
                         <div class="text-light me-5">
