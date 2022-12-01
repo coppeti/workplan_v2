@@ -16,10 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from cal.views import Home, Holidays
+from cal.views import Home, Holiday
 
 urlpatterns = [
     path('', Home.as_view(), name="home"),
-    path('holidays/', Holidays.as_view(), name="holidays"),
+    path('holiday/<int:year>/<str:region>/', Holiday.as_view(), name="holiday"),
     path('mgmt/', admin.site.urls),
 ]

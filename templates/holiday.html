@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static%}
+{% block title %}Feiertage{% endblock title %}
+{% block holidays_active %}active{% endblock holidays_active %}
+
+{% block content %}
+<h4 class="my-3">Feiertage {{ region|upper }} {{ year }}<img src="{% static 'img/'|add:region|add:'_blas.png' %}" class="title_blas"></h4>
+<!-- Year buttons -->
+<div class="d-flex justify-content-center my-3">
+{% if year == year_after %}
+<a class="btn btn-sm btn-outline-secondary mx-2" role="button" href="{% url 'holiday' year=this_year region=region %}">Dieses Jahr</a>
+<a class="btn btn-sm btn-outline-secondary mx-2" role="button" href="{% url 'holiday' year=next_year region=region %}">Jahr {{ next_year }}</a>
+{% elif year > year_after %}
+<a class="btn btn-sm btn-outline-secondary mx-2" role="button" href="{% url 'holiday' year=this_year region=region %}">Dieses Jahr</a>
+<a class="btn btn-sm btn-outline-secondary mx-2" role="button" href="{% url 'holiday' year=prev_year region=region %}">Jahr {{ prev_year }}</a>
+<a class="btn btn-sm btn-outline-secondary mx-2" role="button" href="{% url 'holiday' year=next_year region=region %}">Jahr {{ next_year }}</a>
+{% else %}
+<a class="btn btn-sm btn-outline-secondary mx-2" role="button" href="{% url 'holiday' year=next_year region=region %}">Jahr {{ next_year }}</a>
+{% endif %}
+</div>
+<!-- Regions buttons-->
+<div class="d-flex justify-content-center mb-3">
+{% for r in regions %}
+    <a class="btn btn-sm btn-outline-secondary mx-2" role="button" href="{% url 'holiday' year=year region=r %}">
+        <img src="{% static 'img/'|add:r|add:'_blas.png' %}" class="btn_blas">&nbsp;&nbsp;{{ r|upper }}
+    </a>
+{% endfor %}
+</div>
+<div class="col-3">
+    <table class="table">
+        {% for dates in holidays %}
+            {% for date, name in dates.items %}
+                <tr>
+                    <td>{{ name }}</td>
+                    <td class="text-end">{{ date }}</td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock content %}

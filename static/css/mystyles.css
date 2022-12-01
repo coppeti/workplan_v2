@@ -111,6 +111,7 @@ MAIN
   top: 110px;
   left: 170px;
   width: calc(100vw - 170px);
+  height: calc(100vh - 110px);
   padding-bottom: 60px;
 }
 
@@ -209,7 +210,18 @@ MAIN
 }
 
 
+/*====================
+        HOLIDAY
+======================*/
 
+.title_blas {
+  width: 100px;
+  transform: rotate(10deg);
+}
+
+.btn_blas {
+  width: 20px;
+}
 
 
 /*====================
