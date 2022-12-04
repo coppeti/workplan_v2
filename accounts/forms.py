@@ -1,10 +1,12 @@
 from django.contrib.auth.forms import UserCreationForm
+from django.core.validators import RegexValidator
+from .models import CustomUser
 
-from .models import User
 
-
-class SignupForm(UserCreationForm):
+class SignUpForm(UserCreationForm):
+    
     class Meta:
-        model = User
-        fields = ['first_name', 'last_name', 'email', 'birthday',]
-        required_fields = ['first_name', 'last_name', 'email', 'birthday',]
+        model = CustomUser
+        fields = ['first_name', 'last_name', 'email', 'birthday']
+        required_fields = ['first_name', 'last_name', 'email', 'birthday']
+        

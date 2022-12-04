@@ -1,12 +1,6 @@
 from django.contrib import admin
-from accounts.models import User
+from django.contrib.auth.admin import UserAdmin
+from accounts.models import CustomUser
 
 
-class UserAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'email', 'is_active')
-    exclude = ('password', 'last_login',)
-    fields = ('first_name', 'last_name', 'username', 'email', 'birthday',)
-
-
-admin.site.register(User, UserAdmin)
-    
+admin.site.register(CustomUser)
