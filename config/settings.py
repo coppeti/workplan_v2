@@ -127,10 +127,19 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 
+# Reset Password token validity
+PASSWORD_RESET_TIMEOUT_DAYS = 2
+
+
 # Domain and URL
-DEFAULT_DOMAIN = str(os.getenv('DEFAULT_DOMAIN'))
+DEFAULT_DOMAIN = 'http://vnwebis1.datacenter-migros.ch'  # str(os.getenv('DEFAULT_DOMAIN'))
 
 
 # Crispy Form
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
+
+# Email management
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = 'email/'
