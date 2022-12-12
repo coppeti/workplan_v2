@@ -225,6 +225,18 @@ MAIN
 
 
 /*====================
+        USERS
+======================*/
+
+.check_line {
+  padding-top: 38px;
+}
+
+.check-col {
+  margin-left: 2px !important;
+}
+
+/*====================
         FOOTER
 ======================*/
 

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}Benutzer{% endblock title %}
+{% block user_active %}active{% endblock user_active %}
+
+{% block content %}
+<h4 class="my-4">Benutzer Liste</h4>
+<div class="container my-4">
+    <div class="d-flex justify-content-between">
+        <a href="{% url 'register' %}" class="btn btn-outline-primary">Neuer Benutzer</a>
+        <form>
+            <div class="input-group">
+                <input name="q" type="text" class="form-control" placeholder="Suche nach..." value="{{ request.GET.q }}">
+                <button class="btn btn-outline-secondary">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+                <div>
+                    <a href="{% url 'allusers' %}" class="btn btn-secondary input-group-text ms-2" type="button">
+                        <i class="fa-solid fa-rotate"></i>
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <table class="table table-striped">
+            <tr>
+                <th>#</th>
+                <th>Vorname</th>
+                <th>Nachname</th>
+                <th>Pseudo</th>
+                <th>Email</th>
+                <th>Geburtstag</th>
+                <th>Active</th>
+                <th>Staff</th>
+                <th>Superuser</th>
+                <th colspan="2" class="text-center">Aktion</th>
+            </tr>
+            {% for object in object_list %}
+            <tr>
+                <td>{{ object.pk }}</td>
+                <td>{{ object.first_name|title }}</td>
+                <td>{{ object.last_name|upper }}</td>
+                <td>{{ object.username }}</td>
+                <td>{{ object.email }}</td>
+                <td>{{ object.birthday|date:"SHORT_DATE_FORMAT" }}</td>
+                <td>{{ object.is_active|yesno:"ja,nein" }}</td>
+                <td>{{ object.is_staff|yesno:"ja,nein" }}</td>
+                <td>{{ object.is_superuser|yesno:"ja,nein" }}</td>
+                <td class="text-center"><a href="{% url 'edituser' object.pk %}" class="text-primary"><i class="fa-solid fa-pen"></i></a></td>
+                <td class="text-center"><a href="{% url 'deleteuser' object.pk %}" class="text-danger"><i class="fa-solid fa-trash"></i></a></td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="11">
+                    Keine Benutzer
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+{% endblock content %}

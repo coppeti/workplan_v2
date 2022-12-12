@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Passwort Reset{% endblock title %}
+{% block home_active %}active{% endblock home_active %}
+
+{% block content %}
+<h4 class="my-3">Passwort zurücksetzen</h4>
+<div class="my-2">
+    {% for message in messages %}
+        {% if message.tags == 'success' %}
+        <div class="text-center alert alert-primary alert-dismissible fade show" role="alert">
+            {{ message }}
+        </div>
+        {% endif %}
+    {% endfor %}
+</div>
+<form action="" method="POST" class="card mt-3 p-4" autocomplete="off" novalidate enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-6">
+            {{ form.new_password1|as_crispy_field }}
+        </div>
+        <div class="col-6">
+            {{ form.new_password2|as_crispy_field }}
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Speichern</button>
+</form>
+{% endblock content %}

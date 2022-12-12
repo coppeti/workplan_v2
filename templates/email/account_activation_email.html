@@ -3,7 +3,7 @@ Hallo {{ user.first_name|title }},
 
 Klicke bitte auf den untenstehenden Link, um deine Registrierung in der Workplan-App abzuschließen.
 
-{{ domain }}{% url 'activate' uidb64=uid token=token %}
+<a href="{{ domain }}{% url 'activate' uidb64=uid token=token %}">Mein Konto aktivieren</a>
 
 Wenn du den Aktivierungsprozess nicht innerhalb der nächsten {{ timeout_days }} Tage abschließt, musst du dich an den Administrator wenden.
 

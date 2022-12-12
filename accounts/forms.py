@@ -1,12 +1,13 @@
-import re
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import SetPasswordForm, PasswordResetForm
 from django.core.validators import RegexValidator
+
 from .models import CustomUser
 
 
 class RegisterForm(forms.ModelForm):
     first_name = forms.CharField(required=True,
+                                 max_length=50,
                                  label='Vorname',
                                  validators=[RegexValidator(r'^[a-zA-ZÀ-ÿ-\'\s]*$',
                                                             message="Verwenden Sie nur Buchstaben !")],
@@ -14,6 +15,7 @@ class RegisterForm(forms.ModelForm):
                                                                'style': 'text-transform: capitalize'})
                                  )
     last_name = forms.CharField(required=True,
+                                max_length=50,
                                  label='Nachname',
                                  validators=[RegexValidator(r'^[a-zA-ZÀ-ÿ-\'\s]*$',
                                                             message="Verwenden Sie nur Buchstaben !")],
@@ -35,18 +37,66 @@ class RegisterForm(forms.ModelForm):
         fields = ['first_name', 'last_name', 'email', 'birthday']
 
 
-# class TestForm(forms.Form):
-#     first_name = forms.CharField(required=True,
-#                                  label='Prenom:',
-#                                  validators=[RegexValidator(r'^[A-Za-z][A-Za-z\'\-]+([\ A-Za-z][A-Za-z\'\-]+)*',
-#                                                             message="Seulement des lettres !")],
-#                                  widget=forms.TextInput(attrs={'placeholder': 'Votre prénom',
-#                                                                'style': 'text-transform: capitalize'})
-#                                  )
-#     last_name = forms.CharField(required=True,
-#                                  label='Nom:',
-#                                  validators=[RegexValidator(r'^[A-Za-z][A-Za-z\'\-]+([\ A-Za-z][A-Za-z\'\-]+)*',
-#                                                             message="Seulement des lettres !")],
-#                                  widget=forms.TextInput(attrs={'placeholder': 'Votre nom',
-#                                                                'style': 'text-transform: capitalize'})
-#                                  )
+class UserPasswordResetForm(SetPasswordForm):
+    """Change password form."""
+    new_password1 = forms.CharField(label='Passwort',
+        help_text="<ul class='errorlist text-muted'>\
+            <li>Dein Passwort darf deinen anderen persönlichen Daten nicht zu ähnlich sein.</li>\
+                <li>Dein Passwort muss mindestens 8 Zeichen enthalten.</li>\
+                    <li>Dein Passwort darf kein häufig verwendetes Passwort sein.</li>\
+                        <li>Dein Passwort darf nicht ausschließlich aus Zahlen bestehen.<li></ul>",
+        max_length=100,
+        required=True,
+        widget=forms.PasswordInput(
+        attrs={
+            'placeholder': 'Passwort',
+            'type': 'password',
+            'id': 'user_password',
+        }))
+
+    new_password2 = forms.CharField(label='Kontrollpasswort',
+        help_text=False,
+        max_length=100,
+        required=True,
+        widget=forms.PasswordInput(
+        attrs={
+            'placeholder': 'Kontrollpasswort',
+            'type': 'password',
+            'id': 'user_password',
+        }))
+    
+
+class UserForgotPasswordForm(PasswordResetForm):
+    """User forgot password, check via email form."""
+    email = forms.EmailField(label='Email',
+        max_length=254,
+        required=True,
+        widget=forms.TextInput(
+         attrs={'placeholder': 'email address',
+                'type': 'text',
+                'id': 'email_address'
+                }
+        ))
+    
+    
+class EditUserForm(forms.ModelForm):
+    
+    class Meta:
+        model = CustomUser
+        fields = ['first_name', 'last_name', 'username', 'email', 'birthday', 'is_active', 'is_staff', 'is_superuser']
+        labels= {
+            'first_name': 'Vorname',
+            'last_name': 'Nachname',
+            'username': 'Pseudo',
+            'email': 'Email',
+            'birthday': 'Geburtsdatum',
+            'is_active': 'Ist aktiv',
+            'is_staff': 'Ist Administrator',
+            'is_superuser': 'Ist Superuser',
+        }
+        
+        widgets = {
+            'birthday': forms.NumberInput(
+                attrs={'type': 'date'}
+            )
+        }
