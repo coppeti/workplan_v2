@@ -48,6 +48,7 @@
                         <li class="nav-item">
                             <a class="nav-link {% block holidays_active %}{% endblock holidays_active %}" href="{% url 'holiday' year=this_year region='be' %}">Feiertage</a>
                         </li>
+                        {% if user.is_authenticated %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle {% block activity_active %}{% endblock activity_active %}" href="#" role="button" data-bs-toggle="dropdown">Aktivität</a>
                             <ul class="dropdown-menu">
@@ -55,26 +56,36 @@
                                <li><a class="dropdown-item" href="#">Liste</a></li> 
                             </ul>
                         </li>
+                        {% endif %}
+                        {% if user.is_staff %}
                         <li class="nav-item">
                             <a class="nav-link {% block user_active %}{% endblock user_active %}" href="{% url 'allusers' %}">Benutzer</a>
                         </li>
+                        {% endif %}
                <a class="nav-link" href="https://www.schulferien.org/schweiz/ferien/{{ this_year }}/" target="_blank">Schulferien {{ this_year }}</a>
                     </ul>
                     <div class="d-flex align-items-center">
                         <div class="text-light me-5">
+                            {% if user.is_authenticated %}
+                                Willkommen {{ user.first_name|title }}
+                            {% else %}
                                 Willkommen lieber Gast
+                            {% endif %}
                         </div>
                         <!-- Login Menu -->
                         <ul class="navbar-nav">
+                            {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="nav-link {% block profile_active %}{% endblock profile_active %}" href="{% url 'myprofile' user.id %}">Mein Profil</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% block logout_active %}{% endblock logout_active %}" href="{% url 'logout' %}">Abmelden</a>
+                            </li>
+                            {% else %}
                             <li class="nav-item">
                                 <a class="nav-link {% block login_active %}{% endblock login_active %}" href="{% url 'login' %}">Anmelden</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link {% block profile_active %}{% endblock profile_active %}">Mein Profil</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {% block logout_active %}{% endblock logout_active %}">Abmelden</a>
-                            </li>
+                            {% endif %}
                         </ul>
                     </div>
                 </div>

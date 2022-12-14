@@ -16,7 +16,7 @@ class CustomUser(AbstractUser):
     def save(self, *args, **kwargs):
         self.first_name = self.first_name.lower()
         self.last_name = self.last_name.lower()
-        self.username = f'{self.first_name[:2]}{self.last_name[:2]}'
+        self.username = self.username.lower()
         self.email = self.email.lower()
 
         super().save(*args, **kwargs)

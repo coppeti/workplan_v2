@@ -100,3 +100,50 @@ class EditUserForm(forms.ModelForm):
                 attrs={'type': 'date'}
             )
         }
+
+
+class EditProfileForm(forms.ModelForm):
+    
+    first_name = forms.CharField(required=True,
+                                 max_length=50,
+                                 validators=[RegexValidator(r'^[a-zA-ZÀ-ÿ-\'\s]*$',
+                                                            message="Verwenden Sie nur Buchstaben !")],
+                                 widget=forms.TextInput(attrs={'placeholder': 'Vorname',
+                                                               'style': 'text-transform: capitalize'})
+                                 )
+    last_name = forms.CharField(required=True,
+                                max_length=50,
+                                validators=[RegexValidator(r'^[a-zA-ZÀ-ÿ-\'\s]*$',
+                                                            message="Verwenden Sie nur Buchstaben !")],
+                                widget=forms.TextInput(attrs={'placeholder': 'Nachname',
+                                                               'style': 'text-transform: capitalize'})
+                                 )
+    username = forms.CharField(required=True,
+                               max_length=30,
+                               validators=[RegexValidator(r'^[a-z0-9]*$',
+                                                          message='Gib nur Kleinbuchstaben und Zahlen ein')])
+    
+    birthday = forms.DateField(required=True,
+                               widget=forms.NumberInput(attrs={'type': 'date'}))
+
+    email = forms.EmailField(required=True,
+                             validators=[RegexValidator(r'^([A-Za-z0-9_.+-])+\@(([A-Za-z0-9-])+\.)+([A-Za-z0-9]{2,4})+$',
+                                                        message='Gib eine gültige E-Mail-Adresse ein !')],
+                             widget=forms.TextInput(attrs={'placeholder': 'Email'})
+                             )
+    
+    class Meta:
+        model = CustomUser
+        fields = ['first_name', 'last_name', 'username', 'email', 'birthday']
+        
+        widgets = {
+            'first_name': forms.TextInput(
+                attrs={'style': 'text-transform: capitalize'}
+            ),
+            'last_name': forms.TextInput(
+                attrs={'style': 'text-transform: capitalize'}
+            ),
+            'birthday': forms.NumberInput(
+                attrs={'type': 'date'}
+            )
+        }

@@ -144,3 +144,8 @@ CRISPY_TEMPLATE_PACK = 'bootstrap5'
 # Email management
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = 'email/'
+
+
+# Login and Logout
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'

@@ -10,7 +10,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.decorators.http import require_http_methods
 from django.views.generic import ListView, UpdateView, DeleteView, DetailView
 
-from .forms import RegisterForm, UserPasswordResetForm, UserForgotPasswordForm, EditUserForm
+from .forms import RegisterForm, UserPasswordResetForm, UserForgotPasswordForm, EditUserForm, EditProfileForm
 from .models import CustomUser
 from .utils import account_activation_token, password_reset_token
 
@@ -20,6 +20,8 @@ def register(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
+            user.username = f'{user.first_name[:2]}{user.last_name[:2]}'
+            user.save()
             message = render_to_string('email/account_activation_email.html', {
                 'user': user,
                 'domain': settings.DEFAULT_DOMAIN,
@@ -175,5 +177,8 @@ class DeleteUser(DeleteView):
     success_url = reverse_lazy('allusers')
     
     
-class MyProfile(DetailView):
+class MyProfile(UpdateView):
     model = CustomUser
+    template_name = 'accounts/myprofile_form.html'
+    form_class = EditProfileForm
+    success_url = reverse_lazy('home')

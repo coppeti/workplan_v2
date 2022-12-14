@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load crispy_forms_tags %}
+
+{% block title %}My profile{% endblock title %}
+{% block profile_active  %}active{% endblock profile_active  %}
+
+{% block content %}
+<h4 class="my-4">Mein Profil</h4>
+<form method="post" class="card p-4">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col form-group">
+            <label for="first_name" class="form-label text-secondary">Vorname*</label>
+            {% render_field form.first_name class+="form-control" type="text" %}
+            <span class="help-block">{{ first_name.error }}</span>
+        </div>
+        <div class="col form-group">
+            <label for="last_name" class="form-label text-secondary">Nachname*</label>
+            {% render_field form.last_name class+="form-control" type="text" %}
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col form-group">
+            <label for="username" class="form-label text-secondary">Pseudo*</label>
+            {% render_field form.username class+="form-control" type="text" %}
+        </div>
+        <div class="col form-group">
+            <label for="birthday" class="form-label text-secondary">Geburtsdatum*</label>
+            {% render_field form.birthday class+="form-control" type="date" %}
+        </div>
+    </div>
+    <div class="row my-4">
+        <div class="col form-group">
+            <label for="email" class="form-label text-secondary">Email*</label>
+            {% render_field form.email class+="form-control" type="text" %}
+        </div>
+    </div>
+    <div class="d-flex justify-content-between mt-4">
+        <a href="{% url 'home' %}" class="btn btn-outline-secondary">Abgeben</a>
+        <a href="#" class="btn btn-outline-primary">Passwort Reset</a>
+        <button class="btn btn-danger" type="submit">Speichern</button>
+    </div>
+</form>
+
+{% endblock content %}
