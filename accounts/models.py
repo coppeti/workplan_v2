@@ -10,7 +10,6 @@ class CustomUser(AbstractUser):
     birthday = models.DateField(blank=True, null=True)
     is_active = models.BooleanField(default=False)
     email_confirmed = models.BooleanField(default=False)
-    reset_password = models.BooleanField(default=False)
     
     # TODO: check if username is unique
     def save(self, *args, **kwargs):

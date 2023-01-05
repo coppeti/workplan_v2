@@ -128,8 +128,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 
-# Reset Password token validity
+# Password token and user session validity
 PASSWORD_RESET_TIMEOUT_DAYS = 2
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 24 * 60 * 60
 
 
 # Domain and URL
@@ -147,5 +149,6 @@ EMAIL_FILE_PATH = 'email/'
 
 
 # Login and Logout
+LOGIN_URL = '/login/login/'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'

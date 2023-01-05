@@ -50,8 +50,38 @@
                 <td>{{ object.is_staff|yesno:"ja,nein" }}</td>
                 <td>{{ object.is_superuser|yesno:"ja,nein" }}</td>
                 <td class="text-center"><a href="{% url 'edituser' object.pk %}" class="text-primary"><i class="fa-solid fa-pen"></i></a></td>
-                <td class="text-center"><a href="{% url 'deleteuser' object.pk %}" class="text-danger"><i class="fa-solid fa-trash"></i></a></td>
+                <td class="text-center">
+                    <a class="btn btn-sm text-danger" data-bs-toggle="modal" data-bs-target="#deleteuser{{ object.pk }}">
+                        <i class="fa-solid fa-trash"></i>
+                    </a>
+                </td>
             </tr>
+            <!-- Delete user Modal -->
+            <div class="modal fade" id="deleteuser{{ object.pk }}" tabindex="-1" aria-labelledby="deleteuserlabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5 text-danger" id="deleteuserlabel">Einen Benutzer löschen</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="text-center text-danger mt-3">
+                                <i class="fas fa-times-circle fa-4x"></i>
+                            </div>
+                            <div class="text-center mt-3">
+                                <h6 class="pb-2">Möchtest du den Benutzer</h6>
+                                <strong class="text-danger">{{ object.first_name|title }} {{ object.last_name|upper }}</strong>
+                                <h6 class="mt-2">wirklich löschen ?</h6>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Abgeben</button>
+                            <a href="{% url 'deleteuser' object.pk %}" class="btn btn-sm btn-outline-danger">Löschen</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Delete user Modal -->
             {% empty %}
             <tr>
                 <td colspan="11">

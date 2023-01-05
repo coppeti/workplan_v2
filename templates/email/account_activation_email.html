@@ -2,6 +2,8 @@
 Hallo {{ user.first_name|title }},
 
 Klicke bitte auf den untenstehenden Link, um deine Registrierung in der Workplan-App abzuschließen.
+Der Pseudo <strong>{{ user.username }}</strong> wurde dir zugewiesen.
+Du kannst ihn nach Abschluss des Aktivierungsvorgangs im Menü "Mein Profil" ändern.
 
 <a href="{{ domain }}{% url 'activate' uidb64=uid token=token %}">Mein Konto aktivieren</a>
 

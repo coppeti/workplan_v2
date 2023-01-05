@@ -42,6 +42,14 @@ a.nav-link {
   cursor: pointer;
 }
 
+label {
+  color:rgb(120, 120, 120)
+}
+
+::placeholder {
+  color: rgb(190, 190, 190) !important;
+}
+
 
 /*====================
         HEADER
@@ -112,7 +120,7 @@ MAIN
   left: 170px;
   width: calc(100vw - 170px);
   height: calc(100vh - 110px);
-  padding-bottom: 60px;
+  padding-bottom: 50px;
 }
 
 

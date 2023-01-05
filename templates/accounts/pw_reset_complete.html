@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Passwort Reset{% endblock title %}
+{% block home_active %}active{% endblock home_active %}
+
+{% block content %}
+<h4 class="my-4">Passwort zurücksetzen abgeschlossen</h4>
+    <div class="card p-4">
+        <p>
+            {{ user.first_name|title }},
+            <br>
+            dein Passwort wurde zurückgesetzt. Du kannst dich nun anmelden.
+        </p>
+        <div class="text-center mt-4">
+            <a href="{% url 'login' %}" class="btn btn-primary">Anmelden</a>
+        </div>
+    </div>
+{% endblock content %}

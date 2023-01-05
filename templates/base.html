@@ -48,7 +48,7 @@
                         <li class="nav-item">
                             <a class="nav-link {% block holidays_active %}{% endblock holidays_active %}" href="{% url 'holiday' year=this_year region='be' %}">Feiertage</a>
                         </li>
-                        {% if user.is_authenticated %}
+                        {% if user.is_authenticated and user.is_active == True %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle {% block activity_active %}{% endblock activity_active %}" href="#" role="button" data-bs-toggle="dropdown">Aktivität</a>
                             <ul class="dropdown-menu">
@@ -66,7 +66,7 @@
                     </ul>
                     <div class="d-flex align-items-center">
                         <div class="text-light me-5">
-                            {% if user.is_authenticated %}
+                            {% if user.is_authenticated and user.is_active == True %}
                                 Willkommen {{ user.first_name|title }}
                             {% else %}
                                 Willkommen lieber Gast
@@ -74,9 +74,9 @@
                         </div>
                         <!-- Login Menu -->
                         <ul class="navbar-nav">
-                            {% if user.is_authenticated %}
+                            {% if user.is_authenticated and user.is_active == True %}
                             <li class="nav-item">
-                                <a class="nav-link {% block profile_active %}{% endblock profile_active %}" href="{% url 'myprofile' user.id %}">Mein Profil</a>
+                                <a class="nav-link {% block profile_active %}{% endblock profile_active %}" href="{% url 'myprofile' %}">Mein Profil</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link {% block logout_active %}{% endblock logout_active %}" href="{% url 'logout' %}">Abmelden</a>
