@@ -186,13 +186,20 @@ class EditUser(UserPassesTestMixin, UpdateView):
         return self.request.user.is_superuser
     
 
-class DeleteUser(UserPassesTestMixin, DeleteView):
-    model = CustomUser
-    success_url = reverse_lazy('allusers')
+# class DeleteUser(UserPassesTestMixin, DeleteView):
+#     model = CustomUser
+#     success_url = reverse_lazy('allusers')
 
-    def test_func(self):
-        return self.request.user.is_superuser
-    
+#     def test_func(self):
+#         return self.request.user.is_superuser
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def deleteuser(request, pk):
+    user = CustomUser.objects.get(id=pk)
+    user.delete()
+    messages.success(request, "Der Benutzer wurde gelöscht.")
+    return HttpResponseRedirect(reverse_lazy('allusers'))
     
 class MyProfile(UpdateView):
     model = CustomUser
