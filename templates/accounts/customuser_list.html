@@ -49,7 +49,11 @@
                 <td>{{ object.is_active|yesno:"ja,nein" }}</td>
                 <td>{{ object.is_staff|yesno:"ja,nein" }}</td>
                 <td>{{ object.is_superuser|yesno:"ja,nein" }}</td>
-                <td class="text-center"><a href="{% url 'edituser' object.pk %}" class="text-primary"><i class="fa-solid fa-pen"></i></a></td>
+                <td class="text-center">
+                    <a href="{% url 'edituser' object.pk %}" class="btn btn-sm text-primary">
+                        <i class="fa-solid fa-pen"></i>
+                    </a>
+                </td>
                 <td class="text-center">
                     <a class="btn btn-sm text-danger" data-bs-toggle="modal" data-bs-target="#deleteuser{{ object.pk }}">
                         <i class="fa-solid fa-trash"></i>

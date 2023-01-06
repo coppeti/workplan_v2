@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load widget_tweaks %}
 {% load crispy_forms_tags %}
 
 {% block title %}Edit user{% endblock title %}
@@ -8,50 +7,38 @@
 
 {% block content %}
 <h4 class="my-4">Einen Benutzer bearbeiten</h4>
-<form method="post" class="card p-4">
+<form method="post" class="card p-4" novalidate enctype="multipart/form-data">
     {% csrf_token %}
-    <div class="row">
-        <div class="col form-group">
-            <label for="first_name" class="form-label">Vorname</label>
-            {% render_field form.first_name class="form-control" type="text" %}
+    <div class="row mb-2">
+        <div class="col-6">
+            {{ form.first_name|as_crispy_field }}
         </div>
-        <div class="col form-group">
-            <label for="last_name" class="form-label">Nachname</label>
-            {% render_field form.last_name class="form-control" type="text" %}
+        <div class="col-6">
+            {{ form.last_name|as_crispy_field }}
         </div>
     </div>
-    <div class="row mt-4">
-        <div class="col form-group">
-            <label for="username" class="form-label">Pseudo</label>
-            {% render_field form.username class="form-control" type="text" %}
+    <div class="row mb-2">
+        <div class="col-6">
+            {{ form.username|as_crispy_field }}
         </div>
-        <div class="col form-group">
-            <label for="email" class="form-label">Email</label>
-            {% render_field form.email class="form-control" type="text" %}
+        <div class="col-6">
+            {{ form.email|as_crispy_field }}
         </div>
     </div>
-    <div class="row mt-4">
-        <div class="col form-group">
-            <label for="birthday" class="form-label">Geburtsdatum</label>
-            {% render_field form.birthday class="form-control" type="date" %}
+    <div class="row mb-2">
+        <div class="col-6">
+            {{ form.birthday|as_crispy_field }}
         </div>
-        <div class="col form-group check_line">
-            <div class="form-check">
-                {% render_field form.is_active class="form-check-input" type="checkbox" %}
-                <label for="is_active" class="form-check-label">Ist aktiv</label>
-            </div>
+        <div class="col-6 mt-5">
+                {{ form.is_active|as_crispy_field }}
         </div>
     </div>
-    <div class="row my-4">
-        <div class="col form-group">
-            <div class="form-check">
-                {% render_field form.is_staff class="form-check-input" type="checkbox" %}
-                <label for="is_staff" class="form-check-label">Ist Administrator</label>
-            </div>
+    <div class="row mb-2">
+        <div class="col-6">
+            {{ form.is_staff|as_crispy_field }}
         </div>
-        <div class="col form-group">
-            {% render_field form.is_superuser class="form-check-input" type="checkbox" %}
-            <label for="is_superuser" class="form-check-label">Ist Superuser</label>
+        <div class="col-6">
+            {{ form.is_superuser|as_crispy_field }}
         </div>
     </div>
     <div class="d-flex justify-content-between mt-4">
