@@ -18,8 +18,12 @@ from .forms import RegisterForm, UserForgotPasswordForm, EditUserForm, EditProfi
 from .models import CustomUser
 
 
+
 @user_passes_test(lambda u: u.is_superuser)
 def register(request):
+    """Create a new user.
+    An email containing an activation link will be sent to the address provided during registration
+    """
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
@@ -46,7 +50,9 @@ def register(request):
 
 @require_http_methods(["GET"])
 def activate(request, uidb64, token):
-    """Check the activation token sent via mail."""
+    """Check the activation token sent via mail.
+    In case of validation of the token, the user is redirected to the registration form of his new password.
+    """
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
         user = CustomUser.objects.get(pk=uid)
@@ -68,6 +74,10 @@ def activate(request, uidb64, token):
 
 
 def setpassword(request, type, uidb64, token):
+    """Propose à l'utilisateur un formulaire pour renseigner son mot de passe.
+    The function is called in the process of creating a user (type = 'new') or
+     in the process of requesting a password reset (type = 'reset').
+    """
     if request.method == 'POST':
         try:
             uid = force_str(urlsafe_base64_decode(uidb64))
@@ -113,17 +123,23 @@ def setpassword(request, type, uidb64, token):
 
 
 class PasswordReset(PasswordResetView):
+    """If the user requests a password reset.
+    Proposes the reset request form and sends the link by email if the user is known."""
     form_class = UserForgotPasswordForm
     email_template_name = 'email/password_reset_email.html'
     
     
 class AllUsers(UserPassesTestMixin, ListView):
+    """Displays a list of all registered users.
+    For backend user management."""
     model = CustomUser
     paginate_by = 15
     
+    # Access only for Superuser 
     def test_func(self):
         return self.request.user.is_superuser
     
+    # Displays the result of the search field
     def get_queryset(self):
         q = self.request.GET.get('q')
         userlist = CustomUser.objects.all().order_by('last_name')
@@ -136,6 +152,8 @@ class AllUsers(UserPassesTestMixin, ListView):
     
     
 class EditUser(UserPassesTestMixin, UpdateView):
+    """Editing a registered user.
+    Access to complete information, backend, only for Superuser."""
     model = CustomUser
     form_class = EditUserForm
     success_url = reverse_lazy('allusers')
@@ -146,6 +164,8 @@ class EditUser(UserPassesTestMixin, UpdateView):
 
 @user_passes_test(lambda u: u.is_superuser)
 def deleteuser(request, pk):
+    """Deleting a user.
+    Backend, only for Superuser."""
     user = CustomUser.objects.get(id=pk)
     user.delete()
     messages.success(request, "Der Benutzer wurde gelöscht.")
@@ -153,6 +173,10 @@ def deleteuser(request, pk):
 
 
 class MyProfile(UpdateView):
+    """Displays the profile of the logged user.
+    Only the basic information can be changed:
+        First name, last name, username, date of birth.
+    The password can be changed from this view."""
     model = CustomUser
     template_name = 'accounts/myprofile_form.html'
     form_class = EditProfileForm

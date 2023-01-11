@@ -6,6 +6,7 @@ from .models import CustomUser
 
 
 class RegisterForm(forms.ModelForm):
+    """Add a new user."""
     first_name = forms.CharField(required=True,
                                  max_length=50,
                                  label='Vorname',
@@ -39,6 +40,7 @@ class RegisterForm(forms.ModelForm):
         
 
 class MySetPasswordForm(SetPasswordForm):
+    """Register a new password."""
     def save(self, *args, commit=True, **kwargs):
         user = super().save(*args, commit=False, **kwargs)
         user.is_active = True
@@ -61,6 +63,7 @@ class UserForgotPasswordForm(PasswordResetForm):
     
     
 class EditUserForm(forms.ModelForm):
+    """Edition of the complete data of a user."""
     first_name = forms.CharField(required=True,
                                  max_length=50,
                                  label='Vorname',
@@ -110,6 +113,7 @@ class EditUserForm(forms.ModelForm):
 
 
 class EditProfileForm(forms.ModelForm):
+    """Editing the basic data of the logged user."""
     first_name = forms.CharField(required=True,
                                  max_length=50,
                                  label='Vorname',
