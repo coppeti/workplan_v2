@@ -4,7 +4,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.tokens import default_token_generator
-from django.contrib.auth.views import PasswordResetView
+from django.contrib.auth.views import PasswordResetView, LoginView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 from django.shortcuts import render, redirect, HttpResponseRedirect
@@ -42,7 +42,7 @@ def register(request):
             subject = ''.join(subject.splitlines())
             user.email_user(subject, message, settings.DEFAULT_FROM_EMAIL)
             messages.warning(request, 'User angelegt. Er muss sein Konto noch aktivieren.')
-            return redirect('home')
+            return redirect('allusers')
         else:
             return render(request, 'accounts/register.html', {'form': form})
         
@@ -122,6 +122,11 @@ def setpassword(request, type, uidb64, token):
         
     return redirect('home')
 
+
+class Login(SuccessMessageMixin, LoginView):
+    """To inform the user that he is connected after the login."""
+    success_message = 'Du bist jetzt angemeldet.'
+    
 
 class PasswordReset(PasswordResetView):
     """If the user requests a password reset.

@@ -76,10 +76,13 @@
                                 <h6 class="pb-2">Möchtest du den Benutzer</h6>
                                 <strong class="text-danger">{{ object.first_name|title }} {{ object.last_name|upper }}</strong>
                                 <h6 class="mt-2">wirklich löschen ?</h6>
+                                <h6 class="mt-2 text-danger">
+                                    Alle Aktivitäten, die mit diesem Benutzer verbunden sind, werden ebenfalls gelöscht!
+                                </h6>
                             </div>
                         </div>
                         <div class="modal-footer mt-3">
-                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Abgeben</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">Abgeben</button>
                             <a href="{% url 'deleteuser' object.pk %}" class="btn btn-sm btn-outline-danger">Löschen</a>
                         </div>
                     </div>

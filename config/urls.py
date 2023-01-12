@@ -2,7 +2,19 @@ from django.contrib import admin
 from django.urls import path, include
 
 from cal.views import Home, Holiday
-from accounts.views import register, activate, setpassword, deleteuser, AllUsers, EditUser, MyProfile, PasswordReset, logout_view
+# Views to manage everythong about users
+from accounts.views import (
+    register,
+    activate,
+    setpassword,
+    deleteuser,
+    logout_view,
+    Login,
+    AllUsers,
+    EditUser,
+    MyProfile,
+    PasswordReset,
+    logout_view)
 
 
 urlpatterns = [
@@ -13,8 +25,9 @@ urlpatterns = [
     path('activate/<uidb64>/<token>/', activate, name="activate"),
     path('set_password/<type>/<uidb64>/<token>/', setpassword, name="setpassword"),
     path('password_reset/', PasswordReset.as_view(), name="passwordreset"),
+    path('password_change/', include('django.contrib.auth.urls')),
     path('logout/', logout_view, name="logoutview"),
-    path('login/', include('django.contrib.auth.urls')),
+    path('login/', Login.as_view(), name="login"),
     path('all_users/', AllUsers.as_view(), name="allusers"),
     path('edit_user/<int:pk>/', EditUser.as_view(), name="edituser"),
     path('delete_user/<int:pk>/', deleteuser, name="deleteuser"),
