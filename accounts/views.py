@@ -94,6 +94,10 @@ def setpassword(request, type, uidb64, token):
                 user.set_password(password)
                 user.save()
                 login(request, user)
+                if type == 'new':
+                    messages.success(request, f'{user.first_name.capitalize()}, dein Konto ist nun aktiv und du bist angemeldet.')
+                elif type == 'reset':
+                    messages.success(request, f'{user.first_name.capitalize()}, dein Passwort wurde erfolgreich zurückgesetzt und du bist angemeldet.')
                 return redirect('home')
         else:
             context = {
