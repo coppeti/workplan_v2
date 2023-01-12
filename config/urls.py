@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from cal.views import Home, Holiday
-# Views to manage everythong about users
+# Views to manage everything about users
 from accounts.views import (
     register,
     activate,
