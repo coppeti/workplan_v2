@@ -1,10 +1,11 @@
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.tokens import default_token_generator
-from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetCompleteView
+from django.contrib.auth.views import PasswordResetView
+from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.template.loader import render_to_string
@@ -172,7 +173,7 @@ def deleteuser(request, pk):
     return HttpResponseRedirect(reverse_lazy('allusers'))
 
 
-class MyProfile(UpdateView):
+class MyProfile(SuccessMessageMixin, UpdateView):
     """Displays the profile of the logged user.
     Only the basic information can be changed:
         First name, last name, username, date of birth.
@@ -181,6 +182,14 @@ class MyProfile(UpdateView):
     template_name = 'accounts/myprofile_form.html'
     form_class = EditProfileForm
     success_url = reverse_lazy('home')
+    success_message = 'Dein Profil wurde erfolgreich aktualisiert.'
     
     def get_object(self):
         return self.request.user
+
+
+def logout_view(request):
+    """To inform the user of his disconnection."""
+    logout(request)
+    messages.success(request, 'Du bist jetzt abgemeldet.')
+    return redirect('home')
