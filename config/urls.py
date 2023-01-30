@@ -4,6 +4,7 @@ from django.urls import path, include
 from cal.views import Home, Holiday
 # Views to manage everything about users
 from accounts.views import (
+    member,
     register,
     activate,
     setpassword,
@@ -21,6 +22,7 @@ urlpatterns = [
     path('', Home.as_view(), name="home"),
     path('holiday/<int:year>/<str:region>/', Holiday.as_view(), name="holiday"),
     # Accounts URLs
+    path('member/', member, name="member"),
     path('register/', register, name="register"),
     path('activate/<uidb64>/<token>/', activate, name="activate"),
     path('set_password/<type>/<uidb64>/<token>/', setpassword, name="setpassword"),

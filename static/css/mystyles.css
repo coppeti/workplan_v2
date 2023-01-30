@@ -233,16 +233,18 @@ MAIN
 
 
 /*====================
-        USERS
+        MEMBERS
 ======================*/
 
-.check_line {
-  padding-top: 38px;
+.member_card {
+  width: 30%;
 }
 
-.check-col {
-  margin-left: 2px !important;
+.card_btn {
+  padding-left: 4px;
+  padding-right: 4px;
 }
+
 
 /*====================
         FOOTER

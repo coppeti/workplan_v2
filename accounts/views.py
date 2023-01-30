@@ -21,6 +21,16 @@ from .models import CustomUser
 
 
 @user_passes_test(lambda u: u.is_superuser)
+def member(request):
+    members = CustomUser.objects.all().order_by('last_name')
+    context = {
+        'members': members
+    }
+    
+    return render(request, 'accounts/member.html', context)
+    
+    
+@user_passes_test(lambda u: u.is_superuser)
 def register(request):
     """Create a new user.
     An email containing an activation link will be sent to the address provided during registration
