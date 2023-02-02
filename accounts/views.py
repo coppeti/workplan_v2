@@ -8,7 +8,7 @@ from django.contrib.auth.views import PasswordResetView, LoginView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 from django.http import HttpResponse
-from django.shortcuts import render, redirect, HttpResponseRedirect
+from django.shortcuts import render, redirect, HttpResponseRedirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -16,7 +16,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.decorators.http import require_http_methods
 from django.views.generic import ListView, UpdateView
 
-from .forms import MemberAddForm, RegisterForm, UserForgotPasswordForm, EditUserForm, EditProfileForm, MySetPasswordForm
+from .forms import MemberAddForm, MemberEditForm, RegisterForm, UserForgotPasswordForm, EditUserForm, EditProfileForm, MySetPasswordForm
 from .models import CustomUser
 
 
@@ -54,6 +54,21 @@ def member_add(request):
     else:
         form = MemberAddForm()
     return render(request, 'accounts/member_add_form.html', {'form': form})
+
+
+def member_edit(request, pk):
+    member = get_object_or_404(CustomUser, pk=pk)
+    if request.method == 'POST':
+        form = MemberEditForm(request.POST, instance=member)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(status=204, headers={'HX-Trigger': 'memberListChanged'})
+    else:
+        form = MemberEditForm(instance=member)
+    return render(request, 'accounts/member_edit_form.html', {
+        'form': form,
+        'member': member,
+    })
         
     
     
@@ -198,15 +213,15 @@ class AllUsers(UserPassesTestMixin, ListView):
         return userlist
     
     
-class EditUser(UserPassesTestMixin, UpdateView):
-    """Editing a registered user.
-    Access to complete information, backend, only for Superuser."""
-    model = CustomUser
-    form_class = EditUserForm
-    success_url = reverse_lazy('allusers')
+# class EditUser(UserPassesTestMixin, UpdateView):
+#     """Editing a registered user.
+#     Access to complete information, backend, only for Superuser."""
+#     model = CustomUser
+#     form_class = EditUserForm
+#     success_url = reverse_lazy('allusers')
 
-    def test_func(self):
-        return self.request.user.is_superuser
+#     def test_func(self):
+#         return self.request.user.is_superuser
     
 
 @user_passes_test(lambda u: u.is_superuser)

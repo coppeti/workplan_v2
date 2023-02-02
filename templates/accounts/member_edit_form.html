@@ -3,7 +3,7 @@
     <form hx-post="{{ request.path }}" class="p-2" autocomplete="off" novalidate enctype="multipart/form-data">
         {% csrf_token %}
         <div class="text-center modal-header">
-            <h4 class="modal-title">Neuer Benutzer</h4>
+            <h4 class="modal-title">Benutzer ändern</h4>
         </div>
         <div class="modal-body">
             <div class="row mb-2">
@@ -16,10 +16,26 @@
             </div>
             <div class="row mb-2">
                 <div class="col-6">
-                    {{ form.email|as_crispy_field }}
+                    {{ form.username|as_crispy_field }}
                 </div>
                 <div class="col-6">
                     {{ form.birthday|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-12">
+                    {{ form.email|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-4">
+                    {{ form.is_active|as_crispy_field }}
+                </div>
+                <div class="col-4">
+                    {{ form.is_staff|as_crispy_field }}
+                </div>
+                <div class="col-4">
+                    {{ form.is_superuser|as_crispy_field }}
                 </div>
             </div>
         </div>

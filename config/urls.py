@@ -7,6 +7,7 @@ from accounts.views import (
     member,
     member_list,
     member_add,
+    member_edit,
     # register,
     activate,
     setpassword,
@@ -14,7 +15,7 @@ from accounts.views import (
     logout_view,
     Login,
     AllUsers,
-    EditUser,
+    # EditUser,
     MyProfile,
     PasswordReset,
     logout_view)
@@ -27,6 +28,7 @@ urlpatterns = [
     path('member/', member, name="member"),
     path('htmx/member-list/', member_list, name="member_list"),
     path('htmx/member-add/', member_add, name="member_add"),
+    path('htmx/member/<pk>/edit/', member_edit, name="member_edit"),
     # path('register/', register, name="register"),
     path('activate/<uidb64>/<token>/', activate, name="activate"),
     path('set_password/<type>/<uidb64>/<token>/', setpassword, name="setpassword"),
@@ -35,7 +37,7 @@ urlpatterns = [
     path('logout/', logout_view, name="logoutview"),
     path('login/', Login.as_view(), name="login"),
     path('all_users/', AllUsers.as_view(), name="allusers"),
-    path('edit_user/<int:pk>/', EditUser.as_view(), name="edituser"),
+    # path('edit_user/<int:pk>/', EditUser.as_view(), name="edituser"),
     path('delete_user/<int:pk>/', deleteuser, name="deleteuser"),
     path('my_profile/', MyProfile.as_view(), name="myprofile"),
     # Django backend

@@ -8,7 +8,7 @@
 <h4 class="my-4">Benutzer Liste</h4>
 <div class="container">
     <div class="d-flex my-3">
-        <button type="button" class="btn btn-sm btn-outline-primary" hx-get="{% url 'member_add' %}" hx-target="#addMemberDialog">
+        <button type="button" class="btn btn-sm btn-outline-primary" hx-get="{% url 'member_add' %}" hx-target="#dialog">
             <i class="fa-solid fa-user-plus"></i>
         </button>
     </div>
@@ -16,5 +16,4 @@
         <!-- Inject htmx member_list.html -->
     </div>
 </div>
-
 {% endblock content %}

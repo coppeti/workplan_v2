@@ -1,6 +1,5 @@
 {% load static %}
 {% now "Y" as this_year %}
-<!-- {% now "j" as this_date %} -->
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -23,6 +22,7 @@
 </head>
 <body>
     <header class="container-fluid fixed-top p-0">
+
         <!-- Banner -->
         <div class="navbar navbar-expand-lg bg-light">
             <div class="container-fluid mx-3">
@@ -33,6 +33,7 @@
                 <img src="{% static 'img/migros_logo.png' %}" alt="Migros Logo">
             </div>
         </div>
+
         <!-- Navigation -->
         <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
             <div class="container-fluid mx-3">
@@ -98,6 +99,7 @@
             </div>
         </nav>
     </header>
+
     <!-- Sidebar -->
     <div class="sidebar float-start bg-secondary">
         <div class="mt-3">
@@ -125,6 +127,7 @@
         </div>
     </div>
     <div class="rounded_mask bg-light"></div>
+
     <!-- Content -->
     <div class="main_content bg-light">
         <!-- Info messages -->
@@ -135,17 +138,22 @@
             </div>
         {% endfor %}
         <div class="d-flex flex-column justify-content-start align-items-center">
+
             {% block content %}
             {% endblock content %}
+
         </div>
     </div>
-    <!-- AddMemberForm Modal -->
-    <div id="addMemberModal" class="modal fade" tabindex="-1">
-        <div id="addMemberDialog" class="modal-dialog" hx-target="this">
-            <!-- Inject htmx member_add_form.html -->
+    <!-- End content -->
+
+    <!-- Modal -->
+    <div id="modal" class="modal fade" tabindex="-1">
+        <div id="dialog" class="modal-dialog" hx-target="this">
+            <!-- Inject htmx form -->
         </div>
     </div>
-    <!-- End AddMemberForm Modal -->
+    <!-- End modal -->
+
     <!-- Footer -->
     <footer class="expand-lg bg-secondary text-center fixed-bottom">
         <div id="footer" class=" d-flex justify-content-center align-items-center text-light py-2">Copyright {{ this_year }} - All rights reserved Migros Genossenschaft Bund -
