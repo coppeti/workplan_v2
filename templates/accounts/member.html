@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load crispy_forms_tags %}
 
 {% block title %}Members{% endblock title %}
 
@@ -8,64 +7,13 @@
 {% block content %}
 <h4 class="my-4">Benutzer Liste</h4>
 <div class="container">
-    <div class="d-flex justify-content-center">
-        {% for member in members %}
-        <div class="member_card card p-3 m-2">
-            <div class="d-flex justify-content-between">
-                <div>
-                    <label>#</label>&nbsp;{{ member.id }}
-                </div>
-                <div class="text-center">
-                    {{ member.first_name|title }}&nbsp;{{ member.last_name|upper }}
-                </div>
-                <div class="text-end">
-                    <button class="card_btn btn btn-sm text-primary">
-                        <i class="fa-solid fa-pen"></i>
-                    </button>
-                    <button class="card_btn btn btn-sm text-danger">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
-                </div>
-            </div>
-            <hr>
-            <div class="d-flex justify-content-between">
-                <div>
-                    <div class="mt-2">
-                        <label for="username">Pseudo</label>
-                        <br>
-                        {{ member.username }}
-                    </div>
-                    <div class="mt-2">
-                        <label for="email">Email-Adresse</label>
-                        <br>
-                        {{ member.email }}
-                    </div>
-                    <div class="mt-2">
-                        <label for="birthday">Geburtsdatum</label>
-                        <br>
-                        {{ member.birthday }}
-                    </div>
-                </div>
-                <div>
-                    <div class="mt-2">
-                        <label for="is_active">Status</label>
-                        <br>
-                        {{ member.is_active|yesno:"Aktiv,Inaktiv" }}
-                    </div>
-                    <div class="mt-2">
-                        <label for="is_staff">Administrator</label>
-                        <br>
-                        {{ member.is_staff|yesno:"Ja,Nein" }}
-                    </div>
-                    <div class="mt-2">
-                        <label for="is_superuser">Superuser</label>
-                        <br>
-                        {{ member.is_superuser|yesno:"Ja,Nein" }}
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
+    <div class="d-flex my-3">
+        <button type="button" class="btn btn-sm btn-outline-primary" hx-get="{% url 'member_add' %}" hx-target="#addMemberDialog">
+            <i class="fa-solid fa-user-plus"></i>
+        </button>
+    </div>
+    <div class="d-flex justify-content-center" hx-get="{% url 'member_list' %}" hx-trigger="load, memberListChanged from:body">
+        <!-- Inject htmx member_list.html -->
     </div>
 </div>
 

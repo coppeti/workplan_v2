@@ -135,9 +135,17 @@
             </div>
         {% endfor %}
         <div class="d-flex flex-column justify-content-start align-items-center">
-            {% block content %}{% endblock content %}
+            {% block content %}
+            {% endblock content %}
         </div>
     </div>
+    <!-- AddMemberForm Modal -->
+    <div id="addMemberModal" class="modal fade" tabindex="-1">
+        <div id="addMemberDialog" class="modal-dialog" hx-target="this">
+            <!-- Inject htmx member_add_form.html -->
+        </div>
+    </div>
+    <!-- End AddMemberForm Modal -->
     <!-- Footer -->
     <footer class="expand-lg bg-secondary text-center fixed-bottom">
         <div id="footer" class=" d-flex justify-content-center align-items-center text-light py-2">Copyright {{ this_year }} - All rights reserved Migros Genossenschaft Bund -
@@ -147,5 +155,8 @@
     
     <!-- Bootstrap 5 JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.bundle.min.js" integrity="sha512-i9cEfJwUwViEPFKdC1enz4ZRGBj8YQo6QByFTF92YXHi7waCqyexvRD75S5NVTsSiTv7rKWqG9Y5eFxmRsOn0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- htmx -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/htmx/1.8.5/htmx.min.js" integrity="sha512-B5IkMjoTFeR6sB/Mbd6eNnF0pwvfG5ZgSGdH4pL2uWnadND4pWTFXxXi3TBBKCZWGaWx83AujfrzFQuqfau11Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{% static '/js/modal.js' %}"></script>
 </body>
 </html>

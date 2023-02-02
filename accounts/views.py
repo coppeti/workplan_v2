@@ -7,6 +7,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.views import PasswordResetView, LoginView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
@@ -15,48 +16,74 @@ from django.urls import reverse, reverse_lazy
 from django.views.decorators.http import require_http_methods
 from django.views.generic import ListView, UpdateView
 
-from .forms import RegisterForm, UserForgotPasswordForm, EditUserForm, EditProfileForm, MySetPasswordForm
+from .forms import MemberAddForm, RegisterForm, UserForgotPasswordForm, EditUserForm, EditProfileForm, MySetPasswordForm
 from .models import CustomUser
 
 
 
 @user_passes_test(lambda u: u.is_superuser)
 def member(request):
-    members = CustomUser.objects.all().order_by('last_name')
-    context = {
-        'members': members
-    }
-    
-    return render(request, 'accounts/member.html', context)
-    
-    
-@user_passes_test(lambda u: u.is_superuser)
-def register(request):
-    """Create a new user.
-    An email containing an activation link will be sent to the address provided during registration
-    """
+    return render(request, 'accounts/member.html')
+
+
+def member_list(request):
+    return render(request, 'accounts/member_list.html', {
+        'members': CustomUser.objects.all().order_by('last_name')
+        })
+
+
+def member_add(request):
     if request.method == 'POST':
-        form = RegisterForm(request.POST)
+        form = MemberAddForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            user.username = f'{user.first_name[:2]}{user.last_name[:2]}'
-            user.save()
+            member = form.save()
+            member.username = f'{member.first_name[:2]}{member.last_name[:2]}'
+            member.save()
             message = render_to_string('email/account_activation_email.html', {
-                'user': user,
+                'member': member,
                 'domain': settings.DEFAULT_DOMAIN,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': default_token_generator.make_token(user)
+                'uid': urlsafe_base64_encode(force_bytes(member.pk)),
+                'token': default_token_generator.make_token(member)
             })
             # Account activation's Email
-            subject = f'{user.first_name.title()}, aktiviere dein Workplan-Konto'
+            subject = f'{member.first_name.title()}, aktiviere dein Workplan-Konto'
             subject = ''.join(subject.splitlines())
-            user.email_user(subject, message, settings.DEFAULT_FROM_EMAIL)
+            member.email_user(subject, message, settings.DEFAULT_FROM_EMAIL)
             messages.warning(request, 'User angelegt. Er muss sein Konto noch aktivieren.')
-            return redirect('allusers')
-        else:
-            return render(request, 'accounts/register.html', {'form': form})
+            return HttpResponse(status=204, headers={'HX-Trigger': 'memberListChanged'}) 
+    else:
+        form = MemberAddForm()
+    return render(request, 'accounts/member_add_form.html', {'form': form})
         
-    return render(request, 'accounts/register.html', {'form': RegisterForm()})
+    
+    
+# @user_passes_test(lambda u: u.is_superuser)
+# def register(request):
+#     """Create a new user.
+#     An email containing an activation link will be sent to the address provided during registration
+#     """
+#     if request.method == 'POST':
+#         form = RegisterForm(request.POST)
+#         if form.is_valid():
+#             user = form.save()
+#             user.username = f'{user.first_name[:2]}{user.last_name[:2]}'
+#             user.save()
+#             message = render_to_string('email/account_activation_email.html', {
+#                 'user': user,
+#                 'domain': settings.DEFAULT_DOMAIN,
+#                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+#                 'token': default_token_generator.make_token(user)
+#             })
+#             # Account activation's Email
+#             subject = f'{user.first_name.title()}, aktiviere dein Workplan-Konto'
+#             subject = ''.join(subject.splitlines())
+#             user.email_user(subject, message, settings.DEFAULT_FROM_EMAIL)
+#             messages.warning(request, 'User angelegt. Er muss sein Konto noch aktivieren.')
+#             return redirect('allusers')
+#         else:
+#             return render(request, 'accounts/register.html', {'form': form})
+        
+#     return render(request, 'accounts/register.html', {'form': RegisterForm()})
 
 
 @require_http_methods(["GET"])

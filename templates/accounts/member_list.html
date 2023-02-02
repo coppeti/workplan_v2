@@ -1,0 +1,57 @@
+{% for member in members %}
+<div class="member_card card p-3 m-2">
+    <div class="d-flex justify-content-between">
+        <div>
+            <label>#</label>&nbsp;{{ member.id }}
+        </div>
+        <div class="text-center">
+            {{ member.first_name|title }}&nbsp;{{ member.last_name|upper }}
+        </div>
+        <div class="text-end">
+            <button type="button" class="card_btn btn btn-sm text-primary">
+                <i class="fa-solid fa-pen"></i>
+            </button>
+            <button class="card_btn btn btn-sm text-danger">
+                <i class="fa-solid fa-trash"></i>
+            </button>
+        </div>
+    </div>
+    <hr>
+    <div class="d-flex justify-content-between">
+        <div>
+            <div class="mt-2">
+                <label for="username">Pseudo</label>
+                <br>
+                {{ member.username }}
+            </div>
+            <div class="mt-2">
+                <label for="email">Email-Adresse</label>
+                <br>
+                {{ member.email }}
+            </div>
+            <div class="mt-2">
+                <label for="birthday">Geburtsdatum</label>
+                <br>
+                {{ member.birthday }}
+            </div>
+        </div>
+        <div>
+            <div class="mt-2">
+                <label for="is_active">Status</label>
+                <br>
+                {{ member.is_active|yesno:"Aktiv,Inaktiv" }}
+            </div>
+            <div class="mt-2">
+                <label for="is_staff">Administrator</label>
+                <br>
+                {{ member.is_staff|yesno:"Ja,Nein" }}
+            </div>
+            <div class="mt-2">
+                <label for="is_superuser">Superuser</label>
+                <br>
+                {{ member.is_superuser|yesno:"Ja,Nein" }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}

@@ -5,6 +5,40 @@ from django.core.validators import RegexValidator
 from .models import CustomUser
 
 
+class MemberAddForm(forms.ModelForm):
+    """Add a new user."""
+    first_name = forms.CharField(required=True,
+                                 max_length=50,
+                                 label='Vorname',
+                                 validators=[RegexValidator(r'^[a-zA-ZÀ-ÿ-\'\s]*$',
+                                                            message="Verwenden Sie nur Buchstaben !")],
+                                 widget=forms.TextInput(attrs={'placeholder': 'John',
+                                                               'style': 'text-transform: capitalize'})
+                                 )
+    last_name = forms.CharField(required=True,
+                                max_length=50,
+                                 label='Nachname',
+                                 validators=[RegexValidator(r'^[a-zA-ZÀ-ÿ-\'\s]*$',
+                                                            message="Verwenden Sie nur Buchstaben !")],
+                                 widget=forms.TextInput(attrs={'placeholder': 'Smith',
+                                                               'style': 'text-transform: capitalize'})
+                                 )
+    email = forms.EmailField(required=True,
+                             label='Email-Adresse',
+                            #  validators=[RegexValidator(r'^([A-Za-z0-9_.+-])+\@(([A-Za-z0-9-])+\.)+([A-Za-z0-9]{2,4})+$',
+                            #                             message='Gib eine gültige E-Mail-Adresse ein !')],
+                             widget=forms.TextInput(attrs={'placeholder': 'hannibal@ateam.com'})
+                             )
+    birthday = forms.DateField(label='Geburtsdatum',
+                               widget=forms.TextInput(attrs={'placeholder': '23.01.1983',
+                                                             'onfocus': '(this.type="date")'})
+                               )
+
+    class Meta:
+        model = CustomUser
+        fields = ['first_name', 'last_name', 'email', 'birthday']
+
+
 class RegisterForm(forms.ModelForm):
     """Add a new user."""
     first_name = forms.CharField(required=True,

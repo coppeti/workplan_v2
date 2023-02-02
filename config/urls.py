@@ -5,7 +5,9 @@ from cal.views import Home, Holiday
 # Views to manage everything about users
 from accounts.views import (
     member,
-    register,
+    member_list,
+    member_add,
+    # register,
     activate,
     setpassword,
     deleteuser,
@@ -23,7 +25,9 @@ urlpatterns = [
     path('holiday/<int:year>/<str:region>/', Holiday.as_view(), name="holiday"),
     # Accounts URLs
     path('member/', member, name="member"),
-    path('register/', register, name="register"),
+    path('htmx/member-list/', member_list, name="member_list"),
+    path('htmx/member-add/', member_add, name="member_add"),
+    # path('register/', register, name="register"),
     path('activate/<uidb64>/<token>/', activate, name="activate"),
     path('set_password/<type>/<uidb64>/<token>/', setpassword, name="setpassword"),
     path('password_reset/', PasswordReset.as_view(), name="passwordreset"),
