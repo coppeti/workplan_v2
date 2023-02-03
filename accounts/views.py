@@ -61,7 +61,8 @@ def member_edit(request, pk):
     if request.method == 'POST':
         form = MemberEditForm(request.POST, instance=member)
         if form.is_valid():
-            form.save()
+            member = form.save()
+            messages.success(request, f'{member.first_name.title()} {member.last_name.upper()} geändert.')
             return HttpResponse(status=204, headers={'HX-Trigger': 'memberListChanged'})
     else:
         form = MemberEditForm(instance=member)

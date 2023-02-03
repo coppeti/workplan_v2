@@ -71,6 +71,42 @@ header nav {
 
 
 /*====================
+Toast
+======================*/
+
+.success {
+  background-color: #d1e7dd !important;
+  color: #0f5132 !important;
+  border: 0 !important;
+  padding: 0.9rem !important;
+  font-size: 1rem !important;
+}
+
+.warning {
+  background-color: #fff3cd !important;
+  color: #664d03 !important;
+  border: 0 !important;
+  padding: 0.9rem !important;
+  font-size: 1rem !important;
+}
+
+.danger {
+  background-color: #f8d7da !important;
+  color: #842029 !important;
+  border: 0 !important;
+  padding: 0.9rem !important;
+  font-size: 1rem !important;
+}
+
+.info {
+  background-color: #cff4fc !important;
+  color: #055160 !important;
+  border: 0 !important;
+  padding: 0.9rem !important;
+  font-size: 1rem !important;
+}
+
+/*====================
 SIDEBAR
 ======================*/
 

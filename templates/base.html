@@ -130,13 +130,6 @@
 
     <!-- Content -->
     <div class="main_content bg-light">
-        <!-- Info messages -->
-        {% for message in messages %}
-            <div class="m-4 alert alert-{{ message.tags }} alert-dismissible fade show text-center" role="alert">
-                <h6>{{ message }}</h6>
-                <button class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
-            </div>
-        {% endfor %}
         <div class="d-flex flex-column justify-content-start align-items-center">
 
             {% block content %}
@@ -154,6 +147,8 @@
     </div>
     <!-- End modal -->
 
+    {% include 'toasts.html' %}
+
     <!-- Footer -->
     <footer class="expand-lg bg-secondary text-center fixed-bottom">
         <div id="footer" class=" d-flex justify-content-center align-items-center text-light py-2">Copyright {{ this_year }} - All rights reserved Migros Genossenschaft Bund -
@@ -166,5 +161,6 @@
     <!-- htmx -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/htmx/1.8.5/htmx.min.js" integrity="sha512-B5IkMjoTFeR6sB/Mbd6eNnF0pwvfG5ZgSGdH4pL2uWnadND4pWTFXxXi3TBBKCZWGaWx83AujfrzFQuqfau11Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{% static '/js/modal.js' %}"></script>
+    <script src="{% static '/js/toasts.js' %}"></script>
 </body>
 </html>

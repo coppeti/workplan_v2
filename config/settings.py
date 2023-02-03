@@ -2,6 +2,8 @@ import os
 from pathlib import Path
 from decouple import config
 
+from django.contrib import messages
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,6 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'crispy_bootstrap5',
+    'htmx_messages',
     'cal.apps.CalConfig',
     'accounts.apps.AccountsConfig',
 ]
@@ -42,6 +45,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'htmx_messages.middleware.HtmxMessageMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -151,3 +155,13 @@ EMAIL_FILE_PATH = 'email/'
 LOGIN_URL = '/login/login/'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
+
+
+# Mapping of message level to message tag
+MESSAGE_TAGS = {
+    messages.DEBUG: 'dark',
+    messages.INFO: 'primary',
+    messages.SUCCESS: 'success',
+    messages.WARNING: 'warning',
+    messages.ERROR: 'danger'
+}
