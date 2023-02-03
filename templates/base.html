@@ -20,7 +20,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/mystyles.css' %}">
     <title>{% block title %}{% endblock title %} | Workplan</title>
 </head>
-<body>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
     <header class="container-fluid fixed-top p-0">
 
         <!-- Banner -->

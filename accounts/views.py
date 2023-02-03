@@ -7,7 +7,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.views import PasswordResetView, LoginView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import render, redirect, HttpResponseRedirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
@@ -70,7 +70,15 @@ def member_edit(request, pk):
         'form': form,
         'member': member,
     })
-        
+    
+
+@require_http_methods(["POST"])
+def member_delete(request, pk):
+    member = get_object_or_404(CustomUser, pk=pk)
+    if request.method == 'POST':
+        member.delete()
+        messages.error(request, f'{member.first_name.title()} {member.last_name.upper()} wurde gelöscht.')
+        return HttpResponse(status=204, headers={'HX-Trigger': 'memberListChanged'})
     
     
 # @user_passes_test(lambda u: u.is_superuser)

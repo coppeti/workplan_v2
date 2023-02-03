@@ -1,5 +1,5 @@
 ;(function () {
-  const toastOptions = { delay: 2000 }
+  const toastOptions = { delay: 4000 }
 
   function createToast(message) {
     // Clone the template
