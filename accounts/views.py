@@ -160,6 +160,14 @@ def setpassword(request, type, uidb64, token):
                 elif type == 'reset':
                     messages.success(request, f'{user.first_name.capitalize()}, dein Passwort wurde erfolgreich zurückgesetzt und du bist angemeldet.')
                 return redirect('home')
+            else:
+                context = {
+                    'form': form,
+                    'uid': uidb64,
+                    'token': token,
+                    'type': type
+                }
+                return render(request, 'accounts/set_new_password.html', context)
         else:
             context = {
                 'form': form,
