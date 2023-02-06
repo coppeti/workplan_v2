@@ -16,7 +16,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.decorators.http import require_http_methods
 from django.views.generic import ListView, UpdateView
 
-from .forms import MemberAddForm, MemberEditForm, RegisterForm, UserForgotPasswordForm, EditUserForm, EditProfileForm, MySetPasswordForm
+from .forms import MemberAddForm, MemberEditForm, MyPasswordResetForm, EditProfileForm, PasswordNewForm
 from .models import CustomUser
 
 
@@ -128,14 +128,14 @@ def activate(request, uidb64, token):
         new_token = default_token_generator.make_token(user)
         uid = urlsafe_base64_encode(force_bytes(user.pk))
         type = 'new'
-        return HttpResponseRedirect(reverse('setpassword', kwargs={'type': type, 'uidb64': uid, 'token': new_token}))
+        return HttpResponseRedirect(reverse('password_new', kwargs={'type': type, 'uidb64': uid, 'token': new_token}))
     else:
         messages.add_message(request, messages.WARNING, 'Account activation link is invalid.')
 
     return redirect('home')
 
 
-def setpassword(request, type, uidb64, token):
+def password_new(request, type, uidb64, token):
     """Propose à l'utilisateur un formulaire pour renseigner son mot de passe.
     The function is called in the process of creating a user (type = 'new') or
      in the process of requesting a password reset (type = 'reset').
@@ -148,7 +148,7 @@ def setpassword(request, type, uidb64, token):
             user = None
             
         if user is not None and default_token_generator.check_token(user, token):
-            form = MySetPasswordForm(user=user, data=request.POST)
+            form = PasswordNewForm(user=user, data=request.POST)
             if form.is_valid():
                 form.save()
                 password = request.POST['new_password1']
@@ -167,7 +167,7 @@ def setpassword(request, type, uidb64, token):
                     'token': token,
                     'type': type
                 }
-                return render(request, 'accounts/set_new_password.html', context)
+                return render(request, 'accounts/password_new.html', context)
         else:
             context = {
                 'form': form,
@@ -175,7 +175,7 @@ def setpassword(request, type, uidb64, token):
                 'token': token,
                 'type': type
             }
-            return render(request, 'accounts/set_new_password.html', context)
+            return render(request, 'accounts/password_new.html', context)
     else:
         try:
             uid = force_str(urlsafe_base64_decode(uidb64))
@@ -185,13 +185,13 @@ def setpassword(request, type, uidb64, token):
             
         if user is not None and default_token_generator.check_token(user, token):
             context = {
-                'form': MySetPasswordForm(user),
+                'form': PasswordNewForm(user),
                 'uid': uidb64,
                 'token': token,
                 'user': user,
                 'type': type
             }
-            return render(request, 'accounts/set_new_password.html', context)
+            return render(request, 'accounts/password_new.html', context)
         
     return redirect('home')
 
@@ -201,33 +201,58 @@ class Login(SuccessMessageMixin, LoginView):
     success_message = 'Du bist jetzt angemeldet.'
     
 
-class PasswordReset(PasswordResetView):
-    """If the user requests a password reset.
-    Proposes the reset request form and sends the link by email if the user is known."""
-    form_class = UserForgotPasswordForm
-    email_template_name = 'email/password_reset_email.html'
+def password_reset(request):
+    form = MyPasswordResetForm()
+    if request.method == 'POST':
+        form = MyPasswordResetForm(request.POST)
+        if form.is_valid():
+            try:
+                email = request.POST.get('email')
+                member = CustomUser.objects.get(email=email)
+            except (TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
+                member = None
+        
+            if member is not None:
+                member.is_active = False
+                member.save()
+                message = render_to_string('email/password_reset_email.html', {
+                    'member': member,
+                    'domain': settings.DEFAULT_DOMAIN,
+                    'uid': urlsafe_base64_encode(force_bytes(member.pk)),
+                    'token': default_token_generator.make_token(member)
+                })
+                subject = f'{member.first_name.title()}, setzt dein Passwort zurück.'
+                subject = ''.join(subject.splitlines())
+                member.email_user(subject, message, settings.DEFAULT_FROM_EMAIL)
+                return render(request, 'registration/password_reset_done.html', {'member': member})
+            else:
+                return redirect('home')
+        else:
+            form = MyPasswordResetForm()
     
+    return render(request, 'registration/password_reset_form.html', {'form': form})
+                
     
-class AllUsers(UserPassesTestMixin, ListView):
-    """Displays a list of all registered users.
-    For backend user management."""
-    model = CustomUser
-    paginate_by = 15
+# class AllUsers(UserPassesTestMixin, ListView):
+#     """Displays a list of all registered users.
+#     For backend user management."""
+#     model = CustomUser
+#     paginate_by = 15
     
-    # Access only for Superuser 
-    def test_func(self):
-        return self.request.user.is_superuser
+#     # Access only for Superuser 
+#     def test_func(self):
+#         return self.request.user.is_superuser
     
-    # Displays the result of the search field
-    def get_queryset(self):
-        q = self.request.GET.get('q')
-        userlist = CustomUser.objects.all().order_by('last_name')
-        if q:
-            userlist = CustomUser.objects.filter(
-                Q(first_name__icontains=q) | Q(last_name__icontains=q) | Q(username__icontains=q) | Q(email__icontains=q)
-                ).order_by('last_name')
+#     # Displays the result of the search field
+#     def get_queryset(self):
+#         q = self.request.GET.get('q')
+#         userlist = CustomUser.objects.all().order_by('last_name')
+#         if q:
+#             userlist = CustomUser.objects.filter(
+#                 Q(first_name__icontains=q) | Q(last_name__icontains=q) | Q(username__icontains=q) | Q(email__icontains=q)
+#                 ).order_by('last_name')
             
-        return userlist
+#         return userlist
     
     
 # class EditUser(UserPassesTestMixin, UpdateView):
@@ -241,14 +266,14 @@ class AllUsers(UserPassesTestMixin, ListView):
 #         return self.request.user.is_superuser
     
 
-@user_passes_test(lambda u: u.is_superuser)
-def deleteuser(request, pk):
-    """Deleting a user.
-    Backend, only for Superuser."""
-    user = CustomUser.objects.get(id=pk)
-    user.delete()
-    messages.success(request, "Der Benutzer wurde gelöscht.")
-    return HttpResponseRedirect(reverse_lazy('allusers'))
+# @user_passes_test(lambda u: u.is_superuser)
+# def deleteuser(request, pk):
+#     """Deleting a user.
+#     Backend, only for Superuser."""
+#     user = CustomUser.objects.get(id=pk)
+#     user.delete()
+#     messages.success(request, "Der Benutzer wurde gelöscht.")
+#     return HttpResponseRedirect(reverse_lazy('allusers'))
 
 
 class MyProfile(SuccessMessageMixin, UpdateView):
