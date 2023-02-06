@@ -4,7 +4,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.tokens import default_token_generator
-from django.contrib.auth.views import PasswordResetView, LoginView
+from django.contrib.auth.views import PasswordChangeView, LoginView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseNotAllowed
@@ -236,49 +236,6 @@ def password_reset(request):
     
     return render(request, 'registration/password_reset_form.html', {'form': form})
                 
-    
-# class AllUsers(UserPassesTestMixin, ListView):
-#     """Displays a list of all registered users.
-#     For backend user management."""
-#     model = CustomUser
-#     paginate_by = 15
-    
-#     # Access only for Superuser 
-#     def test_func(self):
-#         return self.request.user.is_superuser
-    
-#     # Displays the result of the search field
-#     def get_queryset(self):
-#         q = self.request.GET.get('q')
-#         userlist = CustomUser.objects.all().order_by('last_name')
-#         if q:
-#             userlist = CustomUser.objects.filter(
-#                 Q(first_name__icontains=q) | Q(last_name__icontains=q) | Q(username__icontains=q) | Q(email__icontains=q)
-#                 ).order_by('last_name')
-            
-#         return userlist
-    
-    
-# class EditUser(UserPassesTestMixin, UpdateView):
-#     """Editing a registered user.
-#     Access to complete information, backend, only for Superuser."""
-#     model = CustomUser
-#     form_class = EditUserForm
-#     success_url = reverse_lazy('allusers')
-
-#     def test_func(self):
-#         return self.request.user.is_superuser
-    
-
-# @user_passes_test(lambda u: u.is_superuser)
-# def deleteuser(request, pk):
-#     """Deleting a user.
-#     Backend, only for Superuser."""
-#     user = CustomUser.objects.get(id=pk)
-#     user.delete()
-#     messages.success(request, "Der Benutzer wurde gelöscht.")
-#     return HttpResponseRedirect(reverse_lazy('allusers'))
-
 
 class MyProfile(SuccessMessageMixin, UpdateView):
     """Displays the profile of the logged user.
@@ -294,6 +251,10 @@ class MyProfile(SuccessMessageMixin, UpdateView):
     def get_object(self):
         return self.request.user
 
+
+class MyPasswordChange(PasswordChangeView):
+    template_name = 'registration/password_change_form.html'
+    
 
 def logout_view(request):
     """To inform the user of his disconnection."""
