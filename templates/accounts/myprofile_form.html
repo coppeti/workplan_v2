@@ -28,9 +28,9 @@
         {{ form.email|as_crispy_field }}
     </div>
     <div class="d-flex justify-content-between mt-4">
-        <a href="{% url 'home' %}" class="btn btn-outline-secondary">Aufgeben</a>
+        <a href="{% url 'home' %}" class="btn btn-outline-secondary"><i class="fa-solid fa-backward"></i></a>
         <a href="{% url 'my_password_change' %}" class="btn btn-outline-primary">Passwort ändern</a>
-        <button class="btn btn-danger" type="submit">Speichern</button>
+        <button class="btn btn-outline-danger" type="submit"><i class="fa-solid fa-floppy-disk"></i></button>
     </div>
 </form>
 

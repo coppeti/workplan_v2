@@ -57,3 +57,62 @@ Kein Zurück mehr möglich!">
     </div>
 </div>
 {% endfor %}
+{% for result in results %}
+<div class="member_card card p-3 m-2">
+    <div class="d-flex justify-content-between">
+        <div>
+            <label>#</label>&nbsp;{{ result.id }}
+        </div>
+        <div class="text-center">
+            {{ result.first_name|title }}&nbsp;{{ result.last_name|upper }}
+        </div>
+        <div class="text-end">
+            <button type="button" class="card_btn btn btn-sm text-primary" hx-get="{% url 'member_edit' result.id %}" hx-target="#dialog">
+                <i class="fa-solid fa-pen"></i>
+            </button>
+            <button class="card_btn btn btn-sm text-danger" hx-post="{% url 'member_delete' result.id %}" hx-confirm="Willst du {{ result.first_name|title }} {{ result.last_name|upper }} wirklich löschen?
+Alle Aktivitäten werden ebenfalls gelöscht.
+Kein Zurück mehr möglich!">
+                <i class="fa-solid fa-trash"></i>
+            </button>
+        </div>
+    </div>
+    <hr>
+    <div class="d-flex justify-content-between">
+        <div>
+            <div class="mt-2">
+                <label for="username">Pseudo</label>
+                <br>
+                {{ result.username }}
+            </div>
+            <div class="mt-2">
+                <label for="email">Email-Adresse</label>
+                <br>
+                {{ result.email }}
+            </div>
+            <div class="mt-2">
+                <label for="birthday">Geburtsdatum</label>
+                <br>
+                {{ result.birthday }}
+            </div>
+        </div>
+        <div>
+            <div class="mt-2">
+                <label for="is_active">Status</label>
+                <br>
+                {{ result.is_active|yesno:"Aktiv,Inaktiv" }}
+            </div>
+            <div class="mt-2">
+                <label for="is_staff">Administrator</label>
+                <br>
+                {{ result.is_staff|yesno:"Ja,Nein" }}
+            </div>
+            <div class="mt-2">
+                <label for="is_superuser">Superuser</label>
+                <br>
+                {{ result.is_superuser|yesno:"Ja,Nein" }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}

@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordChangeDoneView
 from django.contrib.messages.views import SuccessMessageMixin
@@ -82,6 +83,16 @@ def member_delete(request, pk):
         member.delete()
         messages.error(request, f'{member.first_name.title()} {member.last_name.upper()} wurde gelöscht.')
         return HttpResponse(status=204, headers={'HX-Trigger': 'memberListChanged'})
+    
+    
+@user_passes_test(lambda u: u.is_superuser)
+def member_search(request):
+    search_text = request.POST.get('search_member')
+    
+    results = CustomUser.objects.filter(Q(first_name__icontains=search_text) | 
+                                        Q(last_name__icontains=search_text) | 
+                                        Q(username__icontains=search_text)).order_by('last_name')
+    return render(request, 'accounts/member_list.html', {'results': results})
     
 
 @require_http_methods(["GET"])
@@ -207,7 +218,7 @@ def password_reset(request):
     return render(request, 'registration/password_reset_form.html', {'form': form})
                 
 
-class MyProfile(SuccessMessageMixin, UpdateView):
+class MyProfile(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     """Displays the profile of the logged user.
     First name, last name, username, date of birth and email can be changed.
     The password can be changed from this view."""
@@ -221,12 +232,12 @@ class MyProfile(SuccessMessageMixin, UpdateView):
         return self.request.user
 
 
-class MyPasswordChange(PasswordChangeView):
+class MyPasswordChange(LoginRequiredMixin, PasswordChangeView):
     template_name = 'registration/password_change_form.html'
     success_url = reverse_lazy('my_password_change_done')
     
     
-class MyPasswordChangeDone(PasswordChangeDoneView):
+class MyPasswordChangeDone(LoginRequiredMixin, PasswordChangeDoneView):
     template_name = 'registration/password_change_done.html'
     
 
