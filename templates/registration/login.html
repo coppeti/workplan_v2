@@ -16,12 +16,12 @@
             {{ form.password|as_crispy_field }}
         </div>
     </div>
-    <div class="text-center mt-4">
-        <a href="{% url 'password_reset' %}" class="btn btn-sm btn-outline-warning" role="button">Passwort vergessen</a>      
-    </div>
     <div class="d-flex justify-content-between mt-4">
-        <a href="{% url 'home' %}" class="btn btn-outline-secondary" role="button">Aufgeben</a>
-        <button type="submit" class="btn btn-primary ms-2">Anmeldung</button>
+        <a href="{% url 'home' %}" class="btn btn-outline-secondary" role="button"><i class="fa-solid fa-backward"></i></a>
+        <button type="submit" class="btn btn-outline-primary"><i class="fa-solid fa-right-to-bracket"></i></button>
+    </div>
+    <div class="text-center mt-4">
+        <a href="{% url 'password_reset' %}" class="btn btn-outline-warning" role="button">Passwort vergessen</a>      
     </div>
 </form>
 {% endblock content %}

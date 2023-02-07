@@ -2,19 +2,18 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import user_passes_test
-from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.tokens import default_token_generator
-from django.contrib.auth.views import PasswordChangeView, LoginView
+from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordChangeDoneView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
-from django.http import HttpResponse, HttpResponseNotAllowed
-from django.shortcuts import render, redirect, HttpResponseRedirect, get_object_or_404
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, HttpResponseRedirect, redirect, render
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.urls import reverse, reverse_lazy
 from django.views.decorators.http import require_http_methods
-from django.views.generic import ListView, UpdateView
+from django.views.generic import UpdateView
 
 from .forms import MemberAddForm, MemberEditForm, MyPasswordResetForm, EditProfileForm, PasswordNewForm
 from .models import CustomUser
@@ -84,35 +83,6 @@ def member_delete(request, pk):
         messages.error(request, f'{member.first_name.title()} {member.last_name.upper()} wurde gelöscht.')
         return HttpResponse(status=204, headers={'HX-Trigger': 'memberListChanged'})
     
-    
-# @user_passes_test(lambda u: u.is_superuser)
-# def register(request):
-#     """Create a new user.
-#     An email containing an activation link will be sent to the address provided during registration
-#     """
-#     if request.method == 'POST':
-#         form = RegisterForm(request.POST)
-#         if form.is_valid():
-#             user = form.save()
-#             user.username = f'{user.first_name[:2]}{user.last_name[:2]}'
-#             user.save()
-#             message = render_to_string('email/account_activation_email.html', {
-#                 'user': user,
-#                 'domain': settings.DEFAULT_DOMAIN,
-#                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-#                 'token': default_token_generator.make_token(user)
-#             })
-#             # Account activation's Email
-#             subject = f'{user.first_name.title()}, aktiviere dein Workplan-Konto'
-#             subject = ''.join(subject.splitlines())
-#             user.email_user(subject, message, settings.DEFAULT_FROM_EMAIL)
-#             messages.warning(request, 'User angelegt. Er muss sein Konto noch aktivieren.')
-#             return redirect('allusers')
-#         else:
-#             return render(request, 'accounts/register.html', {'form': form})
-        
-#     return render(request, 'accounts/register.html', {'form': RegisterForm()})
-
 
 @require_http_methods(["GET"])
 def activate(request, uidb64, token):
@@ -239,8 +209,7 @@ def password_reset(request):
 
 class MyProfile(SuccessMessageMixin, UpdateView):
     """Displays the profile of the logged user.
-    Only the basic information can be changed:
-        First name, last name, username, date of birth.
+    First name, last name, username, date of birth and email can be changed.
     The password can be changed from this view."""
     model = CustomUser
     template_name = 'accounts/myprofile_form.html'
@@ -254,6 +223,11 @@ class MyProfile(SuccessMessageMixin, UpdateView):
 
 class MyPasswordChange(PasswordChangeView):
     template_name = 'registration/password_change_form.html'
+    success_url = reverse_lazy('my_password_change_done')
+    
+    
+class MyPasswordChangeDone(PasswordChangeDoneView):
+    template_name = 'registration/password_change_done.html'
     
 
 def logout_view(request):
