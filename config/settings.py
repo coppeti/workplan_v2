@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'htmx_messages',
     'cal.apps.CalConfig',
     'accounts.apps.AccountsConfig',
+    'events.apps.EventsConfig',
 ]
 
 MIDDLEWARE = [
