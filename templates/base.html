@@ -51,10 +51,13 @@
                         </li>
                         {% if user.is_authenticated and user.is_active == True %}
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle {% block activity_active %}{% endblock activity_active %}" href="#" role="button" data-bs-toggle="dropdown">Aktivität</a>
+                            <a class="nav-link dropdown-toggle {% block events_active %}{% endblock events_active %}" href="#" role="button" data-bs-toggle="dropdown">Events</a>
                             <ul class="dropdown-menu">
                                <li><a class="dropdown-item" href="#">Anfrage</a></li>
-                               <li><a class="dropdown-item" href="#">Liste</a></li> 
+                               <li><a class="dropdown-item" href="#">Liste</a></li>
+                               {% if user.is_superuser %}
+                               <li><a class="dropdown-item" href="#">Aktivitäten</a></li>
+                               {% endif %}
                             </ul>
                         </li>
                         {% endif %}

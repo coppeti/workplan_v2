@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title}Activities{% endblock title}
+
+{% block events_active %}active{% endblock events_active %}
+
+{% block content %}
+<h4 class="my-4">Aktivitäten Liste</h4>
+<div class="container">
+    <div class="d-flex">
+        <button type="button" class="btn btn-outline-primary" hx-get="{% url 'activity_add' %}" hx-target="#dialog"><i class="fa-solid fa-file-circle-plus"></i></button>
+    </div>
+    <div id="activities_list" class="d-flex justify-content-center" hx-get="{% url 'activities_list' %}" hx-trigger="load, activitiesListChanged from:body">
+        <!-- Inject htmx activities_list.html -->
+    </div>
+</div>
+
+
+{% endblock content %}

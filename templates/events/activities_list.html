@@ -1,0 +1,24 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Abkürzung</th>
+            <th>Hintergrund</th>
+            <th>Text</th>
+            <th>Beispiel</th>
+            <th colspan="2">Aktion</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for activity in activities %}
+        <tr>
+            <td>{{ activity.name }}</td>
+            <td>{{ activity.short_name }}</td>
+            <td>{{ activity.background_color }}</td>
+            <td>{{ activity.text_color }}</td>
+            <td>example</td>
+            <td>edit</td>
+            <td>delete</td>
+        </tr>
+    </tbody>
+</table>
