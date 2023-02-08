@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "9166abf8fb441d8f27576f379e6b448e10f8983513e8b03ffa3f4083767b82b1"
+            "sha256": "8c41a10ca5f779620efa41f995090216a792138b572bc7eea0e9c351fad81a8b"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -34,11 +34,11 @@
         },
         "django": {
             "hashes": [
-                "sha256:4b214a05fe4c99476e99e2445c8b978c8369c18d4dea8e22ec412862715ad763",
-                "sha256:ff56ebd7ead0fd5dbe06fe157b0024a7aaea2e0593bb3785fb594cf94dad58ef"
+                "sha256:bceb0fe1a386781af0788cae4108622756cd05e7775448deec04a71ddf87685d",
+                "sha256:c6fe7ebe7c017fe59f1029821dae0acb5a2ddcd6c9a0138fd20a8bfefac914bc"
             ],
             "index": "pypi",
-            "version": "==4.1.5"
+            "version": "==4.1.6"
         },
         "django-bootstrap-modal-forms": {
             "hashes": [
@@ -55,6 +55,14 @@
             "index": "pypi",
             "version": "==1.14.0"
         },
+        "django-spectrum": {
+            "hashes": [
+                "sha256:163933b4cbf1d9e64401a139947f58e2d761165eb1180729b87deb50d34d3403",
+                "sha256:6d5e66d50ad3f0bc67f747fc01529a8f22994f77a9e65cef18d459fa58691ecd"
+            ],
+            "index": "pypi",
+            "version": "==0.5.1"
+        },
         "mysqlclient": {
             "hashes": [
                 "sha256:0d1cd3a5a4d28c222fa199002810e8146cffd821410b67851af4cc80aeccd97c",
@@ -70,11 +78,11 @@
         },
         "python-decouple": {
             "hashes": [
-                "sha256:2838cdf77a5cf127d7e8b339ce14c25bceb3af3e674e039d4901ba16359968c7",
-                "sha256:6cf502dc963a5c642ea5ead069847df3d916a6420cad5599185de6bab11d8c2e"
+                "sha256:1596dad2670cca5b1f87d087d9adb6a1958c590df346b85d4b19a9d6f0d52cef",
+                "sha256:e88a8d6bdf3b07d471a854099e455e20a6fa7a4d6ecf8631b250e3db654336e6"
             ],
             "index": "pypi",
-            "version": "==3.6"
+            "version": "==3.7"
         },
         "six": {
             "hashes": [

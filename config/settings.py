@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'htmx_messages',
+    'spectrum',
     'cal.apps.CalConfig',
     'accounts.apps.AccountsConfig',
     'events.apps.EventsConfig',
