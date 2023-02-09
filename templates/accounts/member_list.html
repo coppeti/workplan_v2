@@ -8,10 +8,10 @@
             {{ member.first_name|title }}&nbsp;{{ member.last_name|upper }}
         </div>
         <div class="text-end">
-            <button type="button" class="card_btn btn btn-sm text-primary" hx-get="{% url 'member_edit' member.id %}" hx-target="#dialog">
+            <button type="button" class="btn btn-sm text-primary" hx-get="{% url 'member_edit' member.id %}" hx-target="#dialog">
                 <i class="fa-solid fa-pen"></i>
             </button>
-            <button class="card_btn btn btn-sm text-danger" hx-post="{% url 'member_delete' member.id %}" hx-confirm="Willst du {{ member.first_name|title }} {{ member.last_name|upper }} wirklich löschen?
+            <button class="btn btn-sm text-danger" hx-post="{% url 'member_delete' member.id %}" hx-confirm="Willst du {{ member.first_name|title }} {{ member.last_name|upper }} wirklich löschen?
 Alle Aktivitäten werden ebenfalls gelöscht.
 Kein Zurück mehr möglich!">
                 <i class="fa-solid fa-trash"></i>

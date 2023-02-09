@@ -1,24 +1,33 @@
-<table class="table">
+<table class="table mt-2">
     <thead>
         <tr>
             <th>Name</th>
-            <th>Abkürzung</th>
+            <th class="text-center">Abkürzung</th>
             <th>Hintergrund</th>
             <th>Text</th>
-            <th>Beispiel</th>
-            <th colspan="2">Aktion</th>
+            <th class="text-center">Ergebnis</th>
+            <th colspan="2" class="text-center">Aktion</th>
         </tr>
     </thead>
     <tbody>
         {% for activity in activities %}
         <tr>
-            <td>{{ activity.name }}</td>
-            <td>{{ activity.short_name }}</td>
-            <td>{{ activity.background_color }}</td>
-            <td>{{ activity.text_color }}</td>
-            <td>example</td>
-            <td>edit</td>
-            <td>delete</td>
+            <td class="align-middle">{{ activity.name }}</td>
+            <td class="align-middle text-center">{{ activity.short_name }}</td>
+            <td class="align-middle">{{ activity.background_color }}</td>
+            <td class="align-middle">{{ activity.text_color }}</td>
+            <td class="text-center">
+                <div style="background-color: {{ activity.background_color }}; color: {{ activity.text_color }}" class="py-1 mx-4 rounded">
+                    {{ activity.short_name }}
+                </div>
+            </td>
+            <td class="text-center align-middle"><button type="button" class="btn btn-sm text-primary" hx-get="{% url 'activity_edit' activity.id %}" hx-target="#dialog"><i class="fa-solid fa-pen"></i></button></td>
+            <td class="text-center align-middle"><button type="button" class="btn btn-sm text-danger" hx-post="{% url 'activity_delete' activity.id %}" hx-confirm="Willst du {{ activity.name }} wirklich löschen?"><i class="fa-solid fa-trash"></i></button></td>
         </tr>
+        {% empty %}
+        <tr>
+            <td colspan="7" class="text-center">Keine Aktivität</td>
+        </tr>
+        {% endfor %}
     </tbody>
 </table>

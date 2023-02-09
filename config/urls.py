@@ -19,7 +19,14 @@ from accounts.views import (
     Login,
     MyProfile,
     logout_view)
-
+# Views to manage activities and events
+from events.views import (
+    activities,
+    activities_list,
+    activity_add,
+    activity_edit,
+    activity_delete,
+)
 
 urlpatterns = [
     path('', Home.as_view(), name="home"),
@@ -39,6 +46,12 @@ urlpatterns = [
     path('logout/', logout_view, name="logoutview"),
     path('login/', Login.as_view(), name="login"),
     path('my_profile/', MyProfile.as_view(), name="myprofile"),
+    # Events URLs
+    path('activities/', activities, name="activities"),
+    path('htmx/activities-list/', activities_list, name="activities_list"),
+    path('htmx/activity-add/', activity_add, name="activity_add"),
+    path('htmx/activity/<pk>/edit/', activity_edit, name="activity_edit"),
+    path('htmx/activity/<pk>/delete/', activity_delete, name="activity_delete"),
     # Django backend
     path('mgmt/', admin.site.urls),
 ]
