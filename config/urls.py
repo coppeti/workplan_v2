@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 
+# Landing page and holiday view
 from cal.views import Home, Holiday
 # Views to manage everything about users
 from accounts.views import (

@@ -12,12 +12,12 @@
     <tbody>
         {% for activity in activities %}
         <tr>
-            <td class="align-middle">{{ activity.name }}</td>
+            <td class="align-middle">{{ activity.name|title }}</td>
             <td class="align-middle text-center">{{ activity.short_name }}</td>
             <td class="align-middle">{{ activity.background_color }}</td>
             <td class="align-middle">{{ activity.text_color }}</td>
             <td class="text-center">
-                <div style="background-color: {{ activity.background_color }}; color: {{ activity.text_color }}" class="py-1 mx-4 rounded">
+                <div class="py-1 mx-4 rounded {{ activity.name }}">
                     {{ activity.short_name }}
                 </div>
             </td>

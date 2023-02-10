@@ -6,6 +6,7 @@ from django.views.decorators.http import require_http_methods
 
 from .forms import ActivityForm
 from .models import Activities, Events
+from .utils import activities_css
 
 @user_passes_test(lambda u: u.is_superuser)
 def activities(request):
@@ -14,9 +15,9 @@ def activities(request):
 
 @user_passes_test(lambda u: u.is_superuser)
 def activities_list(request):
-    return render(request, 'events/activities_list.html', {
-        'activities': Activities.objects.all().order_by('name')
-    })
+    activities = Activities.objects.all().order_by('name')
+    activities_css(activities)
+    return render(request, 'events/activities_list.html', {'activities': activities})
     
 
 @user_passes_test(lambda u: u.is_superuser)

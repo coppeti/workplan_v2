@@ -1,7 +1,5 @@
 from django import forms
 
-from colorfield.fields import ColorField, ColorWidget
-
 from .models import Activities, Events
 
 

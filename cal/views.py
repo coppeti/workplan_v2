@@ -15,11 +15,6 @@ class Home(TemplateView):
         return context
 
 
-# def holiday(request, year, region):
-#     holidays = Holidays().hdays()
-#     return render(request, 'holiday.html', {'holidays': holidays})
-
-    
 class Holiday(TemplateView):
     template_name = 'holiday.html'
 

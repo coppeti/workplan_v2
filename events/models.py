@@ -1,8 +1,5 @@
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.utils.translation import gettext_lazy as _
-
-# from colorfield.fields import ColorField
 
 from accounts.models import CustomUser
 
@@ -14,7 +11,7 @@ class Activities(models.Model):
     text_color = models.CharField(max_length=9, blank=True)
     
     def save(self, *args, **kwargs):
-        self.name = self.name.title()
+        self.name = self.name.lower()
         self.short_name = self.short_name.upper()
         super().save(*args, **kwargs)
     
