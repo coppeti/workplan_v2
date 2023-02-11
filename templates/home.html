@@ -135,6 +135,12 @@
         </div>
     </div>
 </div>
+<div class="legend_table d-flex justify-content-center align-items-center">
+    {% for activity in activities %}
+        <div class="{{ activity.activity_class }} legend_flag text-center m-1">{{ activity.short_name }}</div>
+        <div class="me-3">{{ activity.name }}</div>
+    {% endfor %}
+</div>
 <!-- ANNUAL CALENDAR -->
 <div>
     <table>

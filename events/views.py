@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, HttpResponseRedirect, render
 from django.views.decorators.http import require_http_methods
 
 from .forms import ActivityForm

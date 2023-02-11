@@ -1,4 +1,55 @@
-.Dispatcher {
-	background-color: #d0c10f;
-	color: #e47816;
+.backup_pikett {
+	background-color: #9d78b4;
+	color: #ffffff;
 }
+
+.dispatcher {
+	background-color: #ffd60a;
+	color: #f48c06;
+}
+
+.ferien {
+	background-color: #08c3e9;
+	color: #000000;
+}
+
+.freikompensation {
+	background-color: #88d498;
+	color: #000000;
+}
+
+.home_office {
+	background-color: #527a32;
+	color: #ffffff;
+}
+
+.kein_pikett {
+	background-color: #b14df0;
+	color: #ffffff;
+}
+
+.militarzvs {
+	background-color: #b76935;
+	color: #000000;
+}
+
+.pikett {
+	background-color: #ecbcfd;
+	color: #9846cc;
+}
+
+.pikett_samstag {
+	background-color: #ecbcfd;
+	color: #9846cc;
+}
+
+.pikett_sonnfeiertag {
+	background-color: #ecbcfd;
+	color: #9846cc;
+}
+
+.spezialauftrag {
+	background-color: #414447;
+	color: #ffffff;
+}
+

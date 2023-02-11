@@ -2,6 +2,7 @@ from django.shortcuts import render
 from datetime import datetime, date
 from django.views.generic import TemplateView
 
+from events.models import Activities
 from holidays.holidays import Holidays
 
 
@@ -10,6 +11,7 @@ class Home(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['activities'] = Activities.objects.all().order_by('id')
         context['iterator'] = range(1,32)
         context['today'] = datetime.now().day
         return context
