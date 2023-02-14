@@ -7,8 +7,8 @@
 {% block content %}
 <h4 class="my-4">Aktivitäten Liste</h4>
 <div class="w-50">
-    <div class="d-flex justify-content-around my-3">
-        <button type="button" class="btn btn-outline-primary" hx-get="{% url 'activity_add' %}" hx-target="#dialog"><i class="fa-solid fa-plus"></i></button>
+    <div class="d-flex justify-content-start my-3">
+        <button type="button" class="btn btn-outline-primary me-auto" hx-get="{% url 'activity_add' %}" hx-target="#dialog"><i class="fa-solid fa-plus"></i></button>
         <div class="d-flex col-2">
             <input type="search"
                 id="search_activity"
