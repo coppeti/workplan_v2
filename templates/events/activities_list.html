@@ -6,6 +6,7 @@
             <th>Hintergrund</th>
             <th>Text</th>
             <th class="text-center">Ergebnis</th>
+            <th class="text-center">Angezeigt</th>
             <th colspan="2" class="text-center">Aktion</th>
         </tr>
     </thead>
@@ -21,6 +22,7 @@
                     {{ activity.short_name }}
                 </div>
             </td>
+            <td class="text-center">{{ activity.displayed|yesno:"Ja,Nein" }}</td>
             <td class="text-center align-middle">
                 <button type="button" class="btn btn-sm text-primary" hx-get="{% url 'activity_edit' activity.id %}" hx-target="#dialog">
                     <i class="fa-solid fa-pen"></i>
@@ -48,6 +50,7 @@
                     {{ result.short_name }}
                 </div>
             </td>
+            <td class="text-center">{{ activity.displayed|yesno:"Ja,Nein" }}</td>
             <td class="text-center align-middle">
                 <button type="button" class="btn btn-sm text-primary" hx-get="{% url 'activity_edit' result.id %}" hx-target="#dialog">
                     <i class="fa-solid fa-pen"></i>

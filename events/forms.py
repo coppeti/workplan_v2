@@ -16,11 +16,11 @@ class ActivityForm(forms.ModelForm):
                                                          'style': 'text-transform: capitalize'})
                            )
     short_name = forms.CharField(max_length=3,
-                                 required=3,
+                                 required=True,
                                  label='Abkürzung',
                                  validators=[RegexValidator(r'^[a-zA-Z]*$',
                                                             message="Verwenden Sie nur Buchstaben!")],
-                                 widget=forms.TextInput(attrs={'placeholder': 'MRT',
+                                 widget=forms.TextInput(attrs={'placeholder': 'ADF',
                                                                'style': 'text-transform: uppercase'})
                                  )
     background_color = forms.CharField(max_length=9,
@@ -29,10 +29,14 @@ class ActivityForm(forms.ModelForm):
     text_color = forms.CharField(max_length=9,
                                  required=False,
                                  )
+    displayed = forms.BooleanField(required=False,
+                                   label='Angezeigt',
+                                   initial=True,
+                                   )
     
     class Meta:
         model = Activities
-        fields = ['name', 'short_name', 'background_color', 'text_color']
+        fields = ['name', 'short_name', 'background_color', 'text_color', 'displayed']
         
 
 class EventAddForm(forms.ModelForm):

@@ -12,6 +12,7 @@ class Activities(models.Model):
     activity_class = models.CharField(max_length=100, unique=True)
     background_color = models.CharField(max_length=9, blank=True)
     text_color = models.CharField(max_length=9, blank=True)
+    displayed = models.BooleanField(default=True)
     
     def __str__(self):
         return self.name

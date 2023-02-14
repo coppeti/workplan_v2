@@ -17,12 +17,15 @@
             <div class="row mb-2">
                 <div class="d-flex justify-content-start col-6">
                     <input id="bg_color" type="color" name="background_color" class="form-control form-control-color" value="{% if activity %}{{ activity.background_color }}{% endif %}">
-                    <label for="bg_color" class="ms-3 pt-1">Hintergrund</label>
+                    <label for="bg_color" class="ms-2 pt-1">Hintergrund</label>
                 </div>
                 <div class="d-flex justify-content-start col-6">
                     <input id="txt_color" type="color" name="text_color" class="form-control form-control-color" value="{% if activity %}{{ activity.text_color }}{% endif %}">
-                    <label for="txt_color" class="ms-3 pt-1">Text</label>
+                    <label for="txt_color" class="ms-2 pt-1">Text</label>
                 </div>
+            </div>
+            <div class="col-12 mt-3 ms-4 ps-2">
+                {{ form.displayed|as_crispy_field }}
             </div>
         </div>
         <div class="d-flex justify-content-end modal-footer">
