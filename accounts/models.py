@@ -11,7 +11,9 @@ class CustomUser(AbstractUser):
     is_active = models.BooleanField(default=False)
     email_confirmed = models.BooleanField(default=False)
     
-    # TODO: check if username is unique
+    def __str__(self):
+        return f'{self.first_name.title()} {self.last_name.upper()}'
+    
     def save(self, *args, **kwargs):
         self.first_name = self.first_name.lower()
         self.last_name = self.last_name.lower()

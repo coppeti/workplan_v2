@@ -1,0 +1,71 @@
+<table class="table mt-2">
+    <thead>
+        <tr>
+            <th class="text-center">#</th>
+            <th>Benutzer</th>
+            <th>Aktivität</th>
+            <th class="text-center">Von</th>
+            <th class="text-center">Bis</th>
+            <th class="text-center">Bestätigt</th>
+            <th>Geändert am</th>
+            <th class="text-center">Aktiv</th>
+            <th class="text-center">Angezeigt</th>
+            <th>Kommentar</th>
+            <th colspan="2" class="text-center">Aktion</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for event in events %}
+        <tr>
+            <td class="test-center">{{ event.id }}</td>
+            <td>{{ event.user_id }}</td>
+            <td>{{ event.activity_id }}</td>
+            <td>{{ event.date_start }}</td>
+            <td>{{ event.date_stop }}</td>
+            <td>{{ event.confirmed|yesno:"Ja,Nein" }}</td>
+            <td>{{ event.changed_on }}</td>
+            <td>{{ event.is_active|yesno:"Ja,Nein" }}</td>
+            <td>{{ event.displayed|yesno:"Ja,Nein" }}</td>
+            <td>{{ event.comment }}</td>
+            <td class="text-center align-middle">
+                <button type="button" class="btn btn-sm text-primary" hx-get="{% url 'event_edit' event.id %}" hx-target="#dialog">
+                    <i class="fa-solid fa-pen"></i>
+                </button>
+            </td>
+            <td class="text-center align-middle">
+                <button type="button" class="btn btn-sm text-danger" hx-post="{% url 'event_delete' event.id %}" hx-confirm="Willst du {{ event.name }} von {{ event.user_id }} wirklich löschen?">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="7" class="text-center">Keine Event</td>
+        </tr>
+        {% endfor %}
+        {% for result in results %}
+        <tr>
+            <td class="test-center">{{ result.id }}</td>
+            <td>{{ result.user_id }}</td>
+            <td>{{ result.activity_id }}</td>
+            <td>{{ result.date_start }}</td>
+            <td>{{ result.date_stop }}</td>
+            <td>{{ result.confirmed|yesno:"Ja,Nein" }}</td>
+            <td>{{ result.changed_on }}</td>
+            <td>{{ result.is_active|yesno:"Ja,Nein" }}</td>
+            <td>{{ result.displayed|yesno:"Ja,Nein" }}</td>
+            <td>{{ result.comment }}</td>
+            <td class="text-center align-middle">
+                <button type="button" class="btn btn-sm text-primary" hx-get="{% url 'event_edit' result.id %}" hx-target="#dialog">
+                    <i class="fa-solid fa-pen"></i>
+                </button>
+            </td>
+            <td class="text-center align-middle">
+                <button type="button" class="btn btn-sm text-danger" hx-post="{% url 'event_delete' result.id %}" hx-confirm="Willst du {{ result.name }} von {{ result.user_id }} wirklich löschen?">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -28,6 +28,12 @@ from events.views import (
     activity_edit,
     activity_delete,
     activity_search,
+    events,
+    events_list,
+    event_add,
+    event_edit,
+    event_delete,
+    event_search,
 )
 
 urlpatterns = [
@@ -48,13 +54,20 @@ urlpatterns = [
     path('logout/', logout_view, name="logoutview"),
     path('login/', Login.as_view(), name="login"),
     path('my_profile/', MyProfile.as_view(), name="myprofile"),
-    # Events URLs
+    # Activities URLs
     path('activities/', activities, name="activities"),
     path('htmx/activities-list/', activities_list, name="activities_list"),
     path('htmx/activity-add/', activity_add, name="activity_add"),
     path('htmx/activity/<pk>/edit/', activity_edit, name="activity_edit"),
     path('htmx/activity/<pk>/delete/', activity_delete, name="activity_delete"),
     path('htmx/activity-search/', activity_search, name="activity_search"),
+    # Events URLs
+    path('events/', events, name='events'),
+    path('htmx/events_list/', events_list, name="events_list"),
+    path('htmx/event-add/', event_add, name="event_add"),
+    path('htmx/event/<pk>/edit/', event_edit, name="event_edit"),
+    path('htmx/event/<pk>/delete/', event_delete, name="event_delete"),
+    path('htmx/event-search/', event_search, name="event_search"),
     # Django backend
     path('mgmt/', admin.site.urls),
 ]

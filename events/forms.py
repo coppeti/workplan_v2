@@ -1,6 +1,8 @@
 from django import forms
 from django.core.validators import RegexValidator
 
+from accounts.models import CustomUser
+
 from .models import Activities, Events
 
 
@@ -32,3 +34,16 @@ class ActivityForm(forms.ModelForm):
         model = Activities
         fields = ['name', 'short_name', 'background_color', 'text_color']
         
+
+class EventAddForm(forms.ModelForm):
+    user_id = forms.ModelChoiceField(queryset=CustomUser.objects.all().order_by('last_name'))
+    activity_id = forms.ModelChoiceField(queryset=Activities.objects.all().order_by('id'))
+    date_start = forms.DateField(widget=forms.TextInput(attrs={'onfocus': '(this.type="date")'}))
+    date_stop = forms.DateField(widget=forms.TextInput(attrs={'onfocus': '(this.type="date")'}))
+    class Meta:
+        model = Events
+        fields = ['user_id', 'activity_id', 'date_start', 'date_stop']
+
+
+class EventEditForm(forms.ModelForm):
+    pass

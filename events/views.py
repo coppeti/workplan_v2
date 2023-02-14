@@ -1,11 +1,11 @@
 from django.contrib import messages
-from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Q
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, HttpResponseRedirect, render
+from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import require_http_methods
 
-from .forms import ActivityForm
+from .forms import ActivityForm, EventAddForm
 from .models import Activities, Events
 from .utils import activity_to_css
 
@@ -69,3 +69,54 @@ def activity_search(request):
     results = Activities.objects.filter(Q(name__icontains=search_text) | 
                                         Q(short_name__icontains=search_text)).order_by('name')
     return render(request, 'events/activities_list.html', {'results': results})
+
+
+@login_required
+def events(request):
+    return render(request, 'events/events.html')
+
+
+@login_required
+def events_list(request):
+    events = Events.objects.all().order_by('date_start')
+    return render(request, 'events/events_list.html', {'events': events})
+
+
+@login_required
+def event_add(request):
+    if request.method == 'POST':
+        form = EventAddForm(request.POST)
+        if form.is_valid():
+            event = form.save()
+            messages.success(request, f'Event {event.name} erfolgreich hinzugefügt.')
+            return HttpResponse(status=204, headers={'HX-Trigger': 'eventsListChanged'}) 
+    else:
+        form = EventAddForm()
+    return render(request, 'events/event_add_form.html', {'form': form})
+
+
+@login_required
+def event_edit(request, pk):
+    event = get_object_or_404(Events, pk=pk)
+    if request.method == 'POST':
+        form = EventEditForm(request.POST, instance=event)
+        if form.is_valid():
+            event = form.save()
+            messages.success(request, f'{event.name} geändert.')
+            return HttpResponse(status=204, headers={'HX-Trigger': 'eventsListChanged'})
+    else:
+        form = EventEditForm(instance=activity)
+    return render(request, 'events/event_edit_form.html', {
+        'form': form,
+        'event': event,
+    })
+
+
+@login_required
+def event_delete(request, pk):
+    pass
+
+
+@login_required
+def event_search(request):
+    pass

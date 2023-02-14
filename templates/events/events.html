@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Events{% endblock title %}
+
+{% block events_active %}active{% endblock events_active %}
+
+{% block content %}
+<h4 class="my-4">Events Liste</h4>
+<div class="w-75">
+    <div class="d-flex justify-content-start my-3">
+        <button type="button" class="btn btn-outline-primary me-auto" hx-get="{% url 'event_add' %}" hx-target="#dialog"><i class="fa-solid fa-calendar-plus"></i></button>
+        <div class="d-flex col-2">
+            <input type="search"
+                id="search_event"
+                class="form-control"
+                name="event_activity" 
+                placeholder="Suchen..." 
+                hx-post="{% url 'event_search' %}" 
+                hx-trigger="keyup changed delay:500ms"
+                hx-target="#events_list">
+            <a href="{% url 'events' %}" class="btn btn-outline-secondary ms-2">
+                <i class="fa-solid fa-rotate-left"></i>
+            </a>
+        </div>
+    </div>
+    <div id="events_list" class="d-flex justify-content-center" hx-get="{% url 'events_list' %}" hx-trigger="load, eventsListChanged from:body">
+        <!-- Inject htmx events_list.html -->
+    </div>
+</div>
+
+
+{% endblock content %}

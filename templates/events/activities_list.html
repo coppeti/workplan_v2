@@ -21,8 +21,16 @@
                     {{ activity.short_name }}
                 </div>
             </td>
-            <td class="text-center align-middle"><button type="button" class="btn btn-sm text-primary" hx-get="{% url 'activity_edit' activity.id %}" hx-target="#dialog"><i class="fa-solid fa-pen"></i></button></td>
-            <td class="text-center align-middle"><button type="button" class="btn btn-sm text-danger" hx-post="{% url 'activity_delete' activity.id %}" hx-confirm="Willst du {{ activity.name }} wirklich löschen?"><i class="fa-solid fa-trash"></i></button></td>
+            <td class="text-center align-middle">
+                <button type="button" class="btn btn-sm text-primary" hx-get="{% url 'activity_edit' activity.id %}" hx-target="#dialog">
+                    <i class="fa-solid fa-pen"></i>
+                </button>
+            </td>
+            <td class="text-center align-middle">
+                <button type="button" class="btn btn-sm text-danger" hx-post="{% url 'activity_delete' activity.id %}" hx-confirm="Willst du {{ activity.name }} wirklich löschen?">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </td>
         </tr>
         {% empty %}
         <tr>
@@ -40,8 +48,16 @@
                     {{ result.short_name }}
                 </div>
             </td>
-            <td class="text-center align-middle"><button type="button" class="btn btn-sm text-primary" hx-get="{% url 'activity_edit' result.id %}" hx-target="#dialog"><i class="fa-solid fa-pen"></i></button></td>
-            <td class="text-center align-middle"><button type="button" class="btn btn-sm text-danger" hx-post="{% url 'activity_delete' result.id %}" hx-confirm="Willst du {{ result.name }} wirklich löschen?"><i class="fa-solid fa-trash"></i></button></td>
+            <td class="text-center align-middle">
+                <button type="button" class="btn btn-sm text-primary" hx-get="{% url 'activity_edit' result.id %}" hx-target="#dialog">
+                    <i class="fa-solid fa-pen"></i>
+                </button>
+            </td>
+            <td class="text-center align-middle">
+                <button type="button" class="btn btn-sm text-danger" hx-post="{% url 'activity_delete' result.id %}" hx-confirm="Willst du {{ result.name }} wirklich löschen?">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </td>
         </tr>
         {% endfor %}
     </tbody>
