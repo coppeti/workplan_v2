@@ -29,5 +29,20 @@
             <td colspan="7" class="text-center">Keine Aktivität</td>
         </tr>
         {% endfor %}
+        {% for result in results %}
+        <tr>
+            <td class="align-middle">{{ result.name|title }}</td>
+            <td class="align-middle text-center">{{ result.short_name }}</td>
+            <td class="align-middle">{{ result.background_color }}</td>
+            <td class="align-middle">{{ result.text_color }}</td>
+            <td class="text-center">
+                <div class="py-1 mx-4 rounded {{ result.activity_class }}">
+                    {{ result.short_name }}
+                </div>
+            </td>
+            <td class="text-center align-middle"><button type="button" class="btn btn-sm text-primary" hx-get="{% url 'activity_edit' result.id %}" hx-target="#dialog"><i class="fa-solid fa-pen"></i></button></td>
+            <td class="text-center align-middle"><button type="button" class="btn btn-sm text-danger" hx-post="{% url 'activity_delete' result.id %}" hx-confirm="Willst du {{ result.name }} wirklich löschen?"><i class="fa-solid fa-trash"></i></button></td>
+        </tr>
+        {% endfor %}
     </tbody>
 </table>

@@ -1,12 +1,13 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, HttpResponseRedirect, render
 from django.views.decorators.http import require_http_methods
 
 from .forms import ActivityForm
 from .models import Activities, Events
-from .utils import activities_css
+from .utils import activity_to_css
 
 @user_passes_test(lambda u: u.is_superuser)
 def activities(request):
@@ -16,7 +17,6 @@ def activities(request):
 @user_passes_test(lambda u: u.is_superuser)
 def activities_list(request):
     activities = Activities.objects.all().order_by('name')
-    activities_css(activities)
     return render(request, 'events/activities_list.html', {'activities': activities})
     
 
@@ -25,8 +25,9 @@ def activity_add(request):
     if request.method == 'POST':
         form = ActivityForm(request.POST)
         if form.is_valid():
-            form.save()
-            messages.success(request, 'Aktivität erfolgreich hinzugefügt.')
+            activity = form.save()
+            activity_to_css()
+            messages.success(request, f'Aktivität {activity.name} erfolgreich hinzugefügt.')
             return HttpResponse(status=204, headers={'HX-Trigger': 'activitiesListChanged'}) 
     else:
         form = ActivityForm()
@@ -40,6 +41,7 @@ def activity_edit(request, pk):
         form = ActivityForm(request.POST, instance=activity)
         if form.is_valid():
             activity = form.save()
+            activity_to_css()
             messages.success(request, f'{activity.name} geändert.')
             return HttpResponse(status=204, headers={'HX-Trigger': 'activitiesListChanged'})
     else:
@@ -59,4 +61,11 @@ def activity_delete(request, pk):
         messages.error(request, f'{activity.name} wurde gelöscht.')
         return HttpResponse(status=204, headers={'HX-Trigger': 'activitiesListChanged'})
 
+
+@user_passes_test(lambda u: u.is_superuser)
+def activity_search(request):
+    search_text = request.POST.get('search_activity')
     
+    results = Activities.objects.filter(Q(name__icontains=search_text) | 
+                                        Q(short_name__icontains=search_text)).order_by('name')
+    return render(request, 'events/activities_list.html', {'results': results})

@@ -1,36 +1,6 @@
-.backup_pikett {
-	background-color: #9d78b4;
-	color: #ffffff;
-}
-
 .dispatcher {
 	background-color: #ffd60a;
 	color: #f48c06;
-}
-
-.ferien {
-	background-color: #08c3e9;
-	color: #000000;
-}
-
-.freikompensation {
-	background-color: #88d498;
-	color: #000000;
-}
-
-.home_office {
-	background-color: #527a32;
-	color: #ffffff;
-}
-
-.kein_pikett {
-	background-color: #b14df0;
-	color: #ffffff;
-}
-
-.militarzvs {
-	background-color: #b76935;
-	color: #000000;
 }
 
 .pikett {
@@ -48,8 +18,63 @@
 	color: #9846cc;
 }
 
+.backup_pikett {
+	background-color: #9d78b4;
+	color: #ffffff;
+}
+
+.kein_pikett {
+	background-color: #b14df0;
+	color: #ffffff;
+}
+
 .spezialauftrag {
 	background-color: #414447;
 	color: #ffffff;
+}
+
+.home_office {
+	background-color: #527a32;
+	color: #ffffff;
+}
+
+.ferien {
+	background-color: #08c3e9;
+	color: #000000;
+}
+
+.freikompensation {
+	background-color: #88d498;
+	color: #000000;
+}
+
+.militarzvs {
+	background-color: #b76935;
+	color: #000000;
+}
+
+.weiterbildung {
+	background-color: #145ec0;
+	color: #ffffff;
+}
+
+.krank {
+	background-color: #dc2f02;
+	color: #000000;
+}
+
+.wochenende {
+	background-color: #fcd5ce;
+	color: #fcd5ce;
+}
+
+.feiertag {
+	background-color: #f4acb7;
+	color: #f4acb7;
+}
+
+.andere_feiertage {
+	background-color: #f7b267;
+	color: #f7b267;
 }
 

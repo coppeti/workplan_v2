@@ -168,8 +168,12 @@ MAIN
   font-size: 0.7rem;
 }
 
+.legend_bloc {
+  width: 175px !important;
+}
+
 .legend_flag {
-  width: 35px;
+  width: 35px !important;
   border-radius: 3px;
 }
 

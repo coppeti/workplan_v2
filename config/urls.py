@@ -27,6 +27,7 @@ from events.views import (
     activity_add,
     activity_edit,
     activity_delete,
+    activity_search,
 )
 
 urlpatterns = [
@@ -53,6 +54,7 @@ urlpatterns = [
     path('htmx/activity-add/', activity_add, name="activity_add"),
     path('htmx/activity/<pk>/edit/', activity_edit, name="activity_edit"),
     path('htmx/activity/<pk>/delete/', activity_delete, name="activity_delete"),
+    path('htmx/activity-search/', activity_search, name="activity_search"),
     # Django backend
     path('mgmt/', admin.site.urls),
 ]
