@@ -40,14 +40,57 @@ class ActivityForm(forms.ModelForm):
         
 
 class EventAddForm(forms.ModelForm):
-    user_id = forms.ModelChoiceField(queryset=CustomUser.objects.all().order_by('last_name'))
-    activity_id = forms.ModelChoiceField(queryset=Activities.objects.all().order_by('id'))
-    date_start = forms.DateField(widget=forms.TextInput(attrs={'onfocus': '(this.type="date")'}))
-    date_stop = forms.DateField(widget=forms.TextInput(attrs={'onfocus': '(this.type="date")'}))
+    user_id = forms.ModelChoiceField(required=True,
+                                     label='Benutzer',
+                                     queryset=CustomUser.objects.all().order_by('last_name')
+                                     )
+    activity_id = forms.ModelChoiceField(required=True,
+                                         label='Aktivität',
+                                         queryset=Activities.objects.filter(displayed=True).order_by('id')
+                                         )
+    date_start = forms.CharField(required=True,
+                                 label='Von',
+                                 widget=forms.TextInput(attrs={'onfocus': '(this.type="date")'})
+                                 )
+    date_stop = forms.CharField(required=True,
+                                label='Bis',
+                                widget=forms.TextInput(attrs={'onfocus': '(this.type="date")'})
+                                )
     class Meta:
         model = Events
         fields = ['user_id', 'activity_id', 'date_start', 'date_stop']
 
 
 class EventEditForm(forms.ModelForm):
-    pass
+    user_id = forms.ModelChoiceField(required=True,
+                                     label='Benutzer',
+                                     queryset=CustomUser.objects.all().order_by('last_name'),
+                                     )
+    activity_id = forms.ModelChoiceField(required=True,
+                                         label='Aktivität',
+                                         queryset=Activities.objects.filter(displayed=True).order_by('id'),
+                                         )
+    date_start = forms.CharField(required=True,
+                                 label='Von',
+                                 widget=forms.NumberInput(attrs={'type': 'date'}),
+                                 )
+    date_stop = forms.CharField(required=True,
+                                label='Bis',
+                                widget=forms.NumberInput(attrs={'type': 'date'}),
+                                )
+    confirmed = forms.BooleanField(required=False,
+                                   label='Bestätigt',
+                                   )
+    is_active = forms.BooleanField(required=False,
+                                   label='Aktiv',
+                                   )
+    displayed = forms.BooleanField(required=False,
+                                   label='Angezeigt',
+                                   )
+    comment = forms.CharField(required=False,
+                             label='Kommentar',
+                             widget=forms.Textarea(attrs={'rows':'3'}),
+                             )
+    class Meta:
+        model = Events
+        fields = ['user_id', 'activity_id', 'date_start', 'date_stop', 'confirmed', 'is_active', 'displayed', 'comment']

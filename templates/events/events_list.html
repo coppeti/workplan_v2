@@ -1,11 +1,11 @@
-<table class="table mt-2">
+<table class="table table-striped mt-2">
     <thead>
         <tr>
             <th class="text-center">#</th>
             <th>Benutzer</th>
             <th>Aktivität</th>
-            <th class="text-center">Von</th>
-            <th class="text-center">Bis</th>
+            <th>Von</th>
+            <th>Bis</th>
             <th class="text-center">Bestätigt</th>
             <th>Geändert am</th>
             <th class="text-center">Aktiv</th>
@@ -20,12 +20,12 @@
             <td class="test-center">{{ event.id }}</td>
             <td>{{ event.user_id }}</td>
             <td>{{ event.activity_id }}</td>
-            <td>{{ event.date_start }}</td>
-            <td>{{ event.date_stop }}</td>
-            <td>{{ event.confirmed|yesno:"Ja,Nein" }}</td>
-            <td>{{ event.changed_on }}</td>
-            <td>{{ event.is_active|yesno:"Ja,Nein" }}</td>
-            <td>{{ event.displayed|yesno:"Ja,Nein" }}</td>
+            <td>{{ event.date_start|date:"j.m.Y" }}</td>
+            <td>{{ event.date_stop|date:"j.m.Y" }}</td>
+            <td class="text-center">{{ event.confirmed|yesno:"Ja,Nein" }}</td>
+            <td>{{ event.changed_on|date:"j.m.Y - G:i" }}</td>
+            <td class="text-center">{{ event.is_active|yesno:"Ja,Nein" }}</td>
+            <td class="text-center">{{ event.displayed|yesno:"Ja,Nein" }}</td>
             <td>{{ event.comment }}</td>
             <td class="text-center align-middle">
                 <button type="button" class="btn btn-sm text-primary" hx-get="{% url 'event_edit' event.id %}" hx-target="#dialog">
@@ -33,14 +33,10 @@
                 </button>
             </td>
             <td class="text-center align-middle">
-                <button type="button" class="btn btn-sm text-danger" hx-post="{% url 'event_delete' event.id %}" hx-confirm="Willst du {{ event.name }} von {{ event.user_id }} wirklich löschen?">
+                <button type="button" class="btn btn-sm text-danger" hx-post="{% url 'event_delete' event.id %}" hx-confirm="Willst du {{ event.activity_id }} von {{ event.user_id }} wirklich löschen?">
                     <i class="fa-solid fa-trash"></i>
                 </button>
             </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="7" class="text-center">Keine Event</td>
         </tr>
         {% endfor %}
         {% for result in results %}
@@ -48,12 +44,12 @@
             <td class="test-center">{{ result.id }}</td>
             <td>{{ result.user_id }}</td>
             <td>{{ result.activity_id }}</td>
-            <td>{{ result.date_start }}</td>
-            <td>{{ result.date_stop }}</td>
-            <td>{{ result.confirmed|yesno:"Ja,Nein" }}</td>
-            <td>{{ result.changed_on }}</td>
-            <td>{{ result.is_active|yesno:"Ja,Nein" }}</td>
-            <td>{{ result.displayed|yesno:"Ja,Nein" }}</td>
+            <td>{{ result.date_start|date:"j.m.Y" }}</td>
+            <td>{{ result.date_stop|date:"j.m.Y" }}</td>
+            <td class="text-center">{{ result.confirmed|yesno:"Ja,Nein" }}</td>
+            <td>{{ result.changed_on|date:"j.m.Y - G:i" }}</td>
+            <td class="text-center">{{ result.is_active|yesno:"Ja,Nein" }}</td>
+            <td class="text-center">{{ result.displayed|yesno:"Ja,Nein" }}</td>
             <td>{{ result.comment }}</td>
             <td class="text-center align-middle">
                 <button type="button" class="btn btn-sm text-primary" hx-get="{% url 'event_edit' result.id %}" hx-target="#dialog">

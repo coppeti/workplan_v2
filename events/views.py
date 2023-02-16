@@ -1,3 +1,4 @@
+from datetime import date
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Q
@@ -5,7 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import require_http_methods
 
-from .forms import ActivityForm, EventAddForm
+from .forms import ActivityForm, EventAddForm, EventEditForm
 from .models import Activities, Events
 from .utils import activity_to_css
 
@@ -88,7 +89,7 @@ def event_add(request):
         form = EventAddForm(request.POST)
         if form.is_valid():
             event = form.save()
-            messages.success(request, f'Event {event.name} erfolgreich hinzugefügt.')
+            messages.success(request, f'Event {event.activity_id} erfolgreich hinzugefügt.')
             return HttpResponse(status=204, headers={'HX-Trigger': 'eventsListChanged'}) 
     else:
         form = EventAddForm()
@@ -102,10 +103,10 @@ def event_edit(request, pk):
         form = EventEditForm(request.POST, instance=event)
         if form.is_valid():
             event = form.save()
-            messages.success(request, f'{event.name} geändert.')
+            messages.success(request, f'{event.activity_id} von {event.user_id} geändert.')
             return HttpResponse(status=204, headers={'HX-Trigger': 'eventsListChanged'})
     else:
-        form = EventEditForm(instance=activity)
+        form = EventEditForm(instance=event)
     return render(request, 'events/event_edit_form.html', {
         'form': form,
         'event': event,
@@ -113,10 +114,21 @@ def event_edit(request, pk):
 
 
 @login_required
+@require_http_methods(["POST"])
 def event_delete(request, pk):
-    pass
+    event = get_object_or_404(Events, pk=pk)
+    if request.method == 'POST':
+        event.delete()
+        messages.error(request, f'{event.activity_id} von {event.user_id} wurde gelöscht.')
+        return HttpResponse(status=204, headers={'HX-Trigger': 'eventsListChanged'})
+    
 
 
 @login_required
 def event_search(request):
-    pass
+    search_text = request.POST.get('search_event')
+    events = Events.objects.all()
+    events = Events.objects.filter(Q(user_id__last_name__icontains=search_text) |
+                                    Q(user_id__first_name__icontains=search_text) |
+                                    Q(activity_id__name__icontains=search_text))
+    return render(request, 'events/events_list.html', {'events': events})

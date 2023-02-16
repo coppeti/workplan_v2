@@ -13,7 +13,7 @@ class MemberAddForm(forms.ModelForm):
                                  validators=[RegexValidator(r'^[a-zA-ZÀ-ÿ-\'\s]*$',
                                                             message="Verwenden Sie nur Buchstaben !")],
                                  widget=forms.TextInput(attrs={'placeholder': 'John',
-                                                               'style': 'text-transform: capitalize'})
+                                                               'style': 'text-transform: capitalize'}),
                                  )
     last_name = forms.CharField(required=True,
                                 max_length=50,
@@ -21,17 +21,17 @@ class MemberAddForm(forms.ModelForm):
                                  validators=[RegexValidator(r'^[a-zA-ZÀ-ÿ-\'\s]*$',
                                                             message="Verwenden Sie nur Buchstaben !")],
                                  widget=forms.TextInput(attrs={'placeholder': 'Smith',
-                                                               'style': 'text-transform: capitalize'})
+                                                               'style': 'text-transform: capitalize'}),
                                  )
     email = forms.EmailField(required=True,
                              label='Email-Adresse',
                             #  validators=[RegexValidator(r'^([A-Za-z0-9_.+-])+\@(([A-Za-z0-9-])+\.)+([A-Za-z0-9]{2,4})+$',
                             #                             message='Gib eine gültige E-Mail-Adresse ein !')],
-                             widget=forms.TextInput(attrs={'placeholder': 'hannibal@ateam.com'})
+                             widget=forms.TextInput(attrs={'placeholder': 'hannibal@ateam.com'}),
                              )
     birthday = forms.DateField(label='Geburtsdatum',
                                widget=forms.TextInput(attrs={'placeholder': '23.01.1983',
-                                                             'onfocus': '(this.type="date")'})
+                                                             'onfocus': '(this.type="date")'}),
                                )
 
     class Meta:
@@ -46,44 +46,40 @@ class MemberEditForm(forms.ModelForm):
                                  label='Vorname',
                                  validators=[RegexValidator(r'^[a-zA-ZÀ-ÿ-\'\s]*$',
                                                             message="Verwenden Sie nur Buchstaben !")],
-                                 widget=forms.TextInput(attrs={'style': 'text-transform: capitalize'})
+                                 widget=forms.TextInput(attrs={'style': 'text-transform: capitalize'}),
                                  )
     last_name = forms.CharField(required=True,
                                 max_length=50,
                                 label='Nachname',
                                 validators=[RegexValidator(r'^[a-zA-ZÀ-ÿ-\'\s]*$',
                                                             message="Verwenden Sie nur Buchstaben !")],
-                                widget=forms.TextInput(attrs={'style': 'text-transform: capitalize'})
+                                widget=forms.TextInput(attrs={'style': 'text-transform: capitalize'}),
                                  )
     username = forms.CharField(required=True,
                                max_length=30,
                                label='Pseudo',
                                validators=[RegexValidator(r'^[a-z0-9]{3,}$',
-                                                          message='Gib mindestens 3 Kleinbuchstaben und/oder Zahlen ein')])
-    
+                                                          message='Gib mindestens 3 Kleinbuchstaben und/oder Zahlen ein')],
+                               )
     birthday = forms.DateField(required=True,
                                label='Geburtsdatum',
-                               widget=forms.NumberInput(attrs={'type': 'date'}))
-
+                               widget=forms.NumberInput(attrs={'type': 'date'}),
+                               )
     email = forms.EmailField(required=True,
                              label='Email-Adresse',
                              validators=[RegexValidator(r'^([A-Za-z0-9_.+-])+\@(([A-Za-z0-9-])+\.)+([A-Za-z0-9]{2,4})+$',
                                                         message='Gib eine gültige E-Mail-Adresse ein !')],
-                             widget=forms.TextInput(attrs={'style': 'text-transform: lowercase'})
+                             widget=forms.TextInput(attrs={'style': 'text-transform: lowercase'}),
                              )
-    
     is_active = forms.BooleanField(required=False,
                                    label = 'Aktiver Benutzer',
                                    )
-    
     is_staff = forms.BooleanField(required=False,
                                   label='Staff Benutzer',
                                   )
-    
     is_superuser = forms.BooleanField(required=False,
                                       label='Superuser',
                                       )
-    
     class Meta:
         model = CustomUser
         fields = ['first_name', 'last_name', 'username', 'email', 'birthday', 'is_active', 'is_staff', 'is_superuser']
@@ -104,7 +100,7 @@ class MyPasswordResetForm(forms.Form):
     email = forms.EmailField(required=True,
                              label='Email-Adresse',
                              validators=[EmailValidator(message='Gib eine gültige E-Mail-Adresse ein !')],
-                             widget=forms.EmailInput(attrs={'placeholder': 'hannibal@ateam.com'})
+                             widget=forms.EmailInput(attrs={'placeholder': 'hannibal@ateam.com'}),
                              )
     
 
@@ -115,32 +111,31 @@ class EditProfileForm(forms.ModelForm):
                                  label='Vorname',
                                  validators=[RegexValidator(r'^[a-zA-ZÀ-ÿ-\'\s]*$',
                                                             message="Verwenden Sie nur Buchstaben !")],
-                                 widget=forms.TextInput(attrs={'style': 'text-transform: capitalize'})
+                                 widget=forms.TextInput(attrs={'style': 'text-transform: capitalize'}),
                                  )
     last_name = forms.CharField(required=True,
                                 max_length=50,
                                 label='Nachname',
                                 validators=[RegexValidator(r'^[a-zA-ZÀ-ÿ-\'\s]*$',
                                                             message="Verwenden Sie nur Buchstaben !")],
-                                widget=forms.TextInput(attrs={'style': 'text-transform: capitalize'})
+                                widget=forms.TextInput(attrs={'style': 'text-transform: capitalize'}),
                                  )
     username = forms.CharField(required=True,
                                max_length=30,
                                label='Pseudo',
                                validators=[RegexValidator(r'^[a-z0-9]{3,}$',
-                                                          message='Gib mindestens 3 Kleinbuchstaben und/oder Zahlen ein')])
-    
+                                                          message='Gib mindestens 3 Kleinbuchstaben und/oder Zahlen ein')],
+                               )
     birthday = forms.DateField(required=True,
                                label='Geburtsdatum',
-                               widget=forms.NumberInput(attrs={'type': 'date'}))
-
+                               widget=forms.NumberInput(attrs={'type': 'date'}),
+                               )
     email = forms.EmailField(required=True,
                              label='Email-Adresse',
                              validators=[RegexValidator(r'^([A-Za-z0-9_.+-])+\@(([A-Za-z0-9-])+\.)+([A-Za-z0-9]{2,4})+$',
                                                         message='Gib eine gültige E-Mail-Adresse ein !')],
-                             widget=forms.TextInput(attrs={'style': 'text-transform: lowercase'})
+                             widget=forms.TextInput(attrs={'style': 'text-transform: lowercase'}),
                              )
-    
     class Meta:
         model = CustomUser
         fields = ['first_name', 'last_name', 'username', 'email', 'birthday']

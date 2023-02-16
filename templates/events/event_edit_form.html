@@ -1,0 +1,51 @@
+{% load crispy_forms_tags %}
+<div class="modal-content">
+    <form hx-post="{{ request.path }}" class="p-2" autocomplete="off" novalidate enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="text-center modal-header">
+            <h4 class="modal-title">Event ändern</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row mb-2">
+                <div class="col-6">
+                    {{ form.user_id|as_crispy_field }}
+                </div>
+                <div class="col-6">
+                    {{ form.activity_id|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-6">
+                    {{ form.date_start|as_crispy_field }}
+                </div>
+                <div class="col-6">
+                    {{ form.date_stop|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-4">
+                    {{ form.confirmed|as_crispy_field }}
+                </div>
+                <div class="col-4">
+                    {{ form.is_active|as_crispy_field }}
+                </div>
+                <div class="col-4">
+                    {{ form.displayed|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-12">
+                    {{ form.comment|as_crispy_field }}
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-end modal-footer">
+            <button type="button" class="btn btn-sm btn-outline-secondary me-2" data-bs-dismiss="modal">
+                <i class="fa-solid fa-backward"></i>
+            </button>
+            <button type="submit" class="btn btn-sm btn-outline-primary">
+                <i class="fa-solid fa-floppy-disk"></i>
+            </button>
+        </div>
+    </form>
+</div>

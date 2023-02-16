@@ -153,7 +153,7 @@ EMAIL_FILE_PATH = 'email/'
 
 
 # Login and Logout
-LOGIN_URL = '/login/login/'
+LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 

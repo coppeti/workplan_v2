@@ -38,7 +38,7 @@ class Events(models.Model):
     date_stop = models.DateField()
     confirmed = models.BooleanField(default=False)
     changed_on = models.DateTimeField(auto_now=True)
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     displayed = models.BooleanField(default=False)
     comment = models.TextField(max_length=300, blank=True)
     
