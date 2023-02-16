@@ -23,7 +23,15 @@
             </a>
         </div>
     </div>
-    <div id="events_list" class="d-flex justify-content-center" hx-get="{% url 'events_list' %}" hx-trigger="load, eventsListChanged from:body">
+    <div class="d-flex justify-content-start my-3">
+        <button id="checkallbtn" type="button" class="btn btn-outline-secondary me-auto">
+            <i class="fa-solid fa-check-double"></i>
+        </button>
+        <button type="button" class="btn btn-outline-danger">
+            <i class="fa-regular fa-calendar-xmark"></i>
+        </button>
+    </div>
+        <div id="events_list" class="d-flex justify-content-center" hx-get="{% url 'events_list' %}" hx-trigger="load, eventsListChanged from:body">
         <!-- Inject htmx events_list.html -->
     </div>
 </div>
