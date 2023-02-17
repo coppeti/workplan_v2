@@ -134,12 +134,3 @@ def event_multi_delete(request):
         messages.error(request, 'Alle ausgewählten Events wurden gelöscht.')
         return HttpResponse(status=204, headers={'HX-Trigger': 'eventsListChanged'})
 
-
-@login_required
-def event_search(request):
-    search_text = request.POST.get('search_event')
-    events = Events.objects.all()
-    events = Events.objects.filter(Q(user_id__last_name__icontains=search_text) |
-                                    Q(user_id__first_name__icontains=search_text) |
-                                    Q(activity_id__name__icontains=search_text))
-    return render(request, 'events/events_list.html', {'events': events})
