@@ -27,11 +27,11 @@
         <button id="checkallbtn" type="button" class="btn btn-outline-secondary me-auto">
             <i class="fa-solid fa-check-double"></i>
         </button>
-        <button type="button" class="btn btn-outline-danger">
+        <button id="deleteallbtn" type="button" class="btn btn-outline-danger" hx-include="#checked_events" hx-post="{% url 'event_multi_delete' %}" hx-confirm="Willst du wirklich alle ausgewählten Events löschen?">
             <i class="fa-regular fa-calendar-xmark"></i>
         </button>
     </div>
-        <div id="events_list" class="d-flex justify-content-center" hx-get="{% url 'events_list' %}" hx-trigger="load, eventsListChanged from:body">
+    <div id="events_list" class="d-flex justify-content-center" hx-get="{% url 'events_list' %}" hx-trigger="load, eventsListChanged from:body">
         <!-- Inject htmx events_list.html -->
     </div>
 </div>

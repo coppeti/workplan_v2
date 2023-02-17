@@ -121,7 +121,18 @@ def event_delete(request, pk):
         event.delete()
         messages.error(request, f'{event.activity_id} von {event.user_id} wurde gelöscht.')
         return HttpResponse(status=204, headers={'HX-Trigger': 'eventsListChanged'})
-    
+
+
+@login_required
+@require_http_methods(["POST"])
+def event_multi_delete(request):
+    if request.method == 'POST':
+        ids = request.POST.getlist('event_check')
+        for id in ids:
+            event = get_object_or_404(Events, pk=id)
+            event.delete()
+        messages.error(request, 'Alle ausgewählten Events wurden gelöscht.')
+        return HttpResponse(status=204, headers={'HX-Trigger': 'eventsListChanged'})
 
 
 @login_required

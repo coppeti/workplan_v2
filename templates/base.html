@@ -167,28 +167,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/htmx/1.8.5/htmx.min.js" integrity="sha512-B5IkMjoTFeR6sB/Mbd6eNnF0pwvfG5ZgSGdH4pL2uWnadND4pWTFXxXi3TBBKCZWGaWx83AujfrzFQuqfau11Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{% static '/js/modal.js' %}"></script>
     <script src="{% static '/js/toasts.js' %}"></script>
-    <script type="text/javascript">
-        document.addEventListener("DOMContentLoaded", function() {
-            var checkAllButton = document.getElementById("checkallbtn");
-            var isChecked = false;
-
-            checkAllButton.addEventListener("click", function() {
-                var checkboxes = document.getElementsByName("event_check");
-                for (var i = 0; i < checkboxes.length; i++) {
-                    checkboxes[i].checked = !isChecked;
-                }
-
-                if (isChecked) {
-                    checkAllButton.classList.remove("btn-secondary");
-                    checkAllButton.classList.add("btn-outline-secondary");
-                } else {
-                    checkAllButton.classList.remove("btn-outline-secondary");
-                    checkAllButton.classList.add("btn-secondary");
-                }
-
-                isChecked = !isChecked;
-            });
-        });
-    </script>
+    <script src="{% static '/js/my_scripts.js' %}"></script>
 </body>
 </html>
