@@ -1,35 +1,56 @@
-<form id="checked_events" class="col-12">
-    <table class="table table-striped mt-2">
-        <thead>
-            <tr>
-                <th class="text-center">#</th>
-                <th>Benutzer</th>
-                <th>Aktivität</th>
-                <th>Von</th>
-                <th>Bis</th>
-                <th class="text-center">Bestätigt</th>
-                <th>Geändert am</th>
-                <th class="text-center">Aktiv</th>
-                <th class="text-center">Angezeigt</th>
-                <th>Kommentar</th>
-                <th colspan="2" class="text-center">Aktion</th>
-            </tr>
-        </thead>
+<table class="table table-striped mt-2">
+    <thead>
+        <tr>
+            <th rowspan="2" class="text-center align-middle">#</th>
+            <th class="filter_arrows me-1">&#9652;</th>
+            <th rowspan="2" class="align-middle">Benutzer</th>
+            <th class="filter_arrows me-1">&#9652;</th>
+            <th rowspan="2" class="align-middle">Aktivität</th>
+            <th class="filter_arrows me-1">&#9652;</th>
+            <th rowspan="2" class="align-middle">Von</th>
+            <th class="filter_arrows me-1">&#9652;</th>
+            <th rowspan="2" class="align-middle">Bis</th>
+            <th class="filter_arrows me-1">&#9652;</th>
+            <th rowspan="2" class="text-center align-middle">Bestätigt</th>
+            <th class="filter_arrows me-1">&#9652;</th>
+            <th rowspan="2" class="align-middle">Geändert am</th>
+            <th class="filter_arrows me-1">&#9652;</th>
+            <th rowspan="2" class="text-center align-middle">Aktiv</th>
+            <th class="filter_arrows me-1">&#9652;</th>
+            <th rowspan="2" class="text-center align-middle">Angezeigt</th>
+            <th class="filter_arrows me-1">&#9652;</th>
+            <th rowspan="2" class="align-middle">Kommentar</th>
+            <th colspan="2" rowspan="2" class="text-center align-middle">Aktion</th>
+        </tr>
+        <th class="filter_arrows">&#9662;</th>
+        <th class="filter_arrows">&#9662;</th>
+        <th class="filter_arrows">&#9662;</th>
+        <th class="filter_arrows">&#9662;</th>
+        <th class="filter_arrows">&#9662;</th>
+        <th class="filter_arrows">&#9662;</th>
+        <th class="filter_arrows">&#9662;</th>
+        <th class="filter_arrows">&#9662;</th>
+        <th class="filter_arrows">&#9662;</th>
+        <tr>
+            
+        </tr>
+    </thead>
+    <form id="checked_events" class="col-12">
         <tbody>
             {% for event in events %}
             <tr>
-                <td class="test-center">
-                    <input type="checkbox" name="event_check" id="event-{{ event.id }}" value="{{ event.id }}">
-                    &nbsp;{{ event.id }}
+                <td colspan="2" class="test-center">
+                <input type="checkbox" name="event_check" id="event-{{ event.id }}" value="{{ event.id }}">
+                &nbsp;{{ event.id }}
                 </td>
-                <td>{{ event.user_id }}</td>
-                <td>{{ event.activity_id }}</td>
-                <td>{{ event.date_start|date:"j.m.Y" }}</td>
-                <td>{{ event.date_stop|date:"j.m.Y" }}</td>
-                <td class="text-center">{{ event.confirmed|yesno:"Ja,Nein" }}</td>
-                <td>{{ event.changed_on|date:"j.m.Y - G:i" }}</td>
-                <td class="text-center">{{ event.is_active|yesno:"Ja,Nein" }}</td>
-                <td class="text-center">{{ event.displayed|yesno:"Ja,Nein" }}</td>
+                <td colspan="2">{{ event.user_id }}</td>
+                <td colspan="2">{{ event.activity_id }}</td>
+                <td colspan="2">{{ event.date_start|date:"j.m.Y" }}</td>
+                <td colspan="2">{{ event.date_stop|date:"j.m.Y" }}</td>
+                <td colspan="2" class="text-center">{{ event.confirmed|yesno:"Ja,Nein" }}</td>
+                <td colspan="2">{{ event.changed_on|date:"j.m.Y - G:i" }}</td>
+                <td colspan="2" class="text-center">{{ event.is_active|yesno:"Ja,Nein" }}</td>
+                <td colspan="2" class="text-center">{{ event.displayed|yesno:"Ja,Nein" }}</td>
                 <td>{{ event.comment }}</td>
                 <td class="text-center align-middle">
                     <button type="button" class="btn btn-sm text-primary" hx-get="{% url 'event_edit' event.id %}" hx-target="#dialog">
@@ -68,5 +89,5 @@
             </tr>
             {% endfor %}
         </tbody>
-    </table>
-</form>
+    </form>
+</table>

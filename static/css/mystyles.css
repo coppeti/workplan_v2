@@ -287,6 +287,18 @@ MAIN
 
 
 /*====================
+        EVENTS
+======================*/
+
+.filter_arrows{
+  border: none;
+  width: 25px;
+  padding: 0 10px 0 0!important;
+}
+
+
+
+/*====================
         FOOTER
 ======================*/
 
