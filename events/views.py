@@ -19,7 +19,7 @@ def activities(request):
 def activities_list(request):
     activities = Activities.objects.all().order_by('name')
     return render(request, 'events/activities_list.html', {'activities': activities})
-    
+
 
 @user_passes_test(lambda u: u.is_superuser)
 def activity_add(request):
@@ -29,7 +29,7 @@ def activity_add(request):
             activity = form.save()
             activity_to_css()
             messages.success(request, f'Aktivität {activity.name} erfolgreich hinzugefügt.')
-            return HttpResponse(status=204, headers={'HX-Trigger': 'activitiesListChanged'}) 
+            return HttpResponse(status=204, headers={'HX-Trigger': 'activitiesListChanged'})
     else:
         form = ActivityForm()
     return render(request, 'events/activity_add_form.html', {'form': form})
@@ -51,8 +51,8 @@ def activity_edit(request, pk):
         'form': form,
         'activity': activity,
     })
-    
-  
+
+
 @user_passes_test(lambda u: u.is_superuser)
 @require_http_methods(["POST"])
 def activity_delete(request, pk):
@@ -66,8 +66,8 @@ def activity_delete(request, pk):
 @user_passes_test(lambda u: u.is_superuser)
 def activity_search(request):
     search_text = request.POST.get('search_activity')
-    
-    results = Activities.objects.filter(Q(name__icontains=search_text) | 
+
+    results = Activities.objects.filter(Q(name__icontains=search_text) |
                                         Q(short_name__icontains=search_text)).order_by('name')
     return render(request, 'events/activities_list.html', {'results': results})
 
@@ -90,7 +90,7 @@ def event_add(request):
         if form.is_valid():
             event = form.save()
             messages.success(request, f'Event {event.activity_id} erfolgreich hinzugefügt.')
-            return HttpResponse(status=204, headers={'HX-Trigger': 'eventsListChanged'}) 
+            return HttpResponse(status=204, headers={'HX-Trigger': 'eventsListChanged'})
     else:
         form = EventAddForm()
     return render(request, 'events/event_add_form.html', {'form': form})

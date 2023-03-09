@@ -10,17 +10,19 @@
     <div class="d-flex justify-content-start my-3">
         <button type="button" class="btn btn-outline-primary me-auto" hx-get="{% url 'event_add' %}" hx-target="#dialog"><i class="fa-solid fa-calendar-plus"></i></button>
         <div class="d-flex col-2">
+            {% comment %}
             <input type="search"
                 id="search_event"
                 class="form-control"
-                name="search_event" 
-                placeholder="Suchen..." 
-                hx-post="{% url 'event_search' %}" 
+                name="search_event"
+                placeholder="Suchen..."
+                hx-post="{% url 'event_search' %}"
                 hx-trigger="keyup changed delay:500ms"
                 hx-target="#events_list">
             <a href="{% url 'events' %}" class="btn btn-outline-secondary ms-2">
                 <i class="fa-solid fa-rotate-left"></i>
             </a>
+            {% endcomment %}
         </div>
     </div>
     <div class="d-flex justify-content-start my-3">
@@ -28,7 +30,7 @@
             <i class="fa-solid fa-check-double"></i>
         </button>
         <button id="deleteallbtn" type="button" class="btn btn-outline-danger" hx-include="#checked_events" hx-post="{% url 'event_multi_delete' %}" hx-confirm="Willst du wirklich alle ausgewählten Events löschen?">
-            <i class="fa-regular fa-calendar-xmark"></i>
+            <i class="fa-regular fa-trash-can"></i>&nbsp;<i class="fa-solid fa-plus"></i>
         </button>
     </div>
     <div id="events_list" class="d-flex justify-content-center" hx-get="{% url 'events_list' %}" hx-trigger="load, eventsListChanged from:body">

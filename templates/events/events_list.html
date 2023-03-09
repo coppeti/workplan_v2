@@ -18,18 +18,33 @@
         <tbody>
             {% for event in events %}
             <tr>
-                <td colspan="2" class="test-center">
+                <td class="test-center">
                 <input type="checkbox" name="event_check" id="event-{{ event.id }}" value="{{ event.id }}">
                 &nbsp;{{ event.id }}
                 </td>
-                <td colspan="2">{{ event.user_id }}</td>
-                <td colspan="2">{{ event.activity_id }}</td>
-                <td colspan="2">{{ event.date_start|date:"j.m.Y" }}</td>
-                <td colspan="2">{{ event.date_stop|date:"j.m.Y" }}</td>
-                <td colspan="2" class="text-center">{{ event.confirmed|yesno:"Ja,Nein" }}</td>
-                <td colspan="2">{{ event.changed_on|date:"j.m.Y - G:i" }}</td>
-                <td colspan="2" class="text-center">{{ event.is_active|yesno:"Ja,Nein" }}</td>
-                <td colspan="2" class="text-center">{{ event.displayed|yesno:"Ja,Nein" }}</td>
+                <td>{{ event.user_id }}</td>
+                <td>{{ event.activity_id }}</td>
+                <td>{{ event.date_start|date:"j.m.Y" }}</td>
+                <td>{{ event.date_stop|date:"j.m.Y" }}</td>
+                {% if event.confirmed == False %}
+                    <td class="text-center text-danger">&#10008;
+                {% else %}
+                    <td class="text-center text-success">&#10004;
+                {% endif %}
+                </td>
+                <td>{{ event.changed_on|date:"j.m.Y - G:i" }}</td>
+                {% if event.is_active == False %}
+                    <td class="text-center text-danger">&#10008;
+                {% else %}
+                    <td class="text-center text-success">&#10004;
+                {% endif %}
+                </td>
+                {% if event.displayed == False %}
+                    <td class="text-center text-danger">&#10008;
+                {% else %}
+                    <td class="text-center text-success">&#10004;
+                {% endif %}
+                </td>
                 <td>{{ event.comment }}</td>
                 <td class="text-center align-middle">
                     <button type="button" class="btn btn-sm text-primary" hx-get="{% url 'event_edit' event.id %}" hx-target="#dialog">
