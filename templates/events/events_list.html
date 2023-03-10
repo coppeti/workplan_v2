@@ -31,7 +31,7 @@
                 <td>{{ event.changed_on|date:"j.m.Y - G:i" }}</td>
                 <td class="text-center">{{ event.is_active|boolsymbol }}</td>
                 <td class="text-center">{{ event.displayed|boolsymbol }}</td>
-                <td>{{ event.comment }}</td>
+                <td>{{ event.comment|linebreaksbr }}</td>
                 <td class="text-center align-middle">
                     <button type="button" class="btn btn-sm text-primary" hx-get="{% url 'event_edit' event.id %}" hx-target="#dialog">
                         <i class="fa-solid fa-pen"></i>
