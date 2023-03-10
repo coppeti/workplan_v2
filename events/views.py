@@ -89,7 +89,7 @@ def event_add(request):
         form = EventAddForm(request.POST)
         if form.is_valid():
             event = form.save(commit=False)
-            event.comment = f'{event.user_id}:\n{event.activity_id} von {event.date_start} bis {event.date_stop}'
+            event.comment = f'{event.user_id}:\n{event.activity_id} von {event.date_start.strftime("%d.%m.%Y").strip("0")} bis {event.date_stop.strftime("%d.%m.%Y").strip("0")}'
             event.save()
             messages.success(request, f'Event {event.activity_id} erfolgreich hinzugefügt.')
             return HttpResponse(status=204, headers={'HX-Trigger': 'eventsListChanged'})
