@@ -17,10 +17,10 @@ class MemberAddForm(forms.ModelForm):
                                  )
     last_name = forms.CharField(required=True,
                                 max_length=50,
-                                 label='Nachname',
-                                 validators=[RegexValidator(r'^[a-zA-ZÀ-ÿ-\'\s]*$',
+                                label='Nachname',
+                                validators=[RegexValidator(r'^[a-zA-ZÀ-ÿ-\'\s]*$',
                                                             message="Verwenden Sie nur Buchstaben !")],
-                                 widget=forms.TextInput(attrs={'placeholder': 'Smith',
+                                widget=forms.TextInput(attrs={'placeholder': 'Smith',
                                                                'style': 'text-transform: capitalize'}),
                                  )
     email = forms.EmailField(required=True,
@@ -36,7 +36,7 @@ class MemberAddForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'email', 'birthday']
+        fields = ['first_name', 'last_name', 'email', 'birthday', 'role']
 
 
 class MemberEditForm(forms.ModelForm):
@@ -102,7 +102,7 @@ class MyPasswordResetForm(forms.Form):
                              validators=[EmailValidator(message='Gib eine gültige E-Mail-Adresse ein !')],
                              widget=forms.EmailInput(attrs={'placeholder': 'hannibal@ateam.com'}),
                              )
-    
+
 
 class EditProfileForm(forms.ModelForm):
     """Editing the basic data of the logged user."""
