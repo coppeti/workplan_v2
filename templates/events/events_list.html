@@ -1,3 +1,4 @@
+{% load events_extras %}
 <table class="table table-striped mt-2">
     <thead>
         <tr>
@@ -26,25 +27,10 @@
                 <td>{{ event.activity_id }}</td>
                 <td>{{ event.date_start|date:"j.m.Y" }}</td>
                 <td>{{ event.date_stop|date:"j.m.Y" }}</td>
-                {% if event.confirmed == False %}
-                    <td class="text-center text-danger">&#10008;
-                {% else %}
-                    <td class="text-center text-success">&#10004;
-                {% endif %}
-                </td>
+                <td class="text-center">{{ event.confirmed|boolsymbol }}</td>
                 <td>{{ event.changed_on|date:"j.m.Y - G:i" }}</td>
-                {% if event.is_active == False %}
-                    <td class="text-center text-danger">&#10008;
-                {% else %}
-                    <td class="text-center text-success">&#10004;
-                {% endif %}
-                </td>
-                {% if event.displayed == False %}
-                    <td class="text-center text-danger">&#10008;
-                {% else %}
-                    <td class="text-center text-success">&#10004;
-                {% endif %}
-                </td>
+                <td class="text-center">{{ event.is_active|boolsymbol }}</td>
+                <td class="text-center">{{ event.displayed|boolsymbol }}</td>
                 <td>{{ event.comment }}</td>
                 <td class="text-center align-middle">
                     <button type="button" class="btn btn-sm text-primary" hx-get="{% url 'event_edit' event.id %}" hx-target="#dialog">
