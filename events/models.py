@@ -7,16 +7,28 @@ from accounts.models import CustomUser
 
 
 class Activities(models.Model):
+    TECHNICIAN = 2
+    MANAGER = 4
+    ADMIN = 6
+    SUPERUSER = 8
+    LEVEL = [
+        (TECHNICIAN, 'Techniker'),
+        (MANAGER, 'Manager'),
+        (ADMIN, 'Admin'),
+        (SUPERUSER, 'Superuser'),
+    ]
+
     name = models.CharField(max_length=100, unique=True)
     short_name = models.CharField(max_length=3, unique=True)
     activity_class = models.CharField(max_length=100, unique=True)
     background_color = models.CharField(max_length=9, blank=True)
     text_color = models.CharField(max_length=9, blank=True)
+    level = models.CharField(max_length=1, choices=LEVEL, default=2)
     displayed = models.BooleanField(default=True)
-    
+
     def __str__(self):
         return self.name
-    
+
     def save(self, *args, **kwargs):
         self.name = self.name.title()
         self.short_name = self.short_name.upper()
@@ -25,11 +37,11 @@ class Activities(models.Model):
         if len(self.activity_class.split()) > 1:
             self.activity_class = '_'.join(self.activity_class.split())
         super().save(*args, **kwargs)
-        
+
     def strip_accents(self, text):
         text = unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('utf-8')
         return str(text)
-    
+
 
 class Events(models.Model):
     user_id = models.ForeignKey(CustomUser, on_delete=models.PROTECT)
@@ -41,7 +53,7 @@ class Events(models.Model):
     is_active = models.BooleanField(default=False)
     displayed = models.BooleanField(default=False)
     comment = models.TextField(max_length=300, blank=True)
-    
+
     def clean(self):
         if self.date_stop < self.date_start:
             raise ValidationError('Das Enddatum liegt vor dem Startdatum.')
