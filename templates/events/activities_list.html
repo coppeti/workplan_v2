@@ -5,6 +5,7 @@
             <th class="text-center">Abkürzung</th>
             <th>Hintergrund</th>
             <th>Text</th>
+            <th>Stufe</th>
             <th class="text-center">Ergebnis</th>
             <th class="text-center">Angezeigt</th>
             <th colspan="2" class="text-center">Aktion</th>
@@ -17,6 +18,7 @@
             <td class="align-middle text-center">{{ activity.short_name }}</td>
             <td class="align-middle">{{ activity.background_color }}</td>
             <td class="align-middle">{{ activity.text_color }}</td>
+            <td class="align-middle">{{ activity.get_level_display }}</td>
             <td class="text-center">
                 <div class="py-1 mx-4 rounded {{ activity.activity_class }}">
                     {{ activity.short_name }}
@@ -41,6 +43,7 @@
             <td class="align-middle text-center">{{ result.short_name }}</td>
             <td class="align-middle">{{ result.background_color }}</td>
             <td class="align-middle">{{ result.text_color }}</td>
+            <td class="align-middle">{{ result.get_level_display }}</td>
             <td class="text-center">
                 <div class="py-1 mx-4 rounded {{ result.activity_class }}">
                     {{ result.short_name }}

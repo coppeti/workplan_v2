@@ -33,11 +33,11 @@ class ActivityForm(forms.ModelForm):
                                    label='Angezeigt',
                                    initial=True,
                                    )
-    
+
     class Meta:
         model = Activities
-        fields = ['name', 'short_name', 'background_color', 'text_color', 'displayed']
-        
+        fields = ['name', 'short_name', 'background_color', 'text_color', 'level', 'displayed']
+
 
 class EventAddForm(forms.ModelForm):
     user_id = forms.ModelChoiceField(required=True,

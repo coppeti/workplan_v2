@@ -11,7 +11,7 @@ class Activities(models.Model):
     MANAGER = 4
     ADMIN = 6
     SUPERUSER = 8
-    LEVEL = [
+    ACTIVITY_LEVEL = [
         (TECHNICIAN, 'Techniker'),
         (MANAGER, 'Manager'),
         (ADMIN, 'Admin'),
@@ -23,7 +23,7 @@ class Activities(models.Model):
     activity_class = models.CharField(max_length=100, unique=True)
     background_color = models.CharField(max_length=9, blank=True)
     text_color = models.CharField(max_length=9, blank=True)
-    level = models.CharField(max_length=1, choices=LEVEL, default=2)
+    level = models.IntegerField(choices=ACTIVITY_LEVEL, default=2, verbose_name='Stufe')
     displayed = models.BooleanField(default=True)
 
     def __str__(self):
