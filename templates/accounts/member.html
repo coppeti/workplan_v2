@@ -8,16 +8,18 @@
 <h4 class="my-4">Benutzer Liste</h4>
 <div class="container">
     <div class="d-flex justify-content-around my-3">
-        <button type="button" class="btn btn-outline-primary" hx-get="{% url 'member_add' %}" hx-target="#dialog">
-            <i class="fa-solid fa-user-plus"></i>
-        </button>
+        {% if user.is_authenticated and user.role > 4 %}
+            <button type="button" class="btn btn-outline-primary" hx-get="{% url 'member_add' %}" hx-target="#dialog">
+                <i class="fa-solid fa-user-plus"></i>
+            </button>
+        {% endif %}
         <div class="d-flex col-2">
             <input type="search"
                 id="search_member"
                 class="form-control"
-                name="search_member" 
-                placeholder="Suchen..." 
-                hx-post="{% url 'member_search' %}" 
+                name="search_member"
+                placeholder="Suchen..."
+                hx-post="{% url 'member_search' %}"
                 hx-trigger="keyup changed delay:500ms"
                 hx-target="#member_list">
             <a href="{% url 'member' %}" class="btn btn-outline-secondary ms-2">

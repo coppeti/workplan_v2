@@ -8,6 +8,7 @@
             {{ member.first_name|title }}&nbsp;{{ member.last_name|upper }}
         </div>
         <div class="text-end">
+            {% if user.is_authenticated and user.role > 4 %}
             <button type="button" class="btn btn-sm text-primary" hx-get="{% url 'member_edit' member.id %}" hx-target="#dialog">
                 <i class="fa-solid fa-pen"></i>
             </button>
@@ -16,6 +17,7 @@ Alle Aktivitäten werden ebenfalls gelöscht.
 Kein Zurück mehr möglich!">
                 <i class="fa-solid fa-trash"></i>
             </button>
+            {% endif %}
         </div>
     </div>
     <hr>
@@ -44,14 +46,9 @@ Kein Zurück mehr möglich!">
                 {{ member.is_active|yesno:"Aktiv,Inaktiv" }}
             </div>
             <div class="mt-2">
-                <label for="is_staff">Administrator</label>
+                <label for="is_superuser">Rolle</label>
                 <br>
-                {{ member.is_staff|yesno:"Ja,Nein" }}
-            </div>
-            <div class="mt-2">
-                <label for="is_superuser">Superuser</label>
-                <br>
-                {{ member.is_superuser|yesno:"Ja,Nein" }}
+                {{ member.get_role_display }}
             </div>
         </div>
     </div>

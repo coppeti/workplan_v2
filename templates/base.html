@@ -13,7 +13,7 @@
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200;400&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200;400&display=swap" rel="stylesheet">
     <!-- Favicon -->
     <link rel="icon" href="{% static 'img/favicon.ico' %}">
     <!-- Personal styles -->
@@ -63,7 +63,7 @@
                             </ul>
                         </li>
                         {% endif %}
-                        {% if user.is_staff %}
+                        {% if user.is_authenticated and user.role >= 4 %}
                         <li class="nav-item">
                             <a class="nav-link {% block user_active %}{% endblock user_active %}" href="{% url 'member' %}">Benutzer</a>
                         </li>
@@ -160,7 +160,7 @@
             Made with &nbsp;<i class="fa-solid fa-heart text-danger"></i>&nbsp; by eco
         </div>
     </footer>
-    
+
     <!-- Bootstrap 5 JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.bundle.min.js" integrity="sha512-i9cEfJwUwViEPFKdC1enz4ZRGBj8YQo6QByFTF92YXHi7waCqyexvRD75S5NVTsSiTv7rKWqG9Y5eFxmRsOn0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- htmx -->
