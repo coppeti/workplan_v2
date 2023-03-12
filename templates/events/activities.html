@@ -9,13 +9,13 @@
 <div class="w-50">
     <div class="d-flex justify-content-start my-3">
         <button type="button" class="btn btn-outline-primary me-auto" hx-get="{% url 'activity_add' %}" hx-target="#dialog"><i class="fa-solid fa-plus"></i></button>
-        <div class="d-flex col-2">
+        <div class="d-flex col-4">
             <input type="search"
                 id="search_activity"
                 class="form-control"
-                name="search_activity" 
-                placeholder="Suchen..." 
-                hx-post="{% url 'activity_search' %}" 
+                name="search_activity"
+                placeholder="Suchen..."
+                hx-post="{% url 'activity_search' %}"
                 hx-trigger="keyup changed delay:500ms"
                 hx-target="#activities_list">
             <a href="{% url 'activities' %}" class="btn btn-outline-secondary ms-2">

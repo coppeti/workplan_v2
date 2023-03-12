@@ -57,7 +57,7 @@
                             <ul class="dropdown-menu">
                                <li><a class="dropdown-item" href="#">Anfrage</a></li>
                                <li><a class="dropdown-item" href="{% url 'events' %}">Liste</a></li>
-                               {% if user.is_superuser %}
+                               {% if user.is_authenticated and user.is_superuser %}
                                <li><a class="dropdown-item" href="{% url 'activities' %}">Aktivitäten</a></li>
                                {% endif %}
                             </ul>
