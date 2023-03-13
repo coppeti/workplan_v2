@@ -6,22 +6,24 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import require_http_methods
 
+from accounts.models import CustomUser
+
 from .forms import ActivityForm, EventAddForm, EventEditForm
 from .models import Activities, Events
 from .utils import activity_to_css
 
-@user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(lambda u: u.role >= CustomUser.ADMIN)
 def activities(request):
     return render(request, 'events/activities.html')
 
 
-@user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(lambda u: u.role >= CustomUser.ADMIN)
 def activities_list(request):
     activities = Activities.objects.all().order_by('name')
     return render(request, 'events/activities_list.html', {'activities': activities})
 
 
-@user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(lambda u: u.role >= CustomUser.ADMIN)
 def activity_add(request):
     if request.method == 'POST':
         form = ActivityForm(request.POST)
@@ -35,7 +37,7 @@ def activity_add(request):
     return render(request, 'events/activity_add_form.html', {'form': form})
 
 
-@user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(lambda u: u.role >= CustomUser.ADMIN)
 def activity_edit(request, pk):
     activity = get_object_or_404(Activities, pk=pk)
     if request.method == 'POST':
@@ -53,7 +55,7 @@ def activity_edit(request, pk):
     })
 
 
-@user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(lambda u: u.role >= CustomUser.ADMIN)
 @require_http_methods(["POST"])
 def activity_delete(request, pk):
     activity = get_object_or_404(Activities, pk=pk)
@@ -63,7 +65,7 @@ def activity_delete(request, pk):
         return HttpResponse(status=204, headers={'HX-Trigger': 'activitiesListChanged'})
 
 
-@user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(lambda u: u.role >= CustomUser.ADMIN)
 def activity_search(request):
     search_text = request.POST.get('search_activity')
 
