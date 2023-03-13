@@ -88,7 +88,7 @@ def events_list(request):
 @login_required
 def event_add(request):
     if request.method == 'POST':
-        form = EventAddForm(request.POST)
+        form = EventAddForm(request.POST, user=request.user)
         if form.is_valid():
             event = form.save(commit=False)
             if event.activity_id.level >= 4:
