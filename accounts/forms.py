@@ -72,17 +72,17 @@ class MemberEditForm(forms.ModelForm):
                              widget=forms.TextInput(attrs={'style': 'text-transform: lowercase'}),
                              )
     is_active = forms.BooleanField(required=False,
-                                   label = 'Aktiver Benutzer',
+                                   label = 'Aktive',
                                    )
-    is_staff = forms.BooleanField(required=False,
-                                  label='Staff Benutzer',
-                                  )
-    is_superuser = forms.BooleanField(required=False,
-                                      label='Superuser',
-                                      )
+    # is_staff = forms.BooleanField(required=False,
+    #                               label='Staff Benutzer',
+    #                               )
+    # is_superuser = forms.BooleanField(required=False,
+    #                                   label='Superuser',
+    #                                   )
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'username', 'email', 'birthday', 'is_active', 'is_staff', 'is_superuser']
+        fields = ['first_name', 'last_name', 'username', 'email', 'birthday', 'is_active', 'role']
 
 
 class PasswordNewForm(SetPasswordForm):

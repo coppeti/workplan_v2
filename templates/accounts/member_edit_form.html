@@ -28,14 +28,11 @@
                 </div>
             </div>
             <div class="row mb-2">
-                <div class="col-4">
+                <div class="col-4 mt-4 pt-2">
                     {{ form.is_active|as_crispy_field }}
                 </div>
-                <div class="col-4">
-                    {{ form.is_staff|as_crispy_field }}
-                </div>
-                <div class="col-4">
-                    {{ form.is_superuser|as_crispy_field }}
+                <div class="col-8">
+                    {{ form.role|as_crispy_field }}
                 </div>
             </div>
         </div>
