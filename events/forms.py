@@ -1,5 +1,6 @@
 from django import forms
 from django.core.validators import RegexValidator
+from django.db.models import Q
 
 from accounts.models import CustomUser
 
@@ -59,6 +60,14 @@ class EventAddForm(forms.ModelForm):
     class Meta:
         model = Events
         fields = ['user_id', 'activity_id', 'date_start', 'date_stop']
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+        user_role = self.user.role
+        if user_role < CustomUser.MANAGER:
+            self.fields['activity_id'].queryset = Activities.objects.exclude(Q(level__gt=CustomUser.TECHNICIAN))
+
 
 
 class EventEditForm(forms.ModelForm):

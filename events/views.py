@@ -98,7 +98,7 @@ def event_add(request):
             messages.success(request, f'Event {event.activity_id} erfolgreich hinzugefügt.')
             return HttpResponse(status=204, headers={'HX-Trigger': 'eventsListChanged'})
     else:
-        form = EventAddForm()
+        form = EventAddForm(user=request.user)
     return render(request, 'events/event_add_form.html', {'form': form})
 
 
