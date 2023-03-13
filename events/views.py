@@ -89,6 +89,8 @@ def event_add(request):
         form = EventAddForm(request.POST)
         if form.is_valid():
             event = form.save(commit=False)
+            if event.activity_id.level >= 4:
+                event.confirmed = event.is_active = event.displayed = True
             event.comment = f'{event.user_id}:\n{event.activity_id} von {event.date_start.strftime("%d.%m.%Y").strip("0")} bis {event.date_stop.strftime("%d.%m.%Y").strip("0")}'
             event.save()
             messages.success(request, f'Event {event.activity_id} erfolgreich hinzugefügt.')
