@@ -2,16 +2,20 @@
 <table class="table table-striped mt-2">
     <thead>
         <tr>
+            {% if user.role >=4 %}
             <th class="text-center align-middle">#</th>
+            {% endif %}
             <th class="align-middle">Benutzer</th>
             <th class="align-middle">Aktivität</th>
             <th class="align-middle">Von</th>
             <th class="align-middle">Bis</th>
             <th class="text-center align-middle">Bestätigt</th>
+            {% if user.role >=4 %}
             <th class="align-middle">Geändert am</th>
             <th class="text-center align-middle">Aktiv</th>
             <th class="text-center align-middle">Angezeigt</th>
             <th class="align-middle">Kommentar</th>
+            {% endif %}
             <th colspan="2" class="text-center align-middle">Aktion</th>
         </tr>
     </thead>
@@ -19,19 +23,23 @@
         <tbody>
             {% for event in events %}
             <tr>
+                {% if user.role >= 4 %}
                 <td class="test-center">
                 <input type="checkbox" name="event_check" id="event-{{ event.id }}" value="{{ event.id }}">
                 &nbsp;{{ event.id }}
                 </td>
+                {% endif %}
                 <td>{{ event.user_id }}</td>
                 <td>{{ event.activity_id }}</td>
                 <td>{{ event.date_start|date:"j.m.Y" }}</td>
                 <td>{{ event.date_stop|date:"j.m.Y" }}</td>
                 <td class="text-center">{{ event.confirmed|boolsymbol }}</td>
+                {% if user.role >= 4 %}
                 <td>{{ event.changed_on|date:"j.m.Y - G:i" }}</td>
                 <td class="text-center">{{ event.is_active|boolsymbol }}</td>
                 <td class="text-center">{{ event.displayed|boolsymbol }}</td>
                 <td>{{ event.comment|linebreaksbr }}</td>
+                {% endif %}
                 <td class="text-center align-middle">
                     <button type="button" class="btn btn-sm text-primary" hx-get="{% url 'event_edit' event.id %}" hx-target="#dialog">
                         <i class="fa-solid fa-pen"></i>
@@ -46,16 +54,20 @@
             {% endfor %}
             {% for result in results %}
             <tr>
+                {% if user.role >=4 %}
                 <td class="test-center">{{ result.id }}</td>
+                {% endif %}
                 <td>{{ result.user_id }}</td>
                 <td>{{ result.activity_id }}</td>
                 <td>{{ result.date_start|date:"j.m.Y" }}</td>
                 <td>{{ result.date_stop|date:"j.m.Y" }}</td>
                 <td class="text-center">{{ result.confirmed|yesno:"Ja,Nein" }}</td>
+                {% if user.role >=4 %}
                 <td>{{ result.changed_on|date:"j.m.Y - G:i" }}</td>
                 <td class="text-center">{{ result.is_active|yesno:"Ja,Nein" }}</td>
                 <td class="text-center">{{ result.displayed|yesno:"Ja,Nein" }}</td>
                 <td>{{ result.comment }}</td>
+                {% endif %}
                 <td class="text-center align-middle">
                     <button type="button" class="btn btn-sm text-primary" hx-get="{% url 'event_edit' result.id %}" hx-target="#dialog">
                         <i class="fa-solid fa-pen"></i>

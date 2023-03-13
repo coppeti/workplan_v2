@@ -46,29 +46,41 @@
                     <!-- Main Menu -->
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link {% block home_active %}{% endblock home_active %}" href="{% url 'home' %}">Home</a>
+                            <a class="nav-link {% block home_active %}{% endblock home_active %}" href="{% url 'home' %}">
+                                Home
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {% block holidays_active %}{% endblock holidays_active %}" href="{% url 'holiday' year=this_year region='be' %}">Feiertage</a>
+                            <a class="nav-link {% block holidays_active %}{% endblock holidays_active %}" href="{% url 'holiday' year=this_year region='be' %}">
+                                Feiertage
+                            </a>
                         </li>
                         {% if user.is_authenticated and user.is_active == True %}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle {% block events_active %}{% endblock events_active %}" href="#" role="button" data-bs-toggle="dropdown">Events</a>
-                            <ul class="dropdown-menu">
-                               <li><a class="dropdown-item" href="#">Anfrage</a></li>
-                               <li><a class="dropdown-item" href="{% url 'events' %}">Liste</a></li>
-                               {% if user.is_authenticated and user.is_superuser %}
-                               <li><a class="dropdown-item" href="{% url 'activities' %}">Aktivitäten</a></li>
-                               {% endif %}
-                            </ul>
+                        <li class="nav-item">
+                            <a class="nav-link {% block events_active %}{% endblock events_active %}" href="{% url 'events' %}">
+                                Events
+                            </a>
+                        </li>
+                        {% endif %}
+                        {% if user.is_authenticated and user.is_superuser %}
+                        <li class="nav-item">
+                            <a class="nav-link {% block activities_active %}{% endblock activities_active %}" href="{% url 'activities' %}">
+                                Aktivitäten
+                            </a>
                         </li>
                         {% endif %}
                         {% if user.is_authenticated and user.role >= 4 %}
                         <li class="nav-item">
-                            <a class="nav-link {% block user_active %}{% endblock user_active %}" href="{% url 'member' %}">Benutzer</a>
+                            <a class="nav-link {% block user_active %}{% endblock user_active %}" href="{% url 'member' %}">
+                                Benutzer
+                            </a>
                         </li>
                         {% endif %}
-               <a class="nav-link" href="https://www.schulferien.org/schweiz/ferien/{{ this_year }}/" target="_blank">Schulferien {{ this_year }}</a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://www.schulferien.org/schweiz/ferien/{{ this_year }}/" target="_blank">
+                                Schulferien {{ this_year }}
+                            </a>
+                        </li>
                     </ul>
                     <div class="d-flex align-items-center">
                         <div class="text-light me-5">
