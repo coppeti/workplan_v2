@@ -2,7 +2,7 @@
 <table class="table table-striped mt-2">
     <thead>
         <tr>
-            {% if user.role >=4 %}
+            {% if user.role >= 4 %}
             <th class="text-center align-middle">#</th>
             {% endif %}
             <th class="align-middle">Benutzer</th>
@@ -10,7 +10,7 @@
             <th class="align-middle">Von</th>
             <th class="align-middle">Bis</th>
             <th class="text-center align-middle">Bestätigt</th>
-            {% if user.role >=4 %}
+            {% if user.role >= 4 %}
             <th class="align-middle">Geändert am</th>
             <th class="text-center align-middle">Aktiv</th>
             <th class="text-center align-middle">Angezeigt</th>
@@ -54,7 +54,7 @@
             {% endfor %}
             {% for result in results %}
             <tr>
-                {% if user.role >=4 %}
+                {% if user.role >= 4 %}
                 <td class="test-center">{{ result.id }}</td>
                 {% endif %}
                 <td>{{ result.user_id }}</td>
@@ -62,7 +62,7 @@
                 <td>{{ result.date_start|date:"j.m.Y" }}</td>
                 <td>{{ result.date_stop|date:"j.m.Y" }}</td>
                 <td class="text-center">{{ result.confirmed|yesno:"Ja,Nein" }}</td>
-                {% if user.role >=4 %}
+                {% if user.role >= 4 %}
                 <td>{{ result.changed_on|date:"j.m.Y - G:i" }}</td>
                 <td class="text-center">{{ result.is_active|yesno:"Ja,Nein" }}</td>
                 <td class="text-center">{{ result.displayed|yesno:"Ja,Nein" }}</td>
