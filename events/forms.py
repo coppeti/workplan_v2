@@ -64,8 +64,9 @@ class EventAddForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
-        user_role = self.user.role
-        if user_role < CustomUser.MANAGER:
+        if self.user.role < CustomUser.MANAGER:
+            self.fields['user_id'].initial = self.user
+            self.fields['user_id'].queryset = CustomUser.objects.filter(id=self.user.id)
             self.fields['activity_id'].queryset = Activities.objects.exclude(Q(level__gt=CustomUser.TECHNICIAN))
 
 
