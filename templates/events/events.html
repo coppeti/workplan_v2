@@ -12,19 +12,23 @@
         <div class="d-flex col-2">
             {% comment %}
             <input type="search"
-                id="search_event"
-                class="form-control"
-                name="search_event"
-                placeholder="Suchen..."
-                hx-post="{% url 'event_search' %}"
-                hx-trigger="keyup changed delay:500ms"
-                hx-target="#events_list">
+            id="search_event"
+            class="form-control"
+            name="search_event"
+            placeholder="Suchen..."
+            hx-post="{% url 'event_search' %}"
+            hx-trigger="keyup changed delay:500ms"
+            hx-target="#events_list">
             <a href="{% url 'events' %}" class="btn btn-outline-secondary ms-2">
                 <i class="fa-solid fa-rotate-left"></i>
             </a>
             {% endcomment %}
         </div>
+        {% if user.role > 4 %}
+        &nbsp;<a href="{% url 'event_permanent_removal' %}" class="btn btn-outline-info">Endgültige Löschung</a>
+        {% endif %}
     </div>
+    {% if user.role > 4 %}
     <div class="d-flex justify-content-start my-3">
         <button id="checkallbtn" type="button" class="btn btn-outline-secondary me-auto">
             <i class="fa-solid fa-check-double"></i>
@@ -33,6 +37,7 @@
             <i class="fa-regular fa-trash-can"></i>&nbsp;<i class="fa-solid fa-plus"></i>
         </button>
     </div>
+    {% endif %}
     <div id="events_list" class="d-flex justify-content-center" hx-get="{% url 'events_list' %}" hx-trigger="load, eventsListChanged from:body">
         <!-- Inject htmx events_list.html -->
     </div>

@@ -2,17 +2,17 @@
 <table class="table table-striped mt-2">
     <thead>
         <tr>
-            {% if user.role >= 4 %}
-            <th class="text-center align-middle">#</th>
+            {% if user.role > 4 %}
+            <th class="align-middle">#</th>
             {% endif %}
             <th class="align-middle">Benutzer</th>
             <th class="align-middle">Aktivität</th>
             <th class="align-middle">Von</th>
             <th class="align-middle">Bis</th>
-            <th class="text-center align-middle">Bestätigt</th>
-            {% if user.role >= 4 %}
-            <th class="align-middle">Geändert am</th>
             <th class="text-center align-middle">Aktiv</th>
+            <th class="text-center align-middle">Bestätigt</th>
+            {% if user.role > 4 %}
+            <th class="align-middle">Geändert am</th>
             <th class="text-center align-middle">Angezeigt</th>
             <th class="align-middle">Kommentar</th>
             {% endif %}
@@ -23,8 +23,8 @@
         <tbody>
             {% for event in events %}
             <tr>
-                {% if user.role >= 4 %}
-                <td class="test-center">
+                {% if user.role > 4 %}
+                <td>
                 <input type="checkbox" name="event_check" id="event-{{ event.id }}" value="{{ event.id }}">
                 &nbsp;{{ event.id }}
                 </td>
@@ -33,20 +33,26 @@
                 <td>{{ event.activity_id }}</td>
                 <td>{{ event.date_start|date:"j.m.Y" }}</td>
                 <td>{{ event.date_stop|date:"j.m.Y" }}</td>
-                <td class="text-center">{{ event.confirmed|boolsymbol }}</td>
-                {% if user.role >= 4 %}
-                <td>{{ event.changed_on|date:"j.m.Y - G:i" }}</td>
                 <td class="text-center">{{ event.is_active|boolsymbol }}</td>
+                <td class="text-center">{{ event.confirmed|boolsymbol }}</td>
+                {% if user.role > 4 %}
+                <td>{{ event.changed_on|date:"j.m.Y - G:i" }}</td>
                 <td class="text-center">{{ event.displayed|boolsymbol }}</td>
                 <td>{{ event.comment|linebreaksbr }}</td>
                 {% endif %}
                 <td class="text-center align-middle">
-                    <button type="button" class="btn btn-sm text-primary" hx-get="{% url 'event_edit' event.id %}" hx-target="#dialog">
+                    <button type="button" class="btn btn-sm text-primary"
+                        {% if user.role < 4 and user.id != event.user_id.id or user.role < event.activity_id.level %}disabled{% endif %}
+                        hx-get="{% url 'event_edit' event.id %}"
+                        hx-target="#dialog">
                         <i class="fa-solid fa-pen"></i>
                     </button>
                 </td>
                 <td class="text-center align-middle">
-                    <button type="button" class="btn btn-sm text-danger" hx-post="{% url 'event_delete' event.id %}" hx-confirm="Willst du {{ event.activity_id }} von {{ event.user_id }} wirklich löschen?">
+                    <button type="button" class="btn btn-sm text-danger"
+                        {% if event.activity_id.level > 2 and user.id == event.user_id.id and user.role < 4 or event.is_active == False %}disabled{% endif %}
+                        hx-post="{% url 'event_delete' event.id %}"
+                        hx-confirm="Willst du {{ event.activity_id }} von {{ event.user_id }} wirklich löschen?">
                         <i class="fa-solid fa-trash"></i>
                     </button>
                 </td>
@@ -54,27 +60,36 @@
             {% endfor %}
             {% for result in results %}
             <tr>
-                {% if user.role >= 4 %}
-                <td class="test-center">{{ result.id }}</td>
+                {% if user.role > 4 %}
+                <td>
+                    <input type="checkbox" name="event_check" id="event-{{ result.id }}" value="{{ result.id }}">
+                    &nbsp;{{ result.id }}
+                </td>
                 {% endif %}
                 <td>{{ result.user_id }}</td>
                 <td>{{ result.activity_id }}</td>
                 <td>{{ result.date_start|date:"j.m.Y" }}</td>
                 <td>{{ result.date_stop|date:"j.m.Y" }}</td>
-                <td class="text-center">{{ result.confirmed|yesno:"Ja,Nein" }}</td>
-                {% if user.role >= 4 %}
+                <td class="text-center">{{ result.confirmed|boolsymbol }}</td>
+                <td class="text-center">{{ result.is_active|boolsymbol }}</td>
+                {% if user.role > 4 %}
                 <td>{{ result.changed_on|date:"j.m.Y - G:i" }}</td>
-                <td class="text-center">{{ result.is_active|yesno:"Ja,Nein" }}</td>
-                <td class="text-center">{{ result.displayed|yesno:"Ja,Nein" }}</td>
+                <td class="text-center">{{ result.displayed|boolsymbol }}</td>
                 <td>{{ result.comment }}</td>
                 {% endif %}
                 <td class="text-center align-middle">
-                    <button type="button" class="btn btn-sm text-primary" hx-get="{% url 'event_edit' result.id %}" hx-target="#dialog">
+                    <button type="button" class="btn btn-sm text-primary"
+                        {% if user.role < 4 and user.id != result.user_id.id or user.role < result.activity_id.level %}disabled{% endif %}
+                        hx-get="{% url 'event_edit' result.id %}"
+                        hx-target="#dialog">
                         <i class="fa-solid fa-pen"></i>
                     </button>
                 </td>
                 <td class="text-center align-middle">
-                    <button type="button" class="btn btn-sm text-danger" hx-post="{% url 'event_delete' result.id %}" hx-confirm="Willst du {{ result.name }} von {{ result.user_id }} wirklich löschen?">
+                    <button type="button" class="btn btn-sm text-danger"
+                        {% if result.activity_id.level > 2 and user.id == result.user_id.id and user.role < 4 or result.is_active == False %}disabled{% endif %}
+                        hx-post="{% url 'event_delete' result.id %}"
+                        hx-confirm="Willst du {{ result.activity_id }} von {{ result.user_id }} wirklich löschen?">
                         <i class="fa-solid fa-trash"></i>
                     </button>
                 </td>

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Permanent Removal{% endblock title %}
+
+{% block events_active %}active{% endblock events_active %}
+
+{% block content %}
+<h4 class="my-4">Events endgültige Löschung</h4>
+<div class="container">
+    <form method="POST" action="{% url 'event_permanent_removal' %}">
+        {% csrf_token %}
+        <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-outline-danger">Alles löschen</button>
+        </div>
+        <div class="d-flex justify-content-center">
+            <table class="table table-striped mt-2">
+                <thead>
+                    <tr>
+                        <th class="align-middle">#</th>
+                        <th class="align-middle">Benutzer</th>
+                        <th class="align-middle">Aktivität</th>
+                        <th class="align-middle">Von</th>
+                        <th class="align-middle">Bis</th>
+                        <th class="align-middle">Geändert am</th>
+                        <th class="align-middle">Kommentar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        {% for event in oldEvents %}
+                        <tr>
+                            <td>{{ event.id }}</td>
+                            <td>{{ event.user_id }}</td>
+                            <td>{{ event.activity_id }}</td>
+                            <td>{{ event.date_start|date:"j.m.Y" }}</td>
+                            <td>{{ event.date_stop|date:"j.m.Y" }}</td>
+                            <td>{{ event.changed_on|date:"j.m.Y - G:i" }}</td>
+                            <td>{{ event.comment|linebreaksbr }}</td>
+                        </tr>
+                        {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </form>
+</div>
+
+
+
+{% endblock content %}

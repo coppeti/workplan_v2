@@ -2,8 +2,9 @@ from datetime import date
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Q
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 
 from accounts.models import CustomUser
@@ -124,7 +125,8 @@ def event_edit(request, pk):
 def event_delete(request, pk):
     event = get_object_or_404(Events, pk=pk)
     if request.method == 'POST':
-        event.delete()
+        event.is_active = False
+        event.save()
         messages.error(request, f'{event.activity_id} von {event.user_id} wurde gelöscht.')
         return HttpResponse(status=204, headers={'HX-Trigger': 'eventsListChanged'})
 
@@ -136,7 +138,20 @@ def event_multi_delete(request):
         ids = request.POST.getlist('event_check')
         for id in ids:
             event = get_object_or_404(Events, pk=id)
-            event.delete()
+            event.is_active = False
+            event.save()
         messages.error(request, 'Alle ausgewählten Events wurden gelöscht.')
         return HttpResponse(status=204, headers={'HX-Trigger': 'eventsListChanged'})
 
+
+@login_required
+@user_passes_test(lambda u: u.role >= CustomUser.ADMIN)
+def event_permanent_removal(request):
+    lastYear = date.today().year - 1
+    oldEvents = Events.objects.filter(date_stop__year__lte=lastYear, is_active=False, confirmed=False)
+    if request.method == 'POST':
+        oldEvents.delete()
+        messages.error(request, 'Alle alten Events wurden aus der Datenbank gelöscht.')
+        return HttpResponseRedirect(reverse('events'))
+    else:
+        return render(request, 'events/event_permanent_removal.html', {'oldEvents': oldEvents})

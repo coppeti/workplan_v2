@@ -34,6 +34,7 @@ from events.views import (
     event_edit,
     event_delete,
     event_multi_delete,
+    event_permanent_removal,
     # event_search,
 )
 
@@ -69,6 +70,7 @@ urlpatterns = [
     path('htmx/event/<pk>/edit/', event_edit, name="event_edit"),
     path('htmx/event/<pk>/delete/', event_delete, name="event_delete"),
     path('htmx/event-multi-delete/', event_multi_delete, name="event_multi_delete"),
+    path('event-permanent-removal/', event_permanent_removal, name="event_permanent_removal"),
     # path('htmx/event-search/', event_search, name="event_search"),
     # Django backend
     path('mgmt/', admin.site.urls),
