@@ -106,6 +106,7 @@ def event_add(request):
 @login_required
 def event_edit(request, pk):
     event = get_object_or_404(Events, pk=pk)
+    user = request.user
     if request.method == 'POST':
         form = EventEditForm(request.POST, instance=event)
         if form.is_valid():
@@ -113,10 +114,11 @@ def event_edit(request, pk):
             messages.success(request, f'{event.activity_id} von {event.user_id} geändert.')
             return HttpResponse(status=204, headers={'HX-Trigger': 'eventsListChanged'})
     else:
-        form = EventEditForm(instance=event)
+        form = EventEditForm(instance=event, user=user)
     return render(request, 'events/event_edit_form.html', {
         'form': form,
         'event': event,
+        'user': user
     })
 
 

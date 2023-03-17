@@ -104,3 +104,19 @@ class EventEditForm(forms.ModelForm):
     class Meta:
         model = Events
         fields = ['user_id', 'activity_id', 'date_start', 'date_stop', 'confirmed', 'is_active', 'displayed', 'comment']
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        self.event = kwargs.pop('instance')
+        super().__init__(*args, **kwargs)
+        self.fields['user_id'].initial = self.user
+        self.fields['activity_id'].initial = self.event.activity_id
+        self.fields['date_start'].initial = self.event.date_start
+        self.fields['date_stop'].initial = self.event.date_stop
+        self.fields['is_active'].initial = self.event.is_active
+        self.fields['confirmed'].initial = self.event.confirmed
+        self.fields['displayed'].initial = self.event.displayed
+        self.fields['comment'].initial = self.event.comment
+        if self.user.role < 4 and self.event.confirmed == False:
+            self.fields['is_active'].widget.attrs['disabled'] = True
+            self.fields['confirmed'].widget.attrs['disabled'] = True
