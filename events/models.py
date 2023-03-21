@@ -54,6 +54,6 @@ class Events(models.Model):
     displayed = models.BooleanField(default=False)
     comment = models.TextField(max_length=300, blank=True)
 
-    def clean(self):
-        if self.date_stop < self.date_start:
-            raise ValidationError('Das Enddatum liegt vor dem Startdatum.')
+    # def clean(self):
+    #     if self.date_stop < self.date_start:
+    #         raise ValidationError('Das Enddatum liegt vor dem Startdatum.')

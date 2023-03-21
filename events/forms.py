@@ -1,4 +1,7 @@
+from datetime import datetime
+
 from django import forms
+from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 from django.db.models import Q
 
@@ -6,6 +9,9 @@ from accounts.models import CustomUser
 
 from .models import Activities, Events
 
+
+TODAY = datetime.now()
+NL = '\n'
 
 class ActivityForm(forms.ModelForm):
     name = forms.CharField(max_length=50,
@@ -62,13 +68,38 @@ class EventAddForm(forms.ModelForm):
         fields = ['user_id', 'activity_id', 'date_start', 'date_stop']
 
     def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user')
+        logged_user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
-        if self.user.role < CustomUser.MANAGER:
-            self.fields['user_id'].initial = self.user
-            self.fields['user_id'].queryset = CustomUser.objects.filter(id=self.user.id)
+        if logged_user.role < CustomUser.MANAGER:
+            self.fields['user_id'].initial = logged_user
+            self.fields['user_id'].queryset = CustomUser.objects.filter(id=logged_user.id)
             self.fields['activity_id'].queryset = Activities.objects.exclude(Q(level__gt=CustomUser.TECHNICIAN))
 
+    def clean(self):
+        cleaned_data = super().clean()
+        date_start = cleaned_data.get('date_start')
+        date_stop = cleaned_data.get('date_stop')
+        activity = cleaned_data.get('activity_id')
+        user = cleaned_data.get('user_id')
+        confirmed = cleaned_data.get('confirmed')
+        if date_stop < date_start:
+            raise ValidationError('Das Enddatum liegt vor dem Startdatum!')
+        if activity != 'Krank':
+            if date_start < TODAY.strftime('%Y-%m-%d'):
+                raise ValidationError('Der Event beginnt in der Vergangenheit')
+            if date_stop < TODAY.strftime('%Y-%m-%d'):
+                raise ValidationError('Der Event endet in der Vergangenheit')
+        events = Events.objects.filter(Q(user_id=user), Q(confirmed=True),
+                                            Q(date_start__lte=date_stop,  date_stop__gte=date_start) |
+                                            Q(date_stop__gte=date_start, date_start__lte=date_stop))
+        if events:
+            for e in events:
+                if (activity != 'Kein Pikett' and e.activity_id != 'Kein Pikett'
+                    or activity == 'Pikett' and e.activity_id == 'Kein Pikett'
+                    or activity == 'Kein Pikett' and e.activity_id == 'Pikett'):
+                    raise ValidationError(f'Konflikt-Events:{NL}'
+                                          f'{e.user_id}, {e.activity_id} vom {e.date_start.strftime("%d.%m.%Y")} bis zum {e.date_stop.strftime("%d.%m.%Y")}')
+        return cleaned_data
 
 
 class EventEditForm(forms.ModelForm):
@@ -106,17 +137,24 @@ class EventEditForm(forms.ModelForm):
         fields = ['user_id', 'activity_id', 'date_start', 'date_stop', 'confirmed', 'is_active', 'displayed', 'comment']
 
     def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user')
-        self.event = kwargs.pop('instance')
+        logged_user = kwargs.pop('user')
+        event = kwargs.get('instance')
         super().__init__(*args, **kwargs)
-        self.fields['user_id'].initial = self.user
-        self.fields['activity_id'].initial = self.event.activity_id
-        self.fields['date_start'].initial = self.event.date_start
-        self.fields['date_stop'].initial = self.event.date_stop
-        self.fields['is_active'].initial = self.event.is_active
-        self.fields['confirmed'].initial = self.event.confirmed
-        self.fields['displayed'].initial = self.event.displayed
-        self.fields['comment'].initial = self.event.comment
-        if self.user.role < 4 and self.event.confirmed == False:
+        # self.fields['user_id'].initial = event.user_id
+        # self.fields['activity_id'].initial = event.activity_id
+        # self.fields['date_start'].initial = event.date_start
+        # self.fields['date_stop'].initial = event.date_stop
+        # self.fields['is_active'].initial = event.is_active
+        # self.fields['confirmed'].initial = event.confirmed
+        # self.fields['displayed'].initial = event.displayed
+        # self.fields['comment'].initial = event.comment
+        if logged_user.role < CustomUser.MANAGER and event.confirmed == False:
             self.fields['is_active'].widget.attrs['disabled'] = True
+        if logged_user.role < CustomUser.MANAGER:
+            self.fields['user_id'].widget.attrs['disabled'] = True
+            self.fields['activity_id'].queryset = Activities.objects.filter(level__lt=Activities.MANAGER)
             self.fields['confirmed'].widget.attrs['disabled'] = True
+
+    def clean(self):
+        cleaned_data = super().clean()
+        date_start = cleaned_data.get('date_start')

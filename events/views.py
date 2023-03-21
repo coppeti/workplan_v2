@@ -108,9 +108,9 @@ def event_edit(request, pk):
     event = get_object_or_404(Events, pk=pk)
     user = request.user
     if request.method == 'POST':
-        form = EventEditForm(request.POST, instance=event)
+        form = EventEditForm(request.POST, instance=event, user=user)
         if form.is_valid():
-            event = form.save()
+            form.save()
             messages.success(request, f'{event.activity_id} von {event.user_id} geändert.')
             return HttpResponse(status=204, headers={'HX-Trigger': 'eventsListChanged'})
     else:

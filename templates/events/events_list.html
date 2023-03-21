@@ -50,7 +50,7 @@
                 </td>
                 <td class="text-center align-middle">
                     <button type="button" class="btn btn-sm text-danger"
-                        {% if event.activity_id.level > 2 and user.id == event.user_id.id and user.role < 4 or event.is_active == False %}disabled{% endif %}
+                        {% if event.activity_id.level > 2 and user.role < 4 or event.is_active == False %}disabled{% endif %}
                         hx-post="{% url 'event_delete' event.id %}"
                         hx-confirm="Willst du {{ event.activity_id }} von {{ event.user_id }} wirklich löschen?">
                         <i class="fa-solid fa-trash"></i>
