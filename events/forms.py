@@ -63,9 +63,20 @@ class EventAddForm(forms.ModelForm):
                                 label='Bis',
                                 widget=forms.TextInput(attrs={'onfocus': '(this.type="date")'})
                                 )
+    confirmed = forms.BooleanField(required=False,
+                                   label='Bestätigt',
+                                   )
+    is_active = forms.BooleanField(required=False,
+                                   label='Aktiv',
+                                   )
+    displayed = forms.BooleanField(required=False,
+                                   initial=True,
+                                   label='Angezeigt',
+                                   )
+
     class Meta:
         model = Events
-        fields = ['user_id', 'activity_id', 'date_start', 'date_stop']
+        fields = ['user_id', 'activity_id', 'date_start', 'date_stop', 'confirmed', 'is_active', 'displayed']
 
     def __init__(self, *args, **kwargs):
         logged_user = kwargs.pop('user')
