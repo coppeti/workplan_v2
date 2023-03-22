@@ -3,6 +3,7 @@ from pathlib import Path
 from django.conf import settings
 
 from .models import Activities
+from accounts.models import CustomUser
 
 
 def activity_to_css():
@@ -20,3 +21,9 @@ def activity_to_css():
             f'\tcolor: {activity.text_color};\n', f'}}\n\n']
         )
     file.close()
+
+
+def admin_emails():
+    admins = CustomUser.objects.filter(role__gte=CustomUser.ADMIN)
+    emails = [admin.email for admin in admins]
+    return emails

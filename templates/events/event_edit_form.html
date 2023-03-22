@@ -7,6 +7,13 @@
         </div>
         <div class="modal-body">
             <div class="row mb-2">
+                {% for error in form.non_field_errors %}
+                <div class="alert alert-block alert-danger">
+                    {{ error|linebreaks }}
+                </div>
+                {% endfor %}
+            </div>
+            <div class="row mb-2">
                 <div class="col-6">
                     {{ form.user_id|as_crispy_field }}
                 </div>

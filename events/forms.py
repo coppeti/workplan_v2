@@ -169,3 +169,4 @@ class EventEditForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
         date_start = cleaned_data.get('date_start')
+        date_stop = cleaned_data.get('date_stop')

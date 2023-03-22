@@ -1,0 +1,18 @@
+{% autoescape off %}
+Hallo Admin,
+
+Das folgende neue Event bittet um Ihre Aufmerksamkeit:
+
+{{ event.user_id }}, {{ event.activity_id }}
+von {{ event.date_start }} bis zum {{ event.date_stop }}.
+
+Um die Anfrage zu bestätigen::
+<a href="#">Bestätigen</a>
+
+Um den Antrag abzulehnen:
+<a href="#">Ablehnen</a>
+
+Hier finden Sie alle Event, die zur gleichen Zeit stattfinden:
+
+
+{% endautoescape %}

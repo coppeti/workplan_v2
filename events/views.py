@@ -1,9 +1,12 @@
 from datetime import date
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.core.mail import send_mail
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
+from django.template.loader import render_to_string
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 
@@ -11,7 +14,7 @@ from accounts.models import CustomUser
 
 from .forms import ActivityForm, EventAddForm, EventEditForm
 from .models import Activities, Events
-from .utils import activity_to_css
+from .utils import activity_to_css, admin_emails
 
 @user_passes_test(lambda u: u.role >= CustomUser.ADMIN)
 def activities(request):
@@ -92,10 +95,15 @@ def event_add(request):
         form = EventAddForm(request.POST, user=request.user)
         if form.is_valid():
             event = form.save(commit=False)
-            if event.activity_id.level >= 4:
-                event.confirmed = event.is_active = event.displayed = True
             event.comment = f'{event.user_id}:\n{event.activity_id} von {event.date_start.strftime("%d.%m.%Y").strip("0")} bis {event.date_stop.strftime("%d.%m.%Y").strip("0")}'
             event.save()
+            message = render_to_string('email/event_validation_email.html', {
+                'domain': settings.DEFAULT_DOMAIN,
+                'event': event,
+            })
+            subject = 'Ein neuer Event bittet um Ihre Aufmerksamkeit.'
+            subject = ''.join(subject.splitlines())
+            send_mail(subject, message, event.user_id.email, admin_emails())
             messages.success(request, f'Event {event.activity_id} erfolgreich hinzugefügt.')
             return HttpResponse(status=204, headers={'HX-Trigger': 'eventsListChanged'})
     else:
