@@ -13,6 +13,10 @@ Um den Antrag abzulehnen:
 <a href="#">Ablehnen</a>
 
 Hier finden Sie alle Event, die zur gleichen Zeit stattfinden:
+{% for check_event in check_events %}
+    -{{ check_event.user_id }}, {{ check_event.activity_id.name }}
+        von {{ check_event.date_start }} bis zum {{ check_event.date_stop }}
+{% endfor %}
 
 
 {% endautoescape %}
