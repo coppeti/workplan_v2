@@ -96,19 +96,20 @@ def event_add(request):
     if request.method == 'POST':
         form = EventAddForm(request.POST, user=request.user)
         if form.is_valid():
+            user = request.user
             event = form.save(commit=False)
             event.comment = f'{event.user_id}:\n{event.activity_id} von {event.date_start.strftime("%d.%m.%Y").strip("0")} bis {event.date_stop.strftime("%d.%m.%Y").strip("0")}'
             check_events = Events.objects.filter(date_start__lte=event.date_stop, date_stop__gte=event.date_start, confirmed=True)
             event.save()
-            message = render_to_string('email/event_validation_email.html', {
-                'domain': settings.DEFAULT_DOMAIN,
-                'event': event,
-                'check_events': check_events,
-                'token': default_token_generator.make_token(event),
-            })
-            # subject = 'Ein neuer Event bittet um Ihre Aufmerksamkeit.'
-            # subject = ''.join(subject.splitlines())
-            # send_mail(subject, message, event.user_id.email, admin_emails())
+            if user.role < CustomUser.MANAGER:
+                message = render_to_string('email/event_validation_email.html', {
+                    'domain': settings.DEFAULT_DOMAIN,
+                    'event': event,
+                    'check_events': check_events,
+                })
+                subject = 'Ein neuer Event bittet um Ihre Aufmerksamkeit.'
+                subject = ''.join(subject.splitlines())
+                send_mail(subject, message, event.user_id.email, admin_emails())
             messages.success(request, f'Event {event.activity_id} erfolgreich hinzugefügt.')
             return HttpResponse(status=204, headers={'HX-Trigger': 'eventsListChanged'})
     else:

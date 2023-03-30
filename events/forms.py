@@ -85,6 +85,9 @@ class EventAddForm(forms.ModelForm):
             self.fields['user_id'].initial = logged_user
             self.fields['user_id'].queryset = CustomUser.objects.filter(id=logged_user.id)
             self.fields['activity_id'].queryset = Activities.objects.exclude(Q(level__gt=CustomUser.TECHNICIAN))
+        if logged_user.role >= CustomUser.MANAGER:
+            self.fields['confirmed'].initial = True
+            self.fields['is_active'].initial = True
 
     def clean(self):
         cleaned_data = super().clean()
