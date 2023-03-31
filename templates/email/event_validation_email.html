@@ -7,14 +7,14 @@ Das folgende neue Event bittet um Ihre Aufmerksamkeit:
 von {{ event.date_start }} bis zum {{ event.date_stop }}.
 
 Um die Anfrage zu bestätigen::
-<a href="#">Bestätigen</a>
+<a href="{{ domain }}{% url 'event_to_confirm' pk=event.id %}">Bestätigen</a>
 
 Um den Antrag abzulehnen:
 <a href="#">Ablehnen</a>
 
 Hier finden Sie alle Event, die zur gleichen Zeit stattfinden:
 {% for check_event in check_events %}
-    -{{ check_event.user_id }}, {{ check_event.activity_id.name }}
+    -<strong>{{ check_event.user_id }}, {{ check_event.activity_id.name }}</strong>
         von {{ check_event.date_start }} bis zum {{ check_event.date_stop }}
 {% endfor %}
 

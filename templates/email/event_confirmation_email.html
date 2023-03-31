@@ -1,0 +1,11 @@
+{% autoescape off %}
+Hallo {{ event.user_id }},
+
+Dein Antrag für der folgende Event wurde angenommen:
+
+{{ event.activity_id }},
+von {{ event.date_start }} bis zum {{ event.date_stop }}.
+
+
+
+{% endautoescape %}

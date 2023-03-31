@@ -171,3 +171,20 @@ def event_permanent_removal(request):
         return HttpResponseRedirect(reverse('events'))
     else:
         return render(request, 'events/event_permanent_removal.html', {'oldEvents': oldEvents})
+
+
+@login_required
+@user_passes_test(lambda u: u.role >= CustomUser.ADMIN)
+def event_to_confirm(request, pk):
+    event = get_object_or_404(Events, pk=pk)
+    event.confirmed = event.is_active = event.displayed = True
+    event.save()
+    message = render_to_string('email/event_confirmation_email.html', {
+        'domain': settings.DEFAULT_DOMAIN,
+        'event': event,
+    })
+    subject = 'Ihr Antrag wurde bestätigt!'
+    subject = ''.join(subject.splitlines())
+    send_mail(subject, message, None, [event.user_id.email])
+    messages.success(request, 'Der Ereignis wurde freigegeben und der Nutzer informiert.')
+    return HttpResponseRedirect(reverse('events'))
