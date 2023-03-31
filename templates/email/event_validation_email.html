@@ -10,11 +10,11 @@ Um die Anfrage zu bestätigen::
 <a href="{{ domain }}{% url 'event_to_confirm' pk=event.id %}">Bestätigen</a>
 
 Um den Antrag abzulehnen:
-<a href="#">Ablehnen</a>
+<a href="{{ domain }}{% url 'event_refused' pk=event.id %}">Ablehnen</a>
 
 Hier finden Sie alle Event, die zur gleichen Zeit stattfinden:
 {% for check_event in check_events %}
-    -<strong>{{ check_event.user_id }}, {{ check_event.activity_id.name }}</strong>
+    -<b>{{ check_event.user_id }}, {{ check_event.activity_id.name }}</b>
         von {{ check_event.date_start }} bis zum {{ check_event.date_stop }}
 {% endfor %}
 

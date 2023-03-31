@@ -186,5 +186,22 @@ def event_to_confirm(request, pk):
     subject = 'Ihr Antrag wurde bestätigt!'
     subject = ''.join(subject.splitlines())
     send_mail(subject, message, None, [event.user_id.email])
-    messages.success(request, 'Der Ereignis wurde freigegeben und der Nutzer informiert.')
+    messages.success(request, 'Das Event wurde freigegeben und der Nutzer informiert.')
+    return HttpResponseRedirect(reverse('events'))
+
+
+@login_required
+@user_passes_test(lambda u: u.role >= CustomUser.ADMIN)
+def event_refused(request, pk):
+    event = get_object_or_404(Events, pk=pk)
+    event.confirmed = event.is_active = event.displayed = False
+    event.save()
+    message = render_to_string('email/event_refused_email.html', {
+        'domain': settings.DEFAULT_DOMAIN,
+        'event': event,
+    })
+    subject = 'Ihr Antrag wurde abgelehnt.'
+    subject = ''.join(subject.splitlines())
+    send_mail(subject, message, None, [event.user_id.email])
+    messages.error(request, 'Das Event wurde abgelehnt und der Nutzer informiert.')
     return HttpResponseRedirect(reverse('events'))

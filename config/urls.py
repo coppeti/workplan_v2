@@ -36,6 +36,7 @@ from events.views import (
     event_multi_delete,
     event_permanent_removal,
     event_to_confirm,
+    event_refused,
     # event_search,
 )
 
@@ -73,6 +74,7 @@ urlpatterns = [
     path('htmx/event-multi-delete/', event_multi_delete, name="event_multi_delete"),
     path('event-permanent-removal/', event_permanent_removal, name="event_permanent_removal"),
     path('event/to-confirm/<pk>/', event_to_confirm, name="event_to_confirm"),
+    path('event/refused/<pk>/', event_refused, name="event_refused"),
     # path('htmx/event-search/', event_search, name="event_search"),
     # Django backend
     path('mgmt/', admin.site.urls),
