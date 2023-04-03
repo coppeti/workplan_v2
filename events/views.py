@@ -124,7 +124,9 @@ def event_edit(request, pk):
     if request.method == 'POST':
         form = EventEditForm(request.POST, instance=event, user=user)
         if form.is_valid():
-            form.save()
+            event = form.save(commit=False)
+            event.comment = f'{event.user_id}:\n{event.activity_id} von {event.date_start.strftime("%d.%m.%Y").strip("0")} bis {event.date_stop.strftime("%d.%m.%Y").strip("0")}'
+            event.save()
             messages.success(request, f'{event.activity_id} von {event.user_id} geändert.')
             return HttpResponse(status=204, headers={'HX-Trigger': 'eventsListChanged'})
     else:
