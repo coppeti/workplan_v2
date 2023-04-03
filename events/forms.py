@@ -154,7 +154,6 @@ class EventEditForm(forms.ModelForm):
         logged_user = kwargs.pop('user')
         event = kwargs.get('instance')
         super().__init__(*args, **kwargs)
-        # self.fields['user_id'].initial = event.user_id
         # self.fields['activity_id'].initial = event.activity_id
         # self.fields['date_start'].initial = event.date_start
         # self.fields['date_stop'].initial = event.date_stop
@@ -162,14 +161,25 @@ class EventEditForm(forms.ModelForm):
         # self.fields['confirmed'].initial = event.confirmed
         # self.fields['displayed'].initial = event.displayed
         # self.fields['comment'].initial = event.comment
-        if logged_user.role < CustomUser.MANAGER and event.confirmed == False:
-            self.fields['is_active'].widget.attrs['disabled'] = True
+        # if logged_user.role < CustomUser.MANAGER and event.confirmed == False:
         if logged_user.role < CustomUser.MANAGER:
-            self.fields['user_id'].widget.attrs['disabled'] = True
+            self.fields['user_id'].initial = logged_user
+            self.fields['user_id'].queryset = CustomUser.objects.filter(id=logged_user.id)
             self.fields['activity_id'].queryset = Activities.objects.filter(level__lt=Activities.MANAGER)
             self.fields['confirmed'].widget.attrs['disabled'] = True
 
     def clean(self):
         cleaned_data = super().clean()
+        user = cleaned_data.get('user_id')
         date_start = cleaned_data.get('date_start')
         date_stop = cleaned_data.get('date_stop')
+        activity = cleaned_data.get('activity_id')
+        if date_stop < date_start:
+            raise ValidationError('Das Enddatum liegt vor dem Startdatum!')
+        if activity != 'Krank':
+            if date_start < TODAY.strftime('%Y-%m-%d'):
+                raise ValidationError('Der Event beginnt in der Vergangenheit')
+            if date_stop < TODAY.strftime('%Y-%m-%d'):
+                raise ValidationError('Der Event endet in der Vergangenheit')
+        return cleaned_data
+
