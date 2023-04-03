@@ -3,9 +3,17 @@
 	color: #f48c06;
 }
 
+.dispatcher_card {
+	border: #ffd60a 1px solid;
+}
+
 .pikett {
 	background-color: #ecbcfd;
 	color: #9846cc;
+}
+
+.pikett_card {
+	border: #ecbcfd 1px solid;
 }
 
 .pikett_samstag {
@@ -13,9 +21,17 @@
 	color: #9846cc;
 }
 
+.pikett_samstag_card {
+	border: #ecbcfd 1px solid;
+}
+
 .pikett_sonnfeiertag {
 	background-color: #ecbcfd;
 	color: #9846cc;
+}
+
+.pikett_sonnfeiertag_card {
+	border: #ecbcfd 1px solid;
 }
 
 .backup_pikett {
@@ -23,9 +39,17 @@
 	color: #ffffff;
 }
 
+.backup_pikett_card {
+	border: #9d78b4 1px solid;
+}
+
 .kein_pikett {
 	background-color: #b14df0;
 	color: #ffffff;
+}
+
+.kein_pikett_card {
+	border: #b14df0 1px solid;
 }
 
 .spezialauftrag {
@@ -33,9 +57,17 @@
 	color: #ffffff;
 }
 
+.spezialauftrag_card {
+	border: #414447 1px solid;
+}
+
 .home_office {
 	background-color: #527a32;
 	color: #ffffff;
+}
+
+.home_office_card {
+	border: #527a32 1px solid;
 }
 
 .ferien {
@@ -43,9 +75,17 @@
 	color: #000000;
 }
 
+.ferien_card {
+	border: #08c3e9 1px solid;
+}
+
 .freikompensation {
 	background-color: #88d498;
 	color: #000000;
+}
+
+.freikompensation_card {
+	border: #88d498 1px solid;
 }
 
 .militarzvs {
@@ -53,9 +93,17 @@
 	color: #000000;
 }
 
+.militarzvs_card {
+	border: #b76935 1px solid;
+}
+
 .weiterbildung {
 	background-color: #145ec0;
 	color: #ffffff;
+}
+
+.weiterbildung_card {
+	border: #145ec0 1px solid;
 }
 
 .krank {
@@ -63,9 +111,17 @@
 	color: #000000;
 }
 
+.krank_card {
+	border: #dc2f02 1px solid;
+}
+
 .wochenende {
 	background-color: #fcd5ce;
 	color: #fcd5ce;
+}
+
+.wochenende_card {
+	border: #fcd5ce 1px solid;
 }
 
 .feiertag {
@@ -73,8 +129,16 @@
 	color: #f4acb7;
 }
 
+.feiertag_card {
+	border: #f4acb7 1px solid;
+}
+
 .andere_feiertage {
 	background-color: #f7b267;
 	color: #f7b267;
+}
+
+.andere_feiertage_card {
+	border: #f7b267 1px solid;
 }
 

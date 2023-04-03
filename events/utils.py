@@ -18,7 +18,9 @@ def activity_to_css():
         file.writelines(
             [f'.{activity.activity_class} {{\n', \
             f'\tbackground-color: {activity.background_color};\n', \
-            f'\tcolor: {activity.text_color};\n', f'}}\n\n']
+            f'\tcolor: {activity.text_color};\n', f'}}\n\n'
+            f'.{activity.activity_class}_card {{\n', \
+            f'\tborder: {activity.background_color} 1px solid;\n', f'}}\n\n']
         )
     file.close()
 
