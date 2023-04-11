@@ -15,7 +15,7 @@ def activity_to_css():
     activities = Activities.objects.all()
     file = open(target_file, 'w')
     for activity in activities:
-        if 'wochenende' in activity.activity_class or 'feiertag' in activity.activity_class:
+        if 'wochenende' in activity.activity_class or 'feiertage' in activity.activity_class:
             file.writelines(
                 [f'.{activity.activity_class} {{\n', \
                 f'\tbackground-color: {activity.background_color};\n', f'}}\n\n'

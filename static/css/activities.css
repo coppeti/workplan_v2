@@ -27,6 +27,7 @@
 
 .pikett_sonnfeiertag {
 	background-color: #ecbcfd;
+	color: #9846cc;
 }
 
 .pikett_sonnfeiertag_card {
@@ -122,11 +123,11 @@
 	border: #fcd5ce 1px solid;
 }
 
-.feiertag {
+.feiertage {
 	background-color: #f4acb7;
 }
 
-.feiertag_card {
+.feiertage_card {
 	border: #f4acb7 1px solid;
 }
 
