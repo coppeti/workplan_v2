@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.shortcuts import render
 from datetime import datetime, date
 from django.views.generic import TemplateView
@@ -5,13 +7,17 @@ from django.views.generic import TemplateView
 from events.models import Activities
 from holidays.holidays import Holidays
 
+from .utils import CustomCalendar
+
 
 class Home(TemplateView):
     template_name = 'home.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        year = datetime.now().year
         context['activities'] = Activities.objects.all().order_by('id')
+        context['cal'] = CustomCalendar().formatyear(year)
         context['iterator'] = range(1,32)
         context['today'] = datetime.now().day
         return context

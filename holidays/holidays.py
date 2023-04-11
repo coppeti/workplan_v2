@@ -9,84 +9,84 @@ class Holidays:
     You can also get individual holiday date as Easter, Pentecost etc.
     To build your instance you can pass 3 arguments:
         year, region, language.
-        
+
     Attributes:
         year (int): Year of your holidays list, four digits (Optional, default: current year)
         region (str): Region of your holidays list, two lowercase letters. \
             Available value: be, so, ag, fr, ne, vd and ge (Optional, default: be)
         language (srt): Names's language of your holidays list, two lowercase letters. \
             Available values: de or fr (Optional, default: de)
-    
+
     Methods:
         calc_easter(self)
             Return Easter date
-            
+
             Args:
                 No argument
-                
+
         calc_goodfriday(self)
             Return Goodfriday date
-            
+
             Args:
                 No argument
-                
+
         calc_eastermonday(self)
             Return Eastermonday date
-            
+
             Args:
                 No argument
-                
+
         calc_ascension(self)
             Return Ascension date
-            
+
             Args:
                 No argument
-                
+
         calc_pentecost(self)
             Return Pentecost date
-            
+
             Args:
                 No argument
-                
+
         calc_whitmonday(self)
             Return Whitmonday date
-            
+
             Args:
                 No argument
-                
+
         calc_vdfastday(self)
             Return Fastday date of Vaud
-            
+
             Args:
                 No argument
-                
+
         calc_gefastday(self)
             Return Fastday date of Geneva
-            
+
             Args:
                 No argument
-                
+
         calc_corpuschristi(self)
             Return Corpus Christi date
-            
+
             Args:
                 No argument
-                
+
         all_dates(self)
             Return the list of all holidays in Switzerland for a given year
-            
+
             Args:
                 No argument
-                
+
         hdays(self)
             Main method. Will return the list of holidays for a given year, given region and given language
-            
+
             Args:
                 No argument
 
         other_hdays(self)
             Return all holidays there are not in Bern canton. Used to color the annual calendar
-            
+
             Args:
                 no argument
     """
@@ -136,11 +136,11 @@ class Holidays:
     fr_indexes: ClassVar[list] = [0, 1, 3, 4, 5, 7, 8, 9, 10, 11, 12, 15, 16, 17, 18]
     vd_indexes: ClassVar[list] = [0, 1, 3, 4, 5, 7, 8, 9, 11, 14, 17]
     ge_indexes: ClassVar[list] = [0, 3, 4, 5, 7, 8, 9, 11, 13, 17, 19]
-    
+
     year: int = datetime.today().year
     region: str = 'be'
     language: str = 'de'
-    
+
     # Get NE indexes. If 1.01 or 25.12 are Sunday, next day is holiday.
     def ne_indexes(self):
         base = [0, 2, 3, 4, 6, 7, 8, 11, 17]
@@ -149,7 +149,7 @@ class Holidays:
         if date(self.year, 12, 25).weekday() == 6:
             base.append(18)
         return sorted(base)
- 
+
     # Get Easter date (Sunday) for a given year
     def calc_easter(self):
         y=self.year//100
@@ -194,7 +194,7 @@ class Holidays:
         c = calendar.Calendar()
         return date(self.year, 9, (c.monthdayscalendar(self.year, 9)[2][6])) + timedelta(days=1)
 
-    # Get Geneva Fastday date for a given year 
+    # Get Geneva Fastday date for a given year
     def calc_gefastday(self):
         c = calendar.Calendar()
         return date(self.year, 9, (c.monthdayscalendar(self.year, 9)[0][6])) + timedelta(days=4)
@@ -202,7 +202,7 @@ class Holidays:
     # Get Corpus Christi date for a given year
     def calc_corpuschristi(self):
         return self.calc_easter() + timedelta(days=60)
-    
+
     # All CH holidays for a given year
     def all_dates(self):
         return [date(self.year, 1, 1),  #0
@@ -225,8 +225,8 @@ class Holidays:
                 date(self.year, 12, 25),  #17
                 date(self.year, 12, 26),  #18
                 date(self.year, 12, 31)]  #19
-        
-        
+
+
     def hdays(self):
         hdays = []
         # Region
@@ -250,11 +250,11 @@ class Holidays:
         else:
             names = Holidays.de_names
         # Holidays dates result
-        hdays = [{date:names[self.all_dates().index(date)]} for date in self.all_dates() if self.all_dates().index(date) in indexes]    
+        hdays = {date:names[self.all_dates().index(date)] for date in self.all_dates() if self.all_dates().index(date) in indexes}
         return hdays
-    
-        
+
+
     def other_hdays(self):
-        other_hdays = [{date:Holidays.de_names[self.all_dates().index(date)]} 
-                       for date in self.all_dates() if self.all_dates().index(date) not in Holidays.be_indexes]
+        other_hdays = {date:Holidays.de_names[self.all_dates().index(date)]
+                       for date in self.all_dates() if self.all_dates().index(date) not in Holidays.be_indexes}
         return other_hdays

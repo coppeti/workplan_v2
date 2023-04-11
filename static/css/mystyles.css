@@ -159,9 +159,8 @@ MAIN
   position: absolute;
   top: 110px;
   left: 170px;
-  width: calc(100vw - 170px);
-  height: calc(100vh - 110px);
-  padding-bottom: 50px;
+  width: calc(100vw - 190px);
+  padding-bottom: calc(100vh - 230px);
 }
 
 
@@ -169,7 +168,13 @@ MAIN
         LEGEND
 ======================*/
 
-.legend_table {
+.legend {
+  width: 100%;
+  position: sticky;
+  top: 110px;
+  z-index: 11;
+  margin: 0;
+  background-color: #f8f9fa;
   font-size: 0.7rem;
 }
 
@@ -182,7 +187,7 @@ MAIN
   border-radius: 3px;
 }
 
-.dispatch_flag {
+/* .dispatch_flag {
   background-color: #ffd60a;
   color: #f48c06;
 }
@@ -243,23 +248,68 @@ MAIN
 
 .ohday_flag {
   background-color: #f7b267;
-}
+} */
 
 
 /*====================
         CALENDAR
 ======================*/
+table#cal_table {
+  border: none;
+  table-layout: fixed;
+  border-collapse:separate;
+	border-spacing:0;
+  border-left:1px solid #000;
+}
 
-.date_cell {
-  border: #000 1px solid;
+table#cal_table th {
+  border-top: 1px solid #000;
+  border-right: 1px solid #000;
+  border-bottom: 1px solid #000;
+  position: sticky;
+  top: 200px;
+  z-index: 10;
+  background-color: #f8f9fa;
+}
+
+table#cal_table td {
+  border-right: 1px solid #000;
+  border-bottom: 1px solid #000;
+}
+
+table#cal_table #year_cell {
+  border-bottom: none;
 }
 
 .date_number {
-  width: 30px;
+  width: 42px;
 }
 
 .today_bg {
   background-color: #0ff507 !important;
+}
+
+table#cal_table .weekday_shortname {
+  font-size: 0.8rem;
+  border-bottom: none;
+  border-top: 1px solid #000;
+}
+
+.holiday_line {
+  min-height: 40px;
+}
+
+.holyday_cell {
+  font-size: 0.55rem;
+  overflow-wrap: break-word;
+  max-width: 25px;
+  font-family: Arial, sans-serif;
+}
+
+.week_nbr {
+  font-size: 0.6rem;
+  padding: 0.2em !important;
+  font-family: Arial, sans-serif;
 }
 
 
@@ -299,10 +349,6 @@ MAIN
   border: none;
   width: 25px;
   padding: 0 10px 0 0!important;
-}
-
-.event_id {
-
 }
 
 

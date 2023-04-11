@@ -126,8 +126,8 @@
         </div>
         <div class="side_act mt-3">
             {% for s_event in s_events %}
-                <div class="{{ s_event.activity_id.name|lower }}_card rounded-3 mb-3">
-                    <p class="{{ s_event.activity_id.name|lower }} rounded-top-2 text-center py-1">
+                <div class="{{ s_event.activity_id.activity_class }}_card rounded-3 mb-3">
+                    <p class="{{ s_event.activity_id.activity_class }} rounded-top-2 text-center py-1">
                         {{ s_event.activity_id.name }}
                     </p>
                     <p class="name_card text-center text-light py-2">
