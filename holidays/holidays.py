@@ -91,45 +91,45 @@ class Holidays:
                 no argument
     """
     de_names: ClassVar[list] = ['Neujahr',  # 0
-                                'Berchtoldstag',  # 1
+                                'Bercht<wbr>olds<wbr>tag',  # 1
                                 'Tag der Republik NE',  # 2
-                                'Karfreitag',  # 3
+                                'Kar<wbr>frei<wbr>tag',  # 3
                                 'Ostern',  # 4
-                                'Ostermontag',  # 5
-                                'Arbeitstag',  # 6
+                                'Oster<wbr>mon<wbr>tag',  # 5
+                                'Arbeits<wbr>tag',  # 6
                                 'Auffahrt',  # 7
-                                'Pfingsten',  # 8
-                                'Pfingstmontag',  # 9
-                                'Fronleichnam',  # 10
-                                'Nationalfeiertag',  # 11
-                                'Mariä Himmelfahrt',  # 12
-                                'Genfer Bettag',  # 13
-                                'Bettagsmontag',  # 14
-                                'Allerheiligen',  # 15
-                                'Mariä Empfängnis',  # 16
-                                'Weihnachten',  # 17
-                                'Stephanstag', # 18
-                                'Wiederherstellung GE']  # 19
+                                'Pfing<wbr>sten',  # 8
+                                'Pfingst<wbr>mon<wbr>tag',  # 9
+                                'Fron<wbr>leich<wbr>nam',  # 10
+                                'National<wbr>feier<wbr>tag',  # 11
+                                'Mariä Him<wbr>mel<wbr>fahrt',  # 12
+                                'Genfer Bet<wbr>tag',  # 13
+                                'Bettags<wbr>mon<wbr>tag',  # 14
+                                'Aller<wbr>hei<wbr>ligen',  # 15
+                                'Mariä Emp<wbr>fäng<wbr>nis',  # 16
+                                'Weih<wbr>nach<wbr>ten',  # 17
+                                'Stephans<wbr>tag', # 18
+                                'Wieder<wbr>herstel<wbr>lung GE']  # 19
     fr_names: ClassVar[list] = ['Nouvel An',  # 0
                                 'Berchtold',  # 1
-                                'Jour de la République NE',  # 2
+                                'Jour de la Répu<wbr>blique NE',  # 2
                                 'Vendredi Saint',  # 3
                                 'Pâques',  # 4
                                 'Lundi de Pâques',  # 5
                                 'Jour du Travail',  # 6
                                 'Ascension',  # 7
                                 'Pentecôte',  # 8
-                                'Lundi de Pentecôte',  # 9
+                                'Lundi de Pente<wbr>côte',  # 9
                                 'Fête Dieu',  # 10
-                                'Fête Nationale',  # 11
+                                'Fête Natio<wbr>nale',  # 11
                                 'Assomption',  # 12
-                                'Jeûne genevois',  # 13
+                                'Jeûne gene<wbr>vois',  # 13
                                 'Lundi du Jeûne',  #14
                                 'Toussaint',  # 15
-                                'Immaculée Conception',  # 16
+                                'Immaculée Con<wbr>cep<wbr>tion',  # 16
                                 'Noël',  # 17
                                 'Saint Etienne',  # 18
-                                'Restauration GE']  # 19
+                                'Restaura<wbr>tion GE']  # 19
     be_indexes: ClassVar[list] = [0, 1, 3, 4, 5, 7, 8, 9, 11, 17, 18]
     so_indexes: ClassVar[list] = [0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15, 17, 18]
     ag_indexes: ClassVar[list] = [0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15, 16, 17, 18]

@@ -28,13 +28,11 @@
 </div>
 <div class="col-3">
     <table class="table">
-        {% for dates in holidays %}
-            {% for date, name in dates.items %}
-                <tr>
-                    <td>{{ name }}</td>
-                    <td class="text-end">{{ date }}</td>
-                </tr>
-            {% endfor %}
+        {% for date, name in holidays.items %}
+            <tr>
+                <td>{{ name|safe }}</td>
+                <td class="text-end">{{ date }}</td>
+            </tr>
         {% endfor %}
     </table>
 </div>
