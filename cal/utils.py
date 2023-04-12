@@ -21,7 +21,7 @@ OTHER_HOLIDAY = Holidays().other_hdays()
 
 def holy_day(date):
     if date in BE_HOLIDAY:
-        return 'feiertag'
+        return 'feiertage'
     elif date in OTHER_HOLIDAY:
         return 'andere_feiertage'
     else:
@@ -94,7 +94,7 @@ def holiday_line(cal, year, month):
                 a(' andere_feiertage"><div class="holiday_line">')
                 a(f'{OTHER_HOLIDAY.get(d)}')
             elif d in BE_HOLIDAY:
-                a(' feiertag"><div class="holiday_line">')
+                a(' feiertage"><div class="holiday_line">')
                 a(f'{BE_HOLIDAY.get(d)}')
             elif d.weekday() == 5 or d.weekday() == 6:
                 a(' wochenende"><div class="holiday_line">')
@@ -146,7 +146,7 @@ class CustomCalendar(calendar.HTMLCalendar):
         users = CustomUser.objects.order_by('last_name')
         for user in users:
             a('<tr class="user_line">\n')
-            a(f'<td class="">{user.last_name.upper()}</td>\n')
+            a(f'<td class="ps-1">{user.last_name.upper()}</td>\n')
             a(user_line(self, user.pk, year, month))
             a('</tr>\n')
         return ''.join(v)
