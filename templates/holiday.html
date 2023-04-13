@@ -8,10 +8,10 @@
 <!-- Year buttons -->
 <div class="d-flex justify-content-center my-3">
 {% if year == year_after %}
-<a class="btn btn-sm btn-outline-secondary mx-2" role="button" href="{% url 'holiday' year=this_year region=region %}">Dieses Jahr</a>
+<a class="btn btn-sm btn-outline-secondary mx-2" role="button" href="{% url 'holiday' year=current_year region=region %}">Dieses Jahr</a>
 <a class="btn btn-sm btn-outline-secondary mx-2" role="button" href="{% url 'holiday' year=next_year region=region %}">Jahr {{ next_year }}</a>
 {% elif year > year_after %}
-<a class="btn btn-sm btn-outline-secondary mx-2" role="button" href="{% url 'holiday' year=this_year region=region %}">Dieses Jahr</a>
+<a class="btn btn-sm btn-outline-secondary mx-2" role="button" href="{% url 'holiday' year=current_year region=region %}">Dieses Jahr</a>
 <a class="btn btn-sm btn-outline-secondary mx-2" role="button" href="{% url 'holiday' year=prev_year region=region %}">Jahr {{ prev_year }}</a>
 <a class="btn btn-sm btn-outline-secondary mx-2" role="button" href="{% url 'holiday' year=next_year region=region %}">Jahr {{ next_year }}</a>
 {% else %}

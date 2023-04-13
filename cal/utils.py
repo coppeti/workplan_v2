@@ -13,21 +13,15 @@ from events.models import Events
 locale.setlocale(locale.LC_ALL, 'de_DE')
 
 
-BE_HOLIDAY = Holidays().hdays()
-OTHER_HOLIDAY = Holidays().other_hdays()
-BE_HOLIDAY_NEXT = Holidays(year=datetime.today().year + 1).hdays()
-OTHER_HOLIDAY_NEXT = Holidays(year=datetime.today().year + 1).other_hdays()
-
-
-
-
-def holy_day(date):
-    if date in BE_HOLIDAY or date in BE_HOLIDAY_NEXT:
+def holy_day(date, year):
+    """Returns a specific class if the given date is a holiday"""
+    if date in Holidays(year).hdays():
         return 'feiertage'
-    elif date in OTHER_HOLIDAY or date in OTHER_HOLIDAY_NEXT:
+    elif date in Holidays(year).other_hdays():
         return 'andere_feiertage'
     else:
         return ''
+
 
 def date_between(start, end):
     """Returns a tuple of all dates contained between a start date and an end date, both included."""
@@ -49,7 +43,6 @@ def user_month_events(user, year, month):
         dates = date_between(event.date_start, event.date_stop)
         for date in dates:
             user_events[date] = event.activity_id.short_name, event.activity_id.activity_class
-        print(user_events)
     return user_events
 
 
@@ -64,7 +57,7 @@ def user_line(cal, user, year, month):
                 if month_date.strftime('%Y-%m-%d') in date:
                     if activity[0] == 'F' and (month_date.weekday() == 5 or
                                                month_date.weekday() == 6 or
-                                               month_date in BE_HOLIDAY):
+                                               month_date in Holidays(year).hdays()):
                         a('')
                     else:
                         a(f' {activity[1]}')
@@ -73,17 +66,18 @@ def user_line(cal, user, year, month):
                 if month_date.strftime('%Y-%m-%d') in date:
                     if activity[0] == 'F' and (month_date.weekday() == 5 or
                                                month_date.weekday() == 6 or
-                                               month_date in BE_HOLIDAY):
+                                               month_date in Holidays(year).hdays()):
                         a('')
                     elif activity[0] == 'P' and month_date.weekday() == 5:
                         a('PSA')
                     elif activity[0] == 'P' and (month_date.weekday() == 6 or
-                                                 month_date in BE_HOLIDAY):
+                                                 month_date in Holidays(year).hdays()):
                         a('PSO')
                     else:
                         a(f' {activity[0]}')
         a('</td>\n')
     return ''.join(v)
+
 
 def holiday_line(cal, year, month):
     v = []
@@ -92,18 +86,18 @@ def holiday_line(cal, year, month):
     for d in cal.itermonthdates(year, month):
         if d.month == month:
             a('<td class="holyday_cell')
-            if d in OTHER_HOLIDAY:
+            if d in Holidays(year).other_hdays():
                 a(' andere_feiertage"><div class="holiday_line">')
-                a(f'{OTHER_HOLIDAY.get(d)}')
-            elif d in BE_HOLIDAY:
+                a(f'{Holidays(year).other_hdays().get(d)}')
+            elif d in Holidays(year).hdays():
                 a(' feiertage"><div class="holiday_line">')
-                a(f'{BE_HOLIDAY.get(d)}')
-            elif d in OTHER_HOLIDAY_NEXT:
+                a(f'{Holidays(year).hdays().get(d)}')
+            elif d in Holidays(year + 1).other_hdays():
                 a(' andere_feiertage"><div class="holiday_line">')
-                a(f'{OTHER_HOLIDAY_NEXT.get(d)}')
-            elif d in BE_HOLIDAY_NEXT:
+                a(f'{Holidays(year + 1).other_hdays().get(d)}')
+            elif d in Holidays(year + 1).hdays():
                 a(' feiertage"><div class="holiday_line">')
-                a(f'{BE_HOLIDAY_NEXT.get(d)}')
+                a(f'{Holidays(year + 1).hdays().get(d)}')
             elif d.weekday() == 5 or d.weekday() == 6:
                 a(' wochenende"><div class="holiday_line">')
                 a(' ')
@@ -138,7 +132,7 @@ class CustomCalendar(calendar.HTMLCalendar):
                 if (date(year, month, d).isocalendar()[2] == 6 or
                     date(year, month, d).isocalendar()[2] == 7):
                     a('wochenende ')
-                a(holy_day(date(year, month, d)) + ' ')
+                a(holy_day(date(year, month, d), year) + ' ')
                 a(f'">{calendar.day_abbr[date_name]} ')
                 if date(year, month, d).isocalendar()[2] == 1 or d == 1:
                     week_nbr =date(year, month, d).isocalendar()[1]

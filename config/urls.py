@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path
 
 # Landing page and holiday view
-from cal.views import Home, Holiday
+from cal.views import Holiday, home
 # Views to manage everything about users
 from accounts.views import (
     member,
@@ -41,7 +41,7 @@ from events.views import (
 )
 
 urlpatterns = [
-    path('', Home.as_view(), name="home"),
+    path('', home, name="home"),
     path('holiday/<int:year>/<str:region>/', Holiday.as_view(), name="holiday"),
     # Accounts URLs
     path('member/', member, name="member"),

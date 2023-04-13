@@ -1,5 +1,5 @@
 {% load static %}
-{% now "Y" as this_year %}
+{% now "Y" as current_year %}
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -51,7 +51,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {% block holidays_active %}{% endblock holidays_active %}" href="{% url 'holiday' year=this_year region='be' %}">
+                            <a class="nav-link {% block holidays_active %}{% endblock holidays_active %}" href="{% url 'holiday' year=current_year region='be' %}">
                                 Feiertage
                             </a>
                         </li>

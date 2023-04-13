@@ -19,9 +19,20 @@
     <table id="cal_table">
         <thead id="cal_thead">
             <tr class="cal_tr text-center mt-5 date_cell">
-                <th id="year_cell">{{ this_year }}</th>
+                <th id="year_cell">
+                    <form method="post">
+                        {% csrf_token %}
+                        <select name="year" id="year" onchange="this.form.submit()">
+                            {% for year in years %}
+                                <option value="{{ year }}" {% if year == selected_year %}selected{% endif %}>
+                                    {{ year }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                </th>
                 {% for i in iterator %}
-                    {% if i == today %}
+                    {% if i == today and this_year == selected_year %}
                         <th class="cal_th date_number text-center date_cell today_bg">
                     {% else %}
                         <th class="cal_th date_number text-center date_cell">
