@@ -1,6 +1,6 @@
 import calendar
 import locale
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 
 from django.db.models import Q
 
@@ -15,14 +15,16 @@ locale.setlocale(locale.LC_ALL, 'de_DE')
 
 BE_HOLIDAY = Holidays().hdays()
 OTHER_HOLIDAY = Holidays().other_hdays()
+BE_HOLIDAY_NEXT = Holidays(year=datetime.today().year + 1).hdays()
+OTHER_HOLIDAY_NEXT = Holidays(year=datetime.today().year + 1).other_hdays()
 
 
 
 
 def holy_day(date):
-    if date in BE_HOLIDAY:
+    if date in BE_HOLIDAY or date in BE_HOLIDAY_NEXT:
         return 'feiertage'
-    elif date in OTHER_HOLIDAY:
+    elif date in OTHER_HOLIDAY or date in OTHER_HOLIDAY_NEXT:
         return 'andere_feiertage'
     else:
         return ''
@@ -96,6 +98,12 @@ def holiday_line(cal, year, month):
             elif d in BE_HOLIDAY:
                 a(' feiertage"><div class="holiday_line">')
                 a(f'{BE_HOLIDAY.get(d)}')
+            elif d in OTHER_HOLIDAY_NEXT:
+                a(' andere_feiertage"><div class="holiday_line">')
+                a(f'{OTHER_HOLIDAY_NEXT.get(d)}')
+            elif d in BE_HOLIDAY_NEXT:
+                a(' feiertage"><div class="holiday_line">')
+                a(f'{BE_HOLIDAY_NEXT.get(d)}')
             elif d.weekday() == 5 or d.weekday() == 6:
                 a(' wochenende"><div class="holiday_line">')
                 a(' ')
