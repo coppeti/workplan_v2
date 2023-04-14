@@ -22,7 +22,7 @@
                 <th id="year_cell">
                     <form method="post">
                         {% csrf_token %}
-                        <select name="year" id="year" onchange="this.form.submit()">
+                        <select  class="bg-light border border-0" name="year" id="year" onchange="this.form.submit()">
                             {% for year in years %}
                                 <option value="{{ year }}" {% if year == selected_year %}selected{% endif %}>
                                     {{ year }}

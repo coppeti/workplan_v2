@@ -254,6 +254,7 @@ MAIN
 /*====================
         CALENDAR
 ======================*/
+
 table#cal_table {
   border: none;
   table-layout: fixed;
