@@ -125,19 +125,87 @@
             </h5>
         </div>
         <div class="side_act mt-3">
-            {% for s_event in s_events %}
-                <div class="{{ s_event.activity_id.activity_class }}_card rounded-3 mb-3">
-                    <p class="{{ s_event.activity_id.activity_class }} rounded-top-2 text-center py-1">
-                        {{ s_event.activity_id.name }}
+            {% if dispatcher_event %}
+                {% for de in dispatcher_event %}
+                    <div class="{{ de.activity_id.activity_class }}_card rounded-3 mb-3">
+                        <p class="{{ de.activity_id.activity_class }} rounded-top-2 text-center py-1">
+                            {{ de.activity_id.name }}
+                        </p>
+                        <p class="name_card text-center text-light pt-2">
+                            {{ de.user_id }}
+                        </p>
+                        <p class="name_card text-center text-light pb-2">
+                            bis am {{ de.date_stop }}
+                        </p>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if pikett_event %}
+                {% for pe in pikett_event %}
+                    <div class="{{ pe.activity_id.activity_class }}_card rounded-3 mb-3">
+                        <p class="{{ pe.activity_id.activity_class }} rounded-top-2 text-center py-1">
+                            {{ pe.activity_id.name }}
+                        </p>
+                        <p class="name_card text-center text-light pt-2">
+                            {{ pe.user_id }}
+                        </p>
+                        <p class="name_card text-center text-light pb-2">
+                            bis am {{ pe.date_stop }}
+                        </p>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if vacation_event %}
+                <div class="ferien_card rounded-3 mb-3">
+                    <p class="ferien rounded-top-2 text-center py-1">
+                        Ferien
                     </p>
-                    <p class="name_card text-center text-light py-2">
-                        {{ s_event.user_id }}
-                    </p>
-                    <p class="name_card text-center text-light pb-2">
-                        bis am {{ s_event.date_stop }}
-                    </p>
+                    {% for ve in vacation_event %}
+                        <p class="name_card text-center text-light pt-2">
+                            {{ ve.user_id }}
+                        </p>
+                        <p class="name_card text-center text-light pb-2">
+                            bis am {{ ve.date_stop }}
+                        </p>
+                        {% if vacation_event|length > 1 and forloop.counter < vacation_event|length %}
+                            <hr class="mx-2">
+                        {% endif %}
+                    {% endfor %}
                 </div>
-            {% endfor %}
+            {% endif %}
+            {% if compensation_event %}
+                <div class="freikompensation_card rounded-3 mb-3">
+                    <p class="freikompensation rounded-top-2 text-center py-1">
+                        Ferien
+                    </p>
+                    {% for ce in compensation_event %}
+                        <p class="name_card text-center text-light pt-2">
+                            {{ ce.user_id }}
+                        </p>
+                        <p class="name_card text-center text-light pb-2">
+                            bis am {{ ce.date_stop }}
+                        </p>
+                        {% if compensation_event|length > 1 and forloop.counter < compensation_event|length %}
+                            <hr class="mx-2">
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if other_event %}
+                {% for oe in other_event %}
+                    <div class="{{ oe.activity_id.activity_class }}_card rounded-3 mb-3">
+                        <p class="{{ oe.activity_id.activity_class }} rounded-top-2 text-center py-1">
+                            {{ oe.activity_id.name }}
+                        </p>
+                        <p class="name_card text-center text-light pt-2">
+                            {{ oe.user_id }}
+                        </p>
+                        <p class="name_card text-center text-light pb-2">
+                            bis am {{ oe.date_stop }}
+                        </p>
+                    </div>
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
     <div class="rounded_mask bg-light"></div>
