@@ -3,5 +3,6 @@
 .venv
 .env
 pipfile
+TODO.txt
 /email
 **/__pycache__/
