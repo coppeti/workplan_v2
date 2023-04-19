@@ -49,29 +49,42 @@ def user_month_events(user, year, month):
 def user_line(cal, user, year, month):
     v = []
     a = v.append
+    be_hdays = Holidays(year).hdays()
+    other_hdays = Holidays(year).other_hdays()
     user_events = user_month_events(user, year, month)
+    print(user_events.get('2023-04-17'))
     for month_date in cal.itermonthdates(year, month):
         if month_date.month == month:
             a('<td class="text-center')
+            if month_date in be_hdays:
+                a(' feiertage')
+            elif month_date in other_hdays:
+                a(' andere_feiertage')
+            elif not user_events.get(month_date.strftime('%Y-%m-%d')) and (month_date.weekday() == 5 or month_date.weekday() == 6):
+                a(' wochenende')
             for date, activity in user_events.items():
                 if month_date.strftime('%Y-%m-%d') in date:
-                    if activity[0] == 'F' and (month_date.weekday() == 5 or
-                                               month_date.weekday() == 6 or
-                                               month_date in Holidays(year).hdays()):
-                        a('')
+                    if not 'P' in activity[0] and not 'S' in activity[0] and (month_date.weekday() == 5 or
+                                               month_date.weekday() == 6):
+                        a(' wochenende')
+                    elif not 'P' in activity[0] and not 'S' in activity[0] and month_date in be_hdays:
+                        a(' feiertage')
+                    elif not 'P' in activity[0] and not 'S' in activity[0] and month_date in other_hdays and \
+                            (month_date.weekday() == 5 or month_date.weekday() == 6):
+                        a(' andere_feiertage')
                     else:
                         a(f' {activity[1]}')
             a('">')
             for date, activity in user_events.items():
                 if month_date.strftime('%Y-%m-%d') in date:
-                    if activity[0] == 'F' and (month_date.weekday() == 5 or
+                    if not 'P' in activity[0] and not 'S' in activity[0] and (month_date.weekday() == 5 or
                                                month_date.weekday() == 6 or
-                                               month_date in Holidays(year).hdays()):
+                                               month_date in be_hdays):
                         a('')
                     elif activity[0] == 'P' and month_date.weekday() == 5:
                         a('PSA')
                     elif activity[0] == 'P' and (month_date.weekday() == 6 or
-                                                 month_date in Holidays(year).hdays()):
+                                                 month_date in be_hdays):
                         a('PSO')
                     else:
                         a(f' {activity[0]}')
@@ -83,15 +96,17 @@ def holiday_line(cal, year, month):
     v = []
     a = v.append
     a('<tr>\n')
+    be_hdays = Holidays(year).hdays()
+    other_hdays = Holidays(year).other_hdays()
     for d in cal.itermonthdates(year, month):
         if d.month == month:
             a('<td class="holyday_cell')
-            if d in Holidays(year).other_hdays():
+            if d in other_hdays:
                 a(' andere_feiertage"><div class="holiday_line">')
-                a(f'{Holidays(year).other_hdays().get(d)}')
-            elif d in Holidays(year).hdays():
+                a(f'{other_hdays.get(d)}')
+            elif d in be_hdays:
                 a(' feiertage"><div class="holiday_line">')
-                a(f'{Holidays(year).hdays().get(d)}')
+                a(f'{be_hdays.get(d)}')
             elif d in Holidays(year + 1).other_hdays():
                 a(' andere_feiertage"><div class="holiday_line">')
                 a(f'{Holidays(year + 1).other_hdays().get(d)}')
@@ -160,5 +175,5 @@ class CustomCalendar(calendar.HTMLCalendar):
             a(self.formatmonth(year, i))
             a(self.formatuser(year, i))
         a(self.formatmonth(year + 1, 1, withyear=True))
-        a(self.formatuser(year, i))
+        a(self.formatuser(year + 1, 1))
         return ''.join(v)
