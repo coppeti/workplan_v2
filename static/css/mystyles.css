@@ -280,6 +280,7 @@ table#cal_table td {
 
 table#cal_table #year_cell {
   border-bottom: none;
+  z-index: 11;
 }
 
 .date_number {
@@ -335,6 +336,7 @@ table#cal_table .weekday_shortname {
 .member_card {
   width: 320px;
 }
+
 .user_id {
   font-size: 0.8rem;
 }
