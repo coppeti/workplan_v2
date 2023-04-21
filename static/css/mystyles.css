@@ -333,12 +333,10 @@ table#cal_table .weekday_shortname {
 ======================*/
 
 .member_card {
-  width: 30%;
+  width: 320px;
 }
-
-.card_btn {
-  padding-left: 4px;
-  padding-right: 4px;
+.user_id {
+  font-size: 0.8rem;
 }
 
 

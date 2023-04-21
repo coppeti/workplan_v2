@@ -1,18 +1,18 @@
 {% for member in members %}
 <div class="member_card card p-3 m-2">
     <div class="d-flex justify-content-between">
-        <div>
+        <div class="user_id me-2">
             <label>#</label>&nbsp;{{ member.id }}
         </div>
-        <div class="text-center">
+        <div class="text-center px-3">
             {{ member.first_name|title }}&nbsp;{{ member.last_name|upper }}
         </div>
         <div class="text-end">
             {% if user.is_authenticated and user.role > 4 %}
-            <button type="button" class="btn btn-sm text-primary" hx-get="{% url 'member_edit' member.id %}" hx-target="#dialog">
+            <button type="button" class="btn btn-sm text-primary p-0" hx-get="{% url 'member_edit' member.id %}" hx-target="#dialog">
                 <i class="fa-solid fa-pen"></i>
             </button>
-            <button class="btn btn-sm text-danger" hx-post="{% url 'member_delete' member.id %}" hx-confirm="Willst du {{ member.first_name|title }} {{ member.last_name|upper }} wirklich löschen?
+            <button class="btn btn-sm text-danger p-0 ps-1" hx-post="{% url 'member_delete' member.id %}" hx-confirm="Willst du {{ member.first_name|title }} {{ member.last_name|upper }} wirklich löschen?
 Alle Aktivitäten werden ebenfalls gelöscht.
 Kein Zurück mehr möglich!">
                 <i class="fa-solid fa-trash"></i>
@@ -21,35 +21,33 @@ Kein Zurück mehr möglich!">
         </div>
     </div>
     <hr>
-    <div class="d-flex justify-content-between">
-        <div>
-            <div class="mt-2">
+    <div class="d-flex flex-column justify-content-start">
+        <div class="d-flex justify-content-between mt-2">
+            <div>
                 <label for="username">Pseudo</label>
                 <br>
                 {{ member.username }}
             </div>
-            <div class="mt-2">
-                <label for="email">Email-Adresse</label>
-                <br>
-                {{ member.email }}
-            </div>
-            <div class="mt-2">
-                <label for="birthday">Geburtsdatum</label>
-                <br>
-                {{ member.birthday }}
-            </div>
-        </div>
-        <div>
-            <div class="mt-2">
+            <div>
                 <label for="is_active">Status</label>
                 <br>
                 {{ member.is_active|yesno:"Aktiv,Inaktiv" }}
             </div>
-            <div class="mt-2">
-                <label for="is_superuser">Rolle</label>
-                <br>
-                {{ member.get_role_display }}
-            </div>
+        </div>
+        <div class="mt-2">
+            <label for="email">Email-Adresse</label>
+            <br>
+            {{ member.email }}
+        </div>
+        <div class="mt-2">
+            <label for="birthday">Geburtsdatum</label>
+            <br>
+            {{ member.birthday }}
+        </div>
+        <div class="mt-2">
+            <label for="is_superuser">Rolle</label>
+            <br>
+            {{ member.get_role_display }}
         </div>
     </div>
 </div>

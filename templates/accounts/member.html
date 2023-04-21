@@ -27,7 +27,7 @@
             </a>
         </div>
     </div>
-    <div id="member_list" class="d-flex justify-content-center" hx-get="{% url 'member_list' %}" hx-trigger="load, memberListChanged from:body">
+    <div id="member_list" class="d-flex justify-content-center flex-wrap" hx-get="{% url 'member_list' %}" hx-trigger="load, memberListChanged from:body">
         <!-- Inject htmx member_list.html -->
     </div>
 </div>
