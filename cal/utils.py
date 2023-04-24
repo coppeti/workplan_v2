@@ -52,7 +52,6 @@ def user_line(cal, user, year, month):
     be_hdays = Holidays(year).hdays()
     other_hdays = Holidays(year).other_hdays()
     user_events = user_month_events(user, year, month)
-    print(user_events.get('2023-04-17'))
     for month_date in cal.itermonthdates(year, month):
         if month_date.month == month:
             a('<td class="text-center')
@@ -134,7 +133,7 @@ class CustomCalendar(calendar.HTMLCalendar):
             string = f'{calendar.month_name[month]} {year}'
         else:
             string = f'{calendar.month_name[month]}'
-        return f'<th rowspan="2" class="text-center {self.cssclass_month_head}">{string}</th>'
+        return f'<th rowspan="2" id="{ month }" class="text-center {self.cssclass_month_head}">{string}</th>'
 
     def formatmonth(self, year, month, withyear=False):
         v = []

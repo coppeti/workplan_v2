@@ -1,5 +1,6 @@
 {% load static %}
 {% now "Y" as current_year %}
+{% now "n" as current_month %}
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -46,7 +47,7 @@
                     <!-- Main Menu -->
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link {% block home_active %}{% endblock home_active %}" href="{% url 'home' %}">
+                            <a class="nav-link {% block home_active %}{% endblock home_active %}" href="{% url 'home' %}#{{ current_month|add:-1 }}">
                                 Home
                             </a>
                         </li>
