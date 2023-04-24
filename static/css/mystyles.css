@@ -346,6 +346,10 @@ table#cal_table .weekday_shortname {
         EVENTS
 ======================*/
 
+#event_table tr td:first-child {
+  width: 4%;
+}
+
 .filter_arrows{
   border: none;
   width: 25px;

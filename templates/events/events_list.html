@@ -1,5 +1,5 @@
 {% load events_extras %}
-<table class="table table-striped mt-2">
+<table id="event_table" class="table table-striped mt-2">
     <thead>
         <tr>
             {% if user.role > 4 %}
@@ -40,16 +40,16 @@
                 <td class="text-center">{{ event.displayed|boolsymbol }}</td>
                 <td>{{ event.comment|linebreaksbr }}</td>
                 {% endif %}
-                <td class="text-center align-middle">
-                    <button type="button" class="btn btn-sm text-primary"
+                <td class="text-center align-middle p-0">
+                    <button type="button" class="btn btn-sm text-primary p-0 ms-1"
                         {% if user.role < 4 and user.id != event.user_id.id or user.role < event.activity_id.level %}disabled{% endif %}
                         hx-get="{% url 'event_edit' event.id %}"
                         hx-target="#dialog">
                         <i class="fa-solid fa-pen"></i>
                     </button>
                 </td>
-                <td class="text-center align-middle">
-                    <button type="button" class="btn btn-sm text-danger"
+                <td class="text-center align-middle p-0">
+                    <button type="button" class="btn btn-sm text-danger p-0"
                         {% if event.activity_id.level > 2 and user.role < 4 or user.id != event.user_id.id and user.role < 4 or event.is_active == False %}disabled{% endif %}
                         hx-post="{% url 'event_delete' event.id %}"
                         hx-confirm="Willst du {{ event.activity_id }} von {{ event.user_id }} wirklich löschen?">
@@ -77,16 +77,16 @@
                 <td class="text-center">{{ result.displayed|boolsymbol }}</td>
                 <td>{{ result.comment }}</td>
                 {% endif %}
-                <td class="text-center align-middle">
-                    <button type="button" class="btn btn-sm text-primary"
+                <td class="text-center align-middle p-0">
+                    <button type="button" class="btn btn-sm text-primary p-0 ms-1"
                         {% if user.role < 4 and user.id != result.user_id.id or user.role < result.activity_id.level %}disabled{% endif %}
                         hx-get="{% url 'event_edit' result.id %}"
                         hx-target="#dialog">
                         <i class="fa-solid fa-pen"></i>
                     </button>
                 </td>
-                <td class="text-center align-middle">
-                    <button type="button" class="btn btn-sm text-danger"
+                <td class="text-center align-middle p-0">
+                    <button type="button" class="btn btn-sm text-danger p-0"
                         {% if result.activity_id.level > 2 and user.id == result.user_id.id and user.role < 4 or result.is_active == False %}disabled{% endif %}
                         hx-post="{% url 'event_delete' result.id %}"
                         hx-confirm="Willst du {{ result.activity_id }} von {{ result.user_id }} wirklich löschen?">

@@ -20,7 +20,7 @@ def sidebar_events(request):
                                                     confirmed=True,
                                                     date_start__lte=today.strftime('%Y-%m-%d'),
                                                     date_stop__gte=today.strftime('%Y-%m-%d')).order_by('id'),
-            'compensation_event': Events.objects.filter(activity_id__name='Frei/Kompensation',
+            'compensation_event': Events.objects.filter(activity_id__name='Kompensation',
                                                         is_active=True,
                                                         confirmed=True,
                                                         date_start__lte=today.strftime('%Y-%m-%d'),
@@ -32,5 +32,5 @@ def sidebar_events(request):
                                                      activity_id__name='Dispatcher').exclude(
                                                          activity_id__name='Pikett').exclude(
                                                              activity_id__name='Ferien').exclude(
-                                                                 activity_id__name='Frei/Kompensation').order_by('id')
+                                                                 activity_id__name='Kompensation').order_by('id')
             }
