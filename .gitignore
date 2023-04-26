@@ -4,5 +4,6 @@
 .env
 pipfile
 TODO.txt
+RULES.txt
 /email
 **/__pycache__/
