@@ -9,8 +9,8 @@
             <th class="align-middle">Aktivität</th>
             <th class="align-middle">Von</th>
             <th class="align-middle">Bis</th>
-            <th class="text-center align-middle">Aktiv</th>
             <th class="text-center align-middle">Bestätigt</th>
+            <th class="text-center align-middle">Aktiv</th>
             {% if user.role > 4 %}
             <th class="align-middle">Geändert am</th>
             <th class="text-center align-middle">Angezeigt</th>
@@ -33,8 +33,8 @@
                 <td>{{ event.activity_id }}</td>
                 <td>{{ event.date_start|date:"j.m.Y" }}</td>
                 <td>{{ event.date_stop|date:"j.m.Y" }}</td>
-                <td class="text-center">{{ event.is_active|boolsymbol }}</td>
                 <td class="text-center">{{ event.confirmed|boolsymbol }}</td>
+                <td class="text-center">{{ event.is_active|boolsymbol }}</td>
                 {% if user.role > 4 %}
                 <td>{{ event.changed_on|date:"j.m.Y - G:i" }}</td>
                 <td class="text-center">{{ event.displayed|boolsymbol }}</td>
