@@ -93,7 +93,7 @@ class Holidays:
     de_names: ClassVar[list] = ['Neujahr',  # 0
                                 'Bercht<wbr>olds<wbr>tag',  # 1
                                 'Tag der Republik NE',  # 2
-                                'Josefstag',  # 3
+                                'Josefs<wbr>tag',  # 3
                                 'Kar<wbr>frei<wbr>tag',  # 4
                                 'Ostern',  # 5
                                 'Oster<wbr>mon<wbr>tag',  # 6

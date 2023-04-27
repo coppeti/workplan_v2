@@ -34,7 +34,7 @@ class Holiday(TemplateView):
     template_name = 'holiday.html'
 
     def get_context_data(self, **kwargs):
-        all_regions = ['ag', 'so', 'be', 'ne', 'fr', 'vd', 'ge']
+        all_regions = ['ag', 'so', 'be', 'ne', 'fr', 'vd', 'ge', 'vs', 'bs-bl']
         context = super().get_context_data(**kwargs)
         context['year'] = kwargs['year']
         context['prev_year'] = context['year'] - 1

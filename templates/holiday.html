@@ -22,7 +22,7 @@
 <div class="d-flex justify-content-center mb-3">
 {% for r in regions %}
     <a class="btn btn-sm btn-outline-secondary mx-2" role="button" href="{% url 'holiday' year=year region=r %}">
-        <img src="{% static 'img/'|add:r|add:'_blas.png' %}" class="btn_blas">&nbsp;&nbsp;{{ r|upper }}
+        <img src="{% static 'img/'|add:r|add:'_small-blas.png' %}">&nbsp;&nbsp;{{ r|upper }}
     </a>
 {% endfor %}
 </div>
