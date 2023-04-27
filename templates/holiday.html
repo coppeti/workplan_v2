@@ -5,6 +5,11 @@
 
 {% block content %}
 <h4 class="my-3">Feiertage {{ region|upper }} {{ year }}<img src="{% static 'img/'|add:region|add:'_blas.png' %}" class="title_blas"></h4>
+<p>
+    <a href="https://www.bj.admin.ch/dam/bj/de/data/publiservice/service/zivilprozessrecht/kant-feiertage.pdf.download.pdf/kant-feiertage.pdf" target="_blank">
+        Offizielle Version der Feiertage
+    </a>
+</p>
 <!-- Year buttons -->
 <div class="d-flex justify-content-center my-3">
 {% if year == year_after %}
