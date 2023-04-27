@@ -2,7 +2,7 @@ from pathlib import Path
 
 from django.conf import settings
 
-from .models import Activities, Events
+from .models import Activities
 from accounts.models import CustomUser
 
 
@@ -34,8 +34,8 @@ def activity_to_css():
 
 
 def admin_emails():
-    """Returns an email list of all users who have a permission level equal to or greater than ADMIN."""
-    admins = CustomUser.objects.filter(role__gte=CustomUser.ADMIN)
+    """Returns an email list of all users who have a permission level equal to or greater than SUPERVISOR."""
+    admins = CustomUser.objects.filter(role__gte=CustomUser.SUPERVISOR)
     emails = [admin.email for admin in admins]
     return emails
 

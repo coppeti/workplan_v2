@@ -5,12 +5,12 @@ from django.contrib.auth.models import AbstractUser
 class CustomUser(AbstractUser):
     TECHNICIAN = 2
     MANAGER = 4
-    ADMIN = 6
+    SUPERVISOR = 6
     SUPERUSER = 8
     USER_ROLE = [
         (TECHNICIAN, 'Techniker'),
         (MANAGER, 'Manager'),
-        (ADMIN, 'Admin'),
+        (SUPERVISOR, 'Supervisor'),
         (SUPERUSER, 'Superuser'),
     ]
 

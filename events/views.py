@@ -18,18 +18,18 @@ from .forms import ActivityForm, EventAddForm, EventEditForm
 from .models import Activities, Events
 from .utils import activity_to_css, admin_emails
 
-@user_passes_test(lambda u: u.role >= CustomUser.ADMIN)
+@user_passes_test(lambda u: u.role >= CustomUser.SUPERVISOR)
 def activities(request):
     return render(request, 'events/activities.html')
 
 
-@user_passes_test(lambda u: u.role >= CustomUser.ADMIN)
+@user_passes_test(lambda u: u.role >= CustomUser.SUPERVISOR)
 def activities_list(request):
     activities = Activities.objects.all().order_by('name')
     return render(request, 'events/activities_list.html', {'activities': activities})
 
 
-@user_passes_test(lambda u: u.role >= CustomUser.ADMIN)
+@user_passes_test(lambda u: u.role >= CustomUser.SUPERVISOR)
 def activity_add(request):
     if request.method == 'POST':
         form = ActivityForm(request.POST)
@@ -43,7 +43,7 @@ def activity_add(request):
     return render(request, 'events/activity_add_form.html', {'form': form})
 
 
-@user_passes_test(lambda u: u.role >= CustomUser.ADMIN)
+@user_passes_test(lambda u: u.role >= CustomUser.SUPERVISOR)
 def activity_edit(request, pk):
     activity = get_object_or_404(Activities, pk=pk)
     if request.method == 'POST':
@@ -61,7 +61,7 @@ def activity_edit(request, pk):
     })
 
 
-@user_passes_test(lambda u: u.role >= CustomUser.ADMIN)
+@user_passes_test(lambda u: u.role >= CustomUser.SUPERVISOR)
 @require_http_methods(["POST"])
 def activity_delete(request, pk):
     activity = get_object_or_404(Activities, pk=pk)
@@ -71,7 +71,7 @@ def activity_delete(request, pk):
         return HttpResponse(status=204, headers={'HX-Trigger': 'activitiesListChanged'})
 
 
-@user_passes_test(lambda u: u.role >= CustomUser.ADMIN)
+@user_passes_test(lambda u: u.role >= CustomUser.SUPERVISOR)
 def activity_search(request):
     search_text = request.POST.get('search_activity')
 
@@ -163,7 +163,7 @@ def event_multi_delete(request):
 
 
 @login_required
-@user_passes_test(lambda u: u.role >= CustomUser.ADMIN)
+@user_passes_test(lambda u: u.role >= CustomUser.SUPERVISOR)
 def event_permanent_removal(request):
     lastYear = date.today().year - 1
     oldEvents = Events.objects.filter(date_stop__year__lte=lastYear, is_active=False, confirmed=False)
@@ -176,7 +176,7 @@ def event_permanent_removal(request):
 
 
 @login_required
-@user_passes_test(lambda u: u.role >= CustomUser.ADMIN)
+@user_passes_test(lambda u: u.role >= CustomUser.SUPERVISOR)
 def event_to_confirm(request, pk):
     event = get_object_or_404(Events, pk=pk)
     event.confirmed = event.is_active = event.displayed = True
@@ -193,7 +193,7 @@ def event_to_confirm(request, pk):
 
 
 @login_required
-@user_passes_test(lambda u: u.role >= CustomUser.ADMIN)
+@user_passes_test(lambda u: u.role >= CustomUser.SUPERVISOR)
 def event_refused(request, pk):
     event = get_object_or_404(Events, pk=pk)
     event.confirmed = event.is_active = event.displayed = False
