@@ -93,49 +93,54 @@ class Holidays:
     de_names: ClassVar[list] = ['Neujahr',  # 0
                                 'Bercht<wbr>olds<wbr>tag',  # 1
                                 'Tag der Republik NE',  # 2
-                                'Kar<wbr>frei<wbr>tag',  # 3
-                                'Ostern',  # 4
-                                'Oster<wbr>mon<wbr>tag',  # 5
-                                'Arbeits<wbr>tag',  # 6
-                                'Auffahrt',  # 7
-                                'Pfing<wbr>sten',  # 8
-                                'Pfingst<wbr>mon<wbr>tag',  # 9
-                                'Fron<wbr>leich<wbr>nam',  # 10
-                                'National<wbr>feier<wbr>tag',  # 11
-                                'Mariä Him<wbr>mel<wbr>fahrt',  # 12
-                                'Genfer Bet<wbr>tag',  # 13
-                                'Bettags<wbr>mon<wbr>tag',  # 14
-                                'Aller<wbr>hei<wbr>ligen',  # 15
-                                'Mariä Emp<wbr>fäng<wbr>nis',  # 16
-                                'Weih<wbr>nach<wbr>ten',  # 17
-                                'Stephans<wbr>tag', # 18
-                                'Wieder<wbr>herstel<wbr>lung GE']  # 19
+                                'Josefstag',  # 3
+                                'Kar<wbr>frei<wbr>tag',  # 4
+                                'Ostern',  # 5
+                                'Oster<wbr>mon<wbr>tag',  # 6
+                                'Arbeits<wbr>tag',  # 7
+                                'Auffahrt',  # 8
+                                'Pfing<wbr>sten',  # 9
+                                'Pfingst<wbr>mon<wbr>tag',  # 10
+                                'Fron<wbr>leich<wbr>nam',  # 11
+                                'National<wbr>feier<wbr>tag',  # 12
+                                'Mariä Him<wbr>mel<wbr>fahrt',  # 13
+                                'Genfer Bet<wbr>tag',  # 14
+                                'Bettags<wbr>mon<wbr>tag',  # 15
+                                'Aller<wbr>hei<wbr>ligen',  # 16
+                                'Mariä Emp<wbr>fäng<wbr>nis',  # 17
+                                'Weih<wbr>nach<wbr>ten',  # 18
+                                'Stephans<wbr>tag', # 19
+                                'Wieder<wbr>herstel<wbr>lung GE']  # 20
     fr_names: ClassVar[list] = ['Nouvel An',  # 0
                                 'Berchtold',  # 1
                                 'Jour de la Répu<wbr>blique NE',  # 2
-                                'Vendredi Saint',  # 3
-                                'Pâques',  # 4
-                                'Lundi de Pâques',  # 5
-                                'Jour du Travail',  # 6
-                                'Ascension',  # 7
-                                'Pentecôte',  # 8
-                                'Lundi de Pente<wbr>côte',  # 9
-                                'Fête Dieu',  # 10
-                                'Fête Natio<wbr>nale',  # 11
-                                'Assomption',  # 12
-                                'Jeûne gene<wbr>vois',  # 13
-                                'Lundi du Jeûne',  #14
-                                'Toussaint',  # 15
-                                'Immaculée Con<wbr>cep<wbr>tion',  # 16
-                                'Noël',  # 17
-                                'Saint Etienne',  # 18
-                                'Restaura<wbr>tion GE']  # 19
-    be_indexes: ClassVar[list] = [0, 1, 3, 4, 5, 7, 8, 9, 11, 17, 18]
-    so_indexes: ClassVar[list] = [0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15, 17, 18]
-    ag_indexes: ClassVar[list] = [0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15, 16, 17, 18]
-    fr_indexes: ClassVar[list] = [0, 1, 3, 4, 5, 7, 8, 9, 10, 11, 12, 15, 16, 17, 18]
-    vd_indexes: ClassVar[list] = [0, 1, 3, 4, 5, 7, 8, 9, 11, 14, 17]
-    ge_indexes: ClassVar[list] = [0, 3, 4, 5, 7, 8, 9, 11, 13, 17, 19]
+                                'Saint Joseph',  # 3
+                                'Vendredi Saint',  # 4
+                                'Pâques',  # 5
+                                'Lundi de Pâques',  # 6
+                                'Jour du Travail',  # 7
+                                'Ascension',  # 8
+                                'Pentecôte',  # 9
+                                'Lundi de Pente<wbr>côte',  # 10
+                                'Fête Dieu',  # 11
+                                'Fête Natio<wbr>nale',  # 12
+                                'Assomption',  # 13
+                                'Jeûne gene<wbr>vois',  # 14
+                                'Lundi du Jeûne',  #15
+                                'Toussaint',  # 16
+                                'Immaculée Con<wbr>cep<wbr>tion',  # 17
+                                'Noël',  # 18
+                                'Saint Etienne',  # 19
+                                'Restaura<wbr>tion GE']  # 20
+    # ne_indexes is declared in self named method
+    ag_indexes: ClassVar[list] = [0, 1, 4, 5, 6, 8, 9, 10, 11, 12, 13, 16, 17, 18, 19]
+    be_indexes: ClassVar[list] = [0, 1, 4, 5, 6, 8, 9, 10, 12, 18, 19]
+    bs_indexes: ClassVar[list] = [0, 4, 5, 6, 7, 8, 9, 10, 12, 18, 19]
+    fr_indexes: ClassVar[list] = [0, 1, 4, 5, 6, 8, 9, 10, 11, 12, 13, 16, 17, 18, 19]
+    ge_indexes: ClassVar[list] = [0, 3, 4, 5, 6, 8, 9, 10, 12, 14, 18, 20]
+    so_indexes: ClassVar[list] = [0, 1, 4, 5, 8, 9, 11, 12, 13, 16, 18]
+    vd_indexes: ClassVar[list] = [0, 1, 4, 5, 6, 8, 9, 10, 12, 15, 18]
+    vs_indexes: ClassVar[list] = [0, 1, 3, 5, 6, 8, 9, 10, 11, 12, 13, 16, 17, 18, 19]
 
     year: int = datetime.today().year
     region: str = 'be'
@@ -143,11 +148,11 @@ class Holidays:
 
     # Get NE indexes. If 1.01 or 25.12 are Sunday, next day is holiday.
     def ne_indexes(self):
-        base = [0, 2, 3, 4, 6, 7, 8, 11, 17]
+        base = [0, 2, 4, 5, 7, 8, 9, 12, 18]
         if date(self.year, 1, 1).weekday() == 6:
             base.append(1)
         if date(self.year, 12, 25).weekday() == 6:
-            base.append(18)
+            base.append(19)
         return sorted(base)
 
     # Get Easter date (Sunday) for a given year
@@ -208,23 +213,24 @@ class Holidays:
         return [date(self.year, 1, 1),  #0
                 date(self.year, 1, 2),  #1
                 date(self.year, 3, 1),  #2
-                self.calc_goodfriday(),  #3
-                self.calc_easter(),  #4
-                self.calc_eastermonday(),  #5
-                date(self.year, 5, 1),  #6
-                self.calc_ascension(),  #7
-                self.calc_pentecost(),  #8
-                self.calc_whitmonday(),  #9
-                self.calc_corpuschristi(),  #10
-                date(self.year, 8, 1),  #11
-                date(self.year, 8, 15),  #12
-                self.calc_gefastday(),  #13
-                self.calc_vdfastday(),  #14
-                date(self.year, 11, 1),  #15
-                date(self.year, 12, 8),  #16
-                date(self.year, 12, 25),  #17
-                date(self.year, 12, 26),  #18
-                date(self.year, 12, 31)]  #19
+                date(self.year, 3, 19),  #3
+                self.calc_goodfriday(),  #4
+                self.calc_easter(),  #5
+                self.calc_eastermonday(),  #6
+                date(self.year, 5, 1),  #7
+                self.calc_ascension(),  #8
+                self.calc_pentecost(),  #9
+                self.calc_whitmonday(),  #10
+                self.calc_corpuschristi(),  #11
+                date(self.year, 8, 1),  #12
+                date(self.year, 8, 15),  #13
+                self.calc_gefastday(),  #14
+                self.calc_vdfastday(),  #15
+                date(self.year, 11, 1),  #16
+                date(self.year, 12, 8),  #17
+                date(self.year, 12, 25),  #18
+                date(self.year, 12, 26),  #19
+                date(self.year, 12, 31)]  #20
 
 
     def hdays(self):
@@ -242,6 +248,10 @@ class Holidays:
             indexes = Holidays.vd_indexes
         elif self.region == 'ge':
             indexes = Holidays.ge_indexes
+        elif self.region == 'bs-bl':
+            indexes = Holidays.bs_indexes
+        elif self.region == 'vs':
+            indexes = Holidays.vs_indexes
         else:
             indexes = Holidays.be_indexes
         # Language
