@@ -191,6 +191,31 @@ MAIN
   border-radius: 3px;
 }
 
+.weekend {
+	background-color: #fcd5ce;
+}
+
+.weekend_card {
+  color: #fcd5ce;
+}
+
+.holiday {
+	background-color: #f4acb7;
+}
+
+.holiday_card {
+  color: #f4acb7;
+}
+
+.other_holiday {
+	background-color: #f7b267;
+}
+
+.other_holiday_card {
+  color: #f7b267;
+}
+
+
 /* .dispatch_flag {
   background-color: #ffd60a;
   color: #f48c06;
