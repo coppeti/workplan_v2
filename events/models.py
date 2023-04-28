@@ -9,12 +9,12 @@ from accounts.models import CustomUser
 class Activities(models.Model):
     TECHNICIAN = 2
     MANAGER = 4
-    ADMIN = 6
+    SUPERVISOR = 6
     SUPERUSER = 8
     ACTIVITY_LEVEL = [
         (TECHNICIAN, 'Techniker'),
         (MANAGER, 'Manager'),
-        (ADMIN, 'Admin'),
+        (SUPERVISOR, 'Supervisor'),
         (SUPERUSER, 'Superuser'),
     ]
 
