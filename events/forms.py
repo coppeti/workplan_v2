@@ -36,14 +36,10 @@ class ActivityForm(forms.ModelForm):
     text_color = forms.CharField(max_length=9,
                                  required=False,
                                  )
-    displayed = forms.BooleanField(required=False,
-                                   label='Angezeigt',
-                                   initial=True,
-                                   )
 
     class Meta:
         model = Activities
-        fields = ['name', 'short_name', 'background_color', 'text_color', 'level', 'displayed']
+        fields = ['name', 'short_name', 'background_color', 'text_color', 'level']
 
 
 class EventAddForm(forms.ModelForm):
@@ -53,7 +49,7 @@ class EventAddForm(forms.ModelForm):
                                      )
     activity_id = forms.ModelChoiceField(required=True,
                                          label='Aktivität',
-                                         queryset=Activities.objects.filter(displayed=True).order_by('id')
+                                         queryset=Activities.objects.all().order_by('id')
                                          )
     date_start = forms.CharField(required=True,
                                  label='Von',
@@ -123,7 +119,7 @@ class EventEditForm(forms.ModelForm):
                                      )
     activity_id = forms.ModelChoiceField(required=True,
                                          label='Aktivität',
-                                         queryset=Activities.objects.filter(displayed=True).order_by('id'),
+                                         queryset=Activities.objects.all().order_by('id'),
                                          )
     date_start = forms.CharField(required=True,
                                  label='Von',

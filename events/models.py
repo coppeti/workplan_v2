@@ -24,7 +24,6 @@ class Activities(models.Model):
     background_color = models.CharField(max_length=9, blank=True)
     text_color = models.CharField(max_length=9, blank=True)
     level = models.IntegerField(choices=ACTIVITY_LEVEL, default=2, verbose_name='Stufe')
-    displayed = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
