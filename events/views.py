@@ -67,6 +67,7 @@ def activity_delete(request, pk):
     activity = get_object_or_404(Activities, pk=pk)
     if request.method == 'POST':
         activity.delete()
+        activity_to_css()
         messages.error(request, f'{activity.name} wurde gelöscht.')
         return HttpResponse(status=204, headers={'HX-Trigger': 'activitiesListChanged'})
 
