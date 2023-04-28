@@ -114,28 +114,3 @@
 .krank_card {
 	border: #dc2f02 1px solid;
 }
-
-.wochenende {
-	background-color: #fcd5ce;
-}
-
-.wochenende_card {
-	border: #fcd5ce 1px solid;
-}
-
-.feiertage {
-	background-color: #f4acb7;
-}
-
-.feiertage_card {
-	border: #f4acb7 1px solid;
-}
-
-.andere_feiertage {
-	background-color: #f7b267;
-}
-
-.andere_feiertage_card {
-	border: #f7b267 1px solid;
-}
-
