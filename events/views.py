@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -88,7 +88,7 @@ def events(request):
 
 @login_required
 def events_list(request):
-    events = Events.objects.all().order_by('date_start')
+    events = Events.objects.filter(date_stop__gte=datetime.now().strftime('%Y-%m-%d')).order_by('date_start')
     return render(request, 'events/events_list.html', {'events': events})
 
 
@@ -143,10 +143,13 @@ def event_edit(request, pk):
 @require_http_methods(["POST"])
 def event_delete(request, pk):
     event = get_object_or_404(Events, pk=pk)
+    user = request.user
     if request.method == 'POST':
-        event.is_active = False
-        event.save()
-        messages.error(request, f'{event.activity_id} von {event.user_id} wurde gelöscht.')
+        if str(event.date_start) > datetime.now().strftime('%Y-%m-%d'):
+            event.delete()
+            messages.error(request, f'{event.activity_id} von {event.user_id} wurde gelöscht.')
+            return HttpResponse(status=204, headers={'HX-Trigger': 'eventsListChanged'})
+        messages.warning(request, 'Das Event muss in der Zukunft liegen, damit es gelöscht werden kann.')
         return HttpResponse(status=204, headers={'HX-Trigger': 'eventsListChanged'})
 
 
@@ -157,8 +160,7 @@ def event_multi_delete(request):
         ids = request.POST.getlist('event_check')
         for id in ids:
             event = get_object_or_404(Events, pk=id)
-            event.is_active = False
-            event.save()
+            event.delete()
         messages.error(request, 'Alle ausgewählten Events wurden gelöscht.')
         return HttpResponse(status=204, headers={'HX-Trigger': 'eventsListChanged'})
 
