@@ -33,7 +33,7 @@ def member_list(request):
         })
 
 
-@user_passes_test(lambda u: u.role >= CustomUser.ADMIN)
+@user_passes_test(lambda u: u.role >= CustomUser.SUPERVISOR)
 def member_add(request):
     if request.method == 'POST':
         form = MemberAddForm(request.POST)
@@ -58,7 +58,7 @@ def member_add(request):
     return render(request, 'accounts/member_add_form.html', {'form': form})
 
 
-@user_passes_test(lambda u: u.role >= CustomUser.ADMIN)
+@user_passes_test(lambda u: u.role >= CustomUser.SUPERVISOR)
 def member_edit(request, pk):
     member = get_object_or_404(CustomUser, pk=pk)
     if request.method == 'POST':
@@ -75,7 +75,7 @@ def member_edit(request, pk):
     })
 
 
-@user_passes_test(lambda u: u.role >= CustomUser.ADMIN)
+@user_passes_test(lambda u: u.role >= CustomUser.SUPERVISOR)
 @require_http_methods(["POST"])
 def member_delete(request, pk):
     member = get_object_or_404(CustomUser, pk=pk)

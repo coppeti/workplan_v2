@@ -1,0 +1,17 @@
+{% autoescape off %}
+Hallo {{ event.user_id }},
+
+{{ user }} möchte eine Aktivität mit dir tauschen:
+
+{{ event.activity_id }} von {{ event.date_start }} bis zum {{ event.date_stop }}.
+
+Um die Anfrage zu bestätigen::
+<a href="{{ domain }}{% url 'event_exchange_ok' pk=event.id user=user.id %}">Bestätigen</a>
+
+Um den Antrag abzulehnen:
+<a href="{{ domain }}{% url 'event_no_exchange' pk=event.id user=user.id %}">Ablehnen</a>
+
+
+Der Admin
+
+{% endautoescape %}

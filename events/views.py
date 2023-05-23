@@ -1,8 +1,11 @@
+import copy
+
 from datetime import date, datetime
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.tokens import default_token_generator
+from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
@@ -99,10 +102,11 @@ def event_add(request):
         if form.is_valid():
             user = request.user
             event = form.save(commit=False)
+            activity = event.activity_id.name
             event.comment = f'{event.user_id}:\n{event.activity_id} von {event.date_start.strftime("%d.%m.%Y").strip("0")} bis {event.date_stop.strftime("%d.%m.%Y").strip("0")}'
             check_events = Events.objects.filter(date_start__lte=event.date_stop, date_stop__gte=event.date_start, confirmed=True)
             event.save()
-            if user.role < CustomUser.MANAGER:
+            if user.role < CustomUser.MANAGER and (activity == 'Ferien' or activity == 'Kompensation'):
                 message = render_to_string('email/event_validation_email.html', {
                     'domain': settings.DEFAULT_DOMAIN,
                     'event': event,
@@ -125,8 +129,41 @@ def event_edit(request, pk):
     if request.method == 'POST':
         form = EventEditForm(request.POST, instance=event, user=user)
         if form.is_valid():
-            event = form.save(commit=False)
-            event.comment = f'{event.user_id}:\n{event.activity_id} von {event.date_start.strftime("%d.%m.%Y").strip("0")} bis {event.date_stop.strftime("%d.%m.%Y").strip("0")}'
+            old_obj = Events.objects.get(pk=event.pk)
+            form.save(commit=False)
+            if (event.activity_id.name == 'Dispatcher' or event.activity_id.name == 'Pikett') and user.role < CustomUser.MANAGER:
+                if Events.objects.filter(user_id=event.user_id, date_start__lte=event.date_stop, date_stop__gte=event.date_start):
+                    messages.error(request, f'{event.user_id} ist zu dieser Zeit bereits beschäftigt.')
+                    return HttpResponse(status=204, headers={'HX-Trigger': 'eventsListChanged'})
+                else:
+                    message = render_to_string('email/exchange_validation_email.html', {
+                        'domain': settings.DEFAULT_DOMAIN,
+                        'event': event,
+                        'user': user,
+                    })
+                    subject = 'Antrag auf Austausch von Aktivitäten.'
+                    subject = ''.join(subject.splitlines())
+                    send_mail(subject, message, event.user_id.email, admin_emails())
+                    event.suspended = True
+                    event.save()
+                    messages.warning(request, f'{event.user_id} muss den Austausch noch bestätigen.')
+                    return HttpResponse(status=204, headers={'HX-Trigger': 'eventsListChanged'})
+            if event.activity_id.name == 'Ferien':
+                if event.confirmed == True and event.is_active == True:
+                    event.comment = f'{event.user_id}:\n{event.activity_id} Change: von {event.date_start.strftime("%d.%m.%Y").strip("0")} bis {event.date_stop.strftime("%d.%m.%Y").strip("0")}'
+                    if (event.date_start < old_obj.date_start or event.date_stop > old_obj.date_stop):
+                        event.confirmed = False
+                        check_events = Events.objects.filter(date_start__lte=event.date_stop, date_stop__gte=event.date_start, confirmed=True)
+                        message = render_to_string('email/event_validation_email.html', {
+                            'domain': settings.DEFAULT_DOMAIN,
+                            'event': event,
+                            'check_events': check_events,
+                        })
+                        subject = 'Ein Event wurde geändert und bittet um Ihre Aufmerksamkeit.'
+                        subject = ''.join(subject.splitlines())
+                        send_mail(subject, message, event.user_id.email, admin_emails())
+            else:
+                event.comment = f'{event.user_id}:\n{event.activity_id} Change: von {event.date_start.strftime("%d.%m.%Y").strip("0")} bis {event.date_stop.strftime("%d.%m.%Y").strip("0")}'
             event.save()
             messages.success(request, f'{event.activity_id} von {event.user_id} geändert.')
             return HttpResponse(status=204, headers={'HX-Trigger': 'eventsListChanged'})
@@ -167,19 +204,6 @@ def event_multi_delete(request):
 
 @login_required
 @user_passes_test(lambda u: u.role >= CustomUser.SUPERVISOR)
-def event_permanent_removal(request):
-    lastYear = date.today().year - 1
-    oldEvents = Events.objects.filter(date_stop__year__lte=lastYear, is_active=False, confirmed=False)
-    if request.method == 'POST':
-        oldEvents.delete()
-        messages.error(request, 'Alle alten Events wurden aus der Datenbank gelöscht.')
-        return HttpResponseRedirect(reverse('events'))
-    else:
-        return render(request, 'events/event_permanent_removal.html', {'oldEvents': oldEvents})
-
-
-@login_required
-@user_passes_test(lambda u: u.role >= CustomUser.SUPERVISOR)
 def event_to_confirm(request, pk):
     event = get_object_or_404(Events, pk=pk)
     event.confirmed = event.is_active = event.displayed = True
@@ -199,8 +223,6 @@ def event_to_confirm(request, pk):
 @user_passes_test(lambda u: u.role >= CustomUser.SUPERVISOR)
 def event_refused(request, pk):
     event = get_object_or_404(Events, pk=pk)
-    event.confirmed = event.is_active = event.displayed = False
-    event.save()
     message = render_to_string('email/event_refused_email.html', {
         'domain': settings.DEFAULT_DOMAIN,
         'event': event,
@@ -208,5 +230,43 @@ def event_refused(request, pk):
     subject = 'Ihr Antrag wurde abgelehnt.'
     subject = ''.join(subject.splitlines())
     send_mail(subject, message, None, [event.user_id.email])
+    event.delete()
     messages.error(request, 'Das Event wurde abgelehnt und der Nutzer informiert.')
     return HttpResponseRedirect(reverse('events'))
+
+
+@login_required
+def event_exchange_ok(request, pk, user):
+    event = get_object_or_404(Events, pk=pk)
+    old_user = get_object_or_404(CustomUser, pk=user)
+    event.suspended = False
+    event.comment = f'{event.user_id}:\n{event.activity_id} Change mit {old_user}: von {event.date_start} bis {event.date_stop}.'
+    event.save()
+    messages.success(request, 'Der Event wurde geändert.')
+    message = render_to_string('email/exchange_accepted_info_email.html', {
+        'domain': settings.DEFAULT_DOMAIN,
+        'event': event,
+        'old_user': old_user,
+    })
+    subject = 'Antrag auf Austausch angenommen.'
+    subject = ''.join(subject.splitlines())
+    send_mail(subject, message, None, [old_user.email])
+    return HttpResponseRedirect(reverse('home'))
+
+
+@login_required
+def event_no_exchange(request, pk, user):
+    event = get_object_or_404(Events, pk=pk)
+    base_user = get_object_or_404(CustomUser, pk=user)
+    event.displayed = event.suspended = False
+    event.user_id = base_user
+    event.save()
+    message = render_to_string('email/exchange_refused_info_email.html', {
+        'domain': settings.DEFAULT_DOMAIN,
+        'event': event,
+    })
+    subject = 'Antrag auf Umtausch abgelehnt.'
+    subject = ''.join(subject.splitlines())
+    send_mail(subject, message, None, [base_user.email])
+    messages.success(request, 'Antrag auf Umtausch abgelehnt.')
+    return HttpResponseRedirect(reverse('home'))

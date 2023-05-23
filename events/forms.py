@@ -60,9 +60,11 @@ class EventAddForm(forms.ModelForm):
                                 widget=forms.TextInput(attrs={'onfocus': '(this.type="date")'})
                                 )
     confirmed = forms.BooleanField(required=False,
+                                   initial=True,
                                    label='Bestätigt',
                                    )
     is_active = forms.BooleanField(required=False,
+                                   initial=True,
                                    label='Aktiv',
                                    )
     displayed = forms.BooleanField(required=False,
@@ -75,15 +77,17 @@ class EventAddForm(forms.ModelForm):
         fields = ['user_id', 'activity_id', 'date_start', 'date_stop', 'confirmed', 'is_active', 'displayed']
 
     def __init__(self, *args, **kwargs):
-        logged_user = kwargs.pop('user')
+        self.user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
-        if logged_user.role < CustomUser.MANAGER:
-            self.fields['user_id'].initial = logged_user
-            self.fields['user_id'].queryset = CustomUser.objects.filter(id=logged_user.id)
+        if self.user.role < CustomUser.MANAGER:
+            self.fields['user_id'].initial = self.user
+            self.fields['user_id'].queryset = CustomUser.objects.filter(id=self.user.id)
             self.fields['activity_id'].queryset = Activities.objects.exclude(Q(level__gt=CustomUser.TECHNICIAN))
-        if logged_user.role >= CustomUser.MANAGER:
+            self.fields['confirmed'].disabled = True
+            self.fields['is_active'].disabled = True
+            self.fields['displayed'].disabled = True
+        if self.user.role >= CustomUser.MANAGER:
             self.fields['confirmed'].initial = True
-            self.fields['is_active'].initial = True
 
     def clean(self):
         cleaned_data = super().clean()
@@ -91,24 +95,27 @@ class EventAddForm(forms.ModelForm):
         date_stop = cleaned_data.get('date_stop')
         activity = cleaned_data.get('activity_id')
         user = cleaned_data.get('user_id')
-        confirmed = cleaned_data.get('confirmed')
-        if date_stop < date_start:
-            raise ValidationError('Das Enddatum liegt vor dem Startdatum!')
-        if activity != 'Krank':
-            if date_start < TODAY.strftime('%Y-%m-%d'):
-                raise ValidationError('Der Event beginnt in der Vergangenheit')
-            if date_stop < TODAY.strftime('%Y-%m-%d'):
-                raise ValidationError('Der Event endet in der Vergangenheit')
-        events = Events.objects.filter(Q(user_id=user), Q(confirmed=True),
-                                            Q(date_start__lte=date_stop,  date_stop__gte=date_start) |
-                                            Q(date_stop__gte=date_start, date_start__lte=date_stop))
-        if events:
-            for e in events:
-                if (activity != 'Kein Pikett' and e.activity_id != 'Kein Pikett'
-                    or activity == 'Pikett' and e.activity_id == 'Kein Pikett'
-                    or activity == 'Kein Pikett' and e.activity_id == 'Pikett'):
-                    raise ValidationError(f'Konflikt-Events:{NL}'
-                                          f'{e.user_id}, {e.activity_id} vom {e.date_start.strftime("%d.%m.%Y")} bis zum {e.date_stop.strftime("%d.%m.%Y")}')
+        if date_start and date_stop and activity and user:
+            if date_stop < date_start:
+                raise ValidationError('Das Enddatum liegt vor dem Startdatum!')
+            if self.user.role < CustomUser.SUPERVISOR and activity.name != 'Krank':
+                if str(date_start) < datetime.now().strftime('%Y-%m-%d'):
+                    raise ValidationError('Der Event beginnt in der Vergangenheit!')
+            if self.user.role < CustomUser.MANAGER and (activity.name == 'Ferien' or activity.name == 'Kompensation'):
+                self.cleaned_data['confirmed'] = False
+                self.cleaned_data['displayed'] = False
+            if str(date_start) < datetime.now().strftime('%Y-%m-%d'):
+                self.cleaned_data['displayed'] = False
+            events = Events.objects.filter(Q(user_id=user), Q(confirmed=True),
+                                                Q(date_start__lte=date_stop,  date_stop__gte=date_start) |
+                                                Q(date_stop__gte=date_start, date_start__lte=date_stop))
+            if events:
+                for e in events:
+                    if (activity.name != 'Kein Pikett' and e.activity_id != 'Kein Pikett'
+                        or activity.name == 'Pikett' and e.activity_id == 'Kein Pikett'
+                        or activity.name == 'Kein Pikett' and e.activity_id == 'Pikett'):
+                        raise ValidationError(f'Konflikt-Events:{NL}'
+                                            f'{e.user_id}, {e.activity_id} vom {e.date_start.strftime("%d.%m.%Y")} bis zum {e.date_stop.strftime("%d.%m.%Y")}')
         return cleaned_data
 
 
@@ -150,19 +157,20 @@ class EventEditForm(forms.ModelForm):
         logged_user = kwargs.pop('user')
         event = kwargs.get('instance')
         super().__init__(*args, **kwargs)
-        # self.fields['activity_id'].initial = event.activity_id
-        # self.fields['date_start'].initial = event.date_start
-        # self.fields['date_stop'].initial = event.date_stop
-        # self.fields['is_active'].initial = event.is_active
-        # self.fields['confirmed'].initial = event.confirmed
-        # self.fields['displayed'].initial = event.displayed
-        # self.fields['comment'].initial = event.comment
-        # if logged_user.role < CustomUser.MANAGER and event.confirmed == False:
-        if logged_user.role < CustomUser.MANAGER:
-            self.fields['user_id'].initial = logged_user
-            self.fields['user_id'].queryset = CustomUser.objects.filter(id=logged_user.id)
-            self.fields['activity_id'].queryset = Activities.objects.filter(level__lt=Activities.MANAGER)
-            self.fields['confirmed'].widget.attrs['disabled'] = True
+        if logged_user.role < CustomUser.MANAGER and event.activity_id.name == 'Dispatcher':
+            self.fields['activity_id'].disabled = True
+            self.fields['date_start'].disabled = True
+            self.fields['date_stop'].disabled = True
+            self.fields['confirmed'].disabled = True
+            self.fields['is_active'].disabled = True
+            self.fields['displayed'].disabled = True
+            self.fields['comment'].disabled = True
+        if logged_user.role < CustomUser.MANAGER and event.activity_id.name != 'Dispatcher':
+            self.fields['user_id'].disabled = True
+            self.fields['activity_id'].disabled = True
+            self.fields['confirmed'].disabled = True
+            self.fields['displayed'].disabled = True
+            self.fields['comment'].disabled = True
 
     def clean(self):
         cleaned_data = super().clean()
@@ -170,12 +178,13 @@ class EventEditForm(forms.ModelForm):
         date_start = cleaned_data.get('date_start')
         date_stop = cleaned_data.get('date_stop')
         activity = cleaned_data.get('activity_id')
-        if date_stop < date_start:
-            raise ValidationError('Das Enddatum liegt vor dem Startdatum!')
-        if activity != 'Krank':
-            if date_start < TODAY.strftime('%Y-%m-%d'):
-                raise ValidationError('Der Event beginnt in der Vergangenheit')
-            if date_stop < TODAY.strftime('%Y-%m-%d'):
-                raise ValidationError('Der Event endet in der Vergangenheit')
+        if date_start and date_stop and activity and user:
+            if date_stop < date_start:
+                raise ValidationError('Das Enddatum liegt vor dem Startdatum!')
+            if activity != 'Krank':
+                if date_start < TODAY.strftime('%Y-%m-%d'):
+                    raise ValidationError('Der Event beginnt in der Vergangenheit')
+                if date_stop < TODAY.strftime('%Y-%m-%d'):
+                    raise ValidationError('Der Event endet in der Vergangenheit')
         return cleaned_data
 

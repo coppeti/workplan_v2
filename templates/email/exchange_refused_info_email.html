@@ -1,0 +1,11 @@
+{% autoescape off %}
+Hallo {{ event.user_id }},
+
+Dein Antrag auf einen Tausch für die folgende Aktivität wurde abgelehnt:
+
+{{ event.activity_id }} von {{ event.date_start }} bis zum {{ event.date_stop }}.
+
+
+Der Admin
+
+{% endautoescape %}

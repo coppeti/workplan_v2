@@ -47,12 +47,9 @@ class Events(models.Model):
     activity_id = models.ForeignKey(Activities, on_delete=models.PROTECT)
     date_start = models.DateField()
     date_stop = models.DateField()
-    confirmed = models.BooleanField(default=False)
+    is_active = models.BooleanField()
+    confirmed = models.BooleanField()
+    displayed = models.BooleanField()
+    suspended = models.BooleanField(default=False)
     changed_on = models.DateTimeField(auto_now=True)
-    is_active = models.BooleanField(default=False)
-    displayed = models.BooleanField(default=False)
     comment = models.TextField(max_length=300, blank=True)
-
-    # def clean(self):
-    #     if self.date_stop < self.date_start:
-    #         raise ValidationError('Das Enddatum liegt vor dem Startdatum.')

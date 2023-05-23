@@ -6,7 +6,7 @@
 
 {% block content %}
 <h4 class="my-4">Events Liste</h4>
-<div class="w-75">
+<div class="w-100 px-5">
     <div class="d-flex justify-content-start my-3">
         <button type="button" class="btn btn-outline-primary me-auto" hx-get="{% url 'event_add' %}" hx-target="#dialog"><i class="fa-solid fa-calendar-plus"></i></button>
         <div class="d-flex col-2">
@@ -24,9 +24,6 @@
             </a>
             {% endcomment %}
         </div>
-        {% if user.role > 4 %}
-        &nbsp;<a href="{% url 'event_permanent_removal' %}" class="btn btn-outline-info">Endgültige Löschung</a>
-        {% endif %}
     </div>
     {% if user.role > 4 %}
     <div class="d-flex justify-content-start my-3">

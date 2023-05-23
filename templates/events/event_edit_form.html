@@ -36,11 +36,9 @@
                 <div class="col-4">
                     {{ form.is_active|as_crispy_field }}
                 </div>
-                {% if user.role > 4 %}
                 <div class="col-4">
                     {{ form.displayed|as_crispy_field }}
                 </div>
-                {% endif %}
             </div>
             {% if user.role > 4 %}
             <div class="row mb-2">

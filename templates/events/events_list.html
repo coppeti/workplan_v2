@@ -3,7 +3,7 @@
     <thead>
         <tr>
             {% if user.role > 4 %}
-            <th id="id_col" class="align-middle">#</th>
+            <th class="id_col align-middle">#</th>
             {% endif %}
             <th class="align-middle">Benutzer</th>
             <th class="align-middle">Aktivität</th>
@@ -12,6 +12,7 @@
             <th class="text-center align-middle">Aktiv</th>
             <th class="text-center align-middle">Bestätigt</th>
             {% if user.role > 4 %}
+            <th class="text-center align-middle">Standby</th>
             <th class="text-center align-middle">Angezeigt</th>
             <th class="align-middle">Geändert am</th>
             <th class="align-middle">Kommentar</th>
@@ -24,7 +25,7 @@
             {% for event in events %}
             <tr>
                 {% if user.role > 4 %}
-                <td>
+                <td class="id_col">
                 <input type="checkbox" name="event_check" id="event-{{ event.id }}" value="{{ event.id }}">
                 &nbsp;{{ event.id }}
                 </td>
@@ -36,13 +37,14 @@
                 <td class="text-center">{{ event.is_active|boolsymbol }}</td>
                 <td class="text-center">{{ event.confirmed|boolsymbol }}</td>
                 {% if user.role > 4 %}
+                <td class="text-center">{{ event.suspended|boolsymbol }}</td>
                 <td class="text-center">{{ event.displayed|boolsymbol }}</td>
                 <td>{{ event.changed_on|date:"j.m.Y - G:i" }}</td>
                 <td>{{ event.comment|linebreaksbr }}</td>
                 {% endif %}
                 <td class="text-center align-middle p-0">
                     <button type="button" class="btn btn-sm text-primary p-0 ms-1"
-                        {% if user.role < 4 and user.id != event.user_id.id or user.role < event.activity_id.level %}disabled{% endif %}
+                        {% if user.role < 4 and user.id != event.user_id.id or event.suspended == True %}disabled{% endif %}
                         hx-get="{% url 'event_edit' event.id %}"
                         hx-target="#dialog">
                         <i class="fa-solid fa-pen"></i>
@@ -61,7 +63,7 @@
             {% for result in results %}
             <tr>
                 {% if user.role > 4 %}
-                <td>
+                <td class="id_col">
                     <input type="checkbox" name="event_check" id="event-{{ result.id }}" value="{{ result.id }}">
                     &nbsp;{{ result.id }}
                 </td>
@@ -73,6 +75,7 @@
                 <td class="text-center">{{ result.is_active|boolsymbol }}</td>
                 <td class="text-center">{{ result.confirmed|boolsymbol }}</td>
                 {% if user.role > 4 %}
+                <td class="text-center">{{ result.suspended|boolsymbol }}</td>
                 <td class="text-center">{{ result.displayed|boolsymbol }}</td>
                 <td>{{ result.changed_on|date:"j.m.Y - G:i" }}</td>
                 <td>{{ result.comment }}</td>

@@ -74,12 +74,7 @@ class MemberEditForm(forms.ModelForm):
     is_active = forms.BooleanField(required=False,
                                    label = 'Aktive',
                                    )
-    # is_staff = forms.BooleanField(required=False,
-    #                               label='Staff Benutzer',
-    #                               )
-    # is_superuser = forms.BooleanField(required=False,
-    #                                   label='Superuser',
-    #                                   )
+
     class Meta:
         model = CustomUser
         fields = ['first_name', 'last_name', 'username', 'email', 'birthday', 'is_active', 'role']
