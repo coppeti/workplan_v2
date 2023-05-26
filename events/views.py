@@ -240,7 +240,7 @@ def event_exchange_ok(request, pk, user):
     event = get_object_or_404(Events, pk=pk)
     old_user = get_object_or_404(CustomUser, pk=user)
     event.suspended = False
-    event.comment = f'{event.user_id}:\n{event.activity_id} Change mit {old_user}: von {event.date_start} bis {event.date_stop}.'
+    event.comment = f'{event.user_id}:\n{event.activity_id} Change mit {old_user}: von {event.date_start.strftime("%d.%m.%Y").strip("0")} bis {event.date_stop.strftime("%d.%m.%Y").strip("0")}.'
     event.save()
     messages.success(request, 'Der Event wurde geändert.')
     message = render_to_string('email/exchange_accepted_info_email.html', {

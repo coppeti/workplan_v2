@@ -1,5 +1,5 @@
 {% load events_extras %}
-<table id="event_table" class="table table-striped mt-2">
+<table id="event_table" class="sortable table table-striped mt-2">
     <thead>
         <tr>
             {% if user.role > 4 %}
@@ -15,9 +15,9 @@
             <th class="text-center align-middle">Standby</th>
             <th class="text-center align-middle">Angezeigt</th>
             <th class="align-middle">Geändert am</th>
-            <th class="align-middle">Kommentar</th>
+            <th class="no-sort align-middle">Kommentar</th>
             {% endif %}
-            <th colspan="2" class="text-center align-middle">Aktion</th>
+            <th colspan="2" class="no-sort text-center align-middle">Aktion</th>
         </tr>
     </thead>
     <form id="checked_events" class="col-12">
