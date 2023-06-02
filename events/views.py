@@ -86,7 +86,8 @@ def activity_search(request):
 
 @login_required
 def events(request):
-    return render(request, 'events/events.html')
+    user = request.user
+    return render(request, 'events/events.html', {'user': user})
 
 
 @login_required
@@ -180,7 +181,6 @@ def event_edit(request, pk):
 @require_http_methods(["POST"])
 def event_delete(request, pk):
     event = get_object_or_404(Events, pk=pk)
-    user = request.user
     if request.method == 'POST':
         if str(event.date_start) > datetime.now().strftime('%Y-%m-%d'):
             event.delete()
@@ -270,3 +270,23 @@ def event_no_exchange(request, pk, user):
     send_mail(subject, message, None, [base_user.email])
     messages.success(request, 'Antrag auf Umtausch abgelehnt.')
     return HttpResponseRedirect(reverse('home'))
+
+
+def events_swap(request):
+    test = 'TEST'
+    user = request.user
+    events = Events.objects.filter(date_stop__gte=datetime.now().strftime('%Y-%m-%d'), user_id=user).order_by('date_start')
+    # return HttpResponseRedirect(reverse('events', kwargs={'events': events, 'btn_value': btn_value}))
+    return render(request, 'events/events_list.html', {'events': events, 'test': test})
+
+
+@login_required
+def events_mine(request):
+    user = request.user
+    return render(request, 'events/events_mine.html', {'user': user})
+
+@login_required
+def events_list_mine(request):
+    user = request.user
+    events = Events.objects.filter(date_stop__gte=datetime.now().strftime('%Y-%m-%d'), user_id=user).order_by('date_start')
+    return render(request, 'events/events_list_mine.html', {'events': events})

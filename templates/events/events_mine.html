@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
-{% block title %}Events{% endblock title %}
+{% block title %}My Events{% endblock title %}
 
 {% block events_active %}active{% endblock events_active %}
 
 {% block content %}
-<h4 class="my-4">Events Liste</h4>
+<h4 class="my-4">Meine Events Liste</h4>
 <div class="w-100 px-5">
     <div class="d-flex justify-content-start my-3">
         <button type="button" class="btn btn-outline-primary me-auto" hx-get="{% url 'event_add' %}" hx-target="#dialog"><i class="fa-solid fa-calendar-plus"></i></button>
-        <a id="swapeventsbtn" class="btn btn-outline-secondary" href="{% url 'events_mine' %}">Meine</a>
+        <a id="swapeventsbtn" class="btn btn-outline-secondary" href="{% url 'events' %}">Alle</a>
         {% comment %}
         <div class="d-flex col-2">
             <input type="search"
@@ -36,7 +36,7 @@
         </button>
     </div>
     {% endif %}
-    <div id="events_list" class="d-flex justify-content-center" hx-get="{% url 'events_list' %}" hx-trigger="load, eventsListChanged from:body">
+    <div id="events_list" class="d-flex justify-content-center" hx-get="{% url 'events_list_mine' %}" hx-trigger="load, eventsListChanged from:body">
         <!-- Inject htmx events_list.html -->
     </div>
 </div>
