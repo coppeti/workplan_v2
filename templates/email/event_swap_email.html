@@ -1,0 +1,21 @@
+{% autoescape off %}
+Hallo Admin,
+
+{{ event.user_id }} möchte das folgende Event bearbeiten:
+
+{{ event.user_id }}, {{ event.activity_id }}
+von {{ event.date_start }} bis zum {{ event.date_stop }}.
+
+Dies ist der Wunsch des Benutzers:
+
+{{ demand }}
+
+
+Hier finden Sie alle Event, die zur gleichen Zeit stattfinden:
+{% for check_event in check_events %}
+    -<b>{{ check_event.user_id }}, {{ check_event.activity_id.name }}</b>
+        von {{ check_event.date_start }} bis zum {{ check_event.date_stop }}
+{% endfor %}
+
+
+{% endautoescape %}

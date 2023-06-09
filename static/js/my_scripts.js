@@ -1,3 +1,6 @@
+//To select a calendar period and call the New Event Form
+
+
 // To manage the Select All button in events list
 document.addEventListener("DOMContentLoaded", function() {
     var checkAllButton = document.getElementById("checkallbtn");

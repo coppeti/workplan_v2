@@ -188,3 +188,8 @@ class EventEditForm(forms.ModelForm):
                     raise ValidationError('Der Event endet in der Vergangenheit')
         return cleaned_data
 
+
+class EventSwapForm(forms.Form):
+    demand = forms.CharField(widget=forms.Textarea,
+                             required=True,
+                             label='Gewünschte Veränderung')

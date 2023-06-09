@@ -17,7 +17,7 @@ from django.views.decorators.http import require_http_methods
 
 from accounts.models import CustomUser
 
-from .forms import ActivityForm, EventAddForm, EventEditForm
+from .forms import ActivityForm, EventAddForm, EventEditForm, EventSwapForm
 from .models import Activities, Events
 from .utils import activity_to_css, admin_emails
 
@@ -272,14 +272,6 @@ def event_no_exchange(request, pk, user):
     return HttpResponseRedirect(reverse('home'))
 
 
-def events_swap(request):
-    test = 'TEST'
-    user = request.user
-    events = Events.objects.filter(date_stop__gte=datetime.now().strftime('%Y-%m-%d'), user_id=user).order_by('date_start')
-    # return HttpResponseRedirect(reverse('events', kwargs={'events': events, 'btn_value': btn_value}))
-    return render(request, 'events/events_list.html', {'events': events, 'test': test})
-
-
 @login_required
 def events_mine(request):
     user = request.user
@@ -290,3 +282,33 @@ def events_list_mine(request):
     user = request.user
     events = Events.objects.filter(date_stop__gte=datetime.now().strftime('%Y-%m-%d'), user_id=user).order_by('date_start')
     return render(request, 'events/events_list_mine.html', {'events': events})
+
+
+@login_required
+def event_swap(request, pk):
+    event = get_object_or_404(Events, pk=pk)
+    user = request.user
+    if request.method == 'POST':
+        form = EventSwapForm(request.POST)
+        if form.is_valid():
+            demand = form.cleaned_data['demand']
+            check_events = Events.objects.filter(date_start__lte=event.date_stop, date_stop__gte=event.date_start).exclude(user_id__exact=event.user_id)
+            message = render_to_string('email/event_swap_email.html', {
+                'domain': settings.DEFAULT_DOMAIN,
+                'event': event,
+                'user': user,
+                'demand': demand,
+                'check_events': check_events,
+            })
+            subject = f'Antrag auf Austausch von {event.activity_id}.'
+            subject = ''.join(subject.splitlines())
+            send_mail(subject, message, event.user_id.email, admin_emails())
+            messages.warning(request, 'Der Administrator wird die Änderungen vornehmen.')
+            return HttpResponse(status=204, headers={'HX-Trigger': 'eventsListChanged'})
+    else:
+        form = EventSwapForm()
+    return render(request, 'events/event_swap_form.html', {
+        'form': form,
+        'event': event,
+        'user': user
+    })

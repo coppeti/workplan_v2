@@ -54,7 +54,7 @@ def user_line(cal, user, year, month):
     user_events = user_month_events(user, year, month)
     for month_date in cal.itermonthdates(year, month):
         if month_date.month == month:
-            a(f'<td id="{user}-{month}-{month_date.day}" class="text-center')
+            a(f'<td id="{user}-{month}-{month_date.day}" class="cal_day text-center')
             if month_date in be_hdays:
                 a(' holiday')
             elif month_date in other_hdays:

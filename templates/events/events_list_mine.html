@@ -31,7 +31,16 @@
                 </td>
                 {% endif %}
                 <td>{{ event.user_id }}</td>
-                <td>{{ event.activity_id }}</td>
+                <td>{% if user.role < 4 and user.id == event.user_id.id %}
+                        {% if event.activity_id.name == 'Dispatcher' or event.activity_id.name == 'Pikett' %}
+                            <a class="pointer" hx-get="{% url 'event_swap' event.id %}" hx-target="#dialog">{{ event.activity_id }}</a>
+                        {% else %}
+                            {{ event.activity_id }}
+                        {% endif %}
+                    {% else %}
+                        {{ event.activity_id }}
+                    {% endif %}
+                </td>
                 <td>{{ event.date_start|date:"j.m.Y" }}</td>
                 <td>{{ event.date_stop|date:"j.m.Y" }}</td>
                 <td class="text-center">{{ event.is_active|boolsymbol }}</td>
